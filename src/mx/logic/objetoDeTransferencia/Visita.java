@@ -7,6 +7,8 @@ public class Visita {
     private String horaEntrada;
     private String horaSalida;
     private Propiedad propiedad;
+    private String estado;
+    private Cliente cliente;
 
     public Visita() {
 
@@ -44,6 +46,22 @@ public class Visita {
         this.propiedad = propiedad;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (! (obj instanceof Visita)) {
@@ -53,6 +71,7 @@ public class Visita {
         Visita visita = (Visita) obj;
         return (this == visita) || (visita.getFecha().equals(this.fecha) &&
                 visita.getHoraEntrada().equals(this.horaEntrada) && visita.getHoraSalida().equals(this.horaSalida) &&
-                visita.getPropiedad().equals(this.propiedad));
+                visita.getPropiedad().equals(this.propiedad) && visita.getEstado().equals(this.estado) &&
+                visita.getCliente().equals(this.cliente));
     }
 }

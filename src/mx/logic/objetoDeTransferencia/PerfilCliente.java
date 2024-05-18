@@ -7,7 +7,6 @@ public class PerfilCliente {
     private String estado;
     private String pisos;
     private String costoMaximo;
-    private Cliente cliente;
 
     public PerfilCliente(){
 
@@ -61,14 +60,6 @@ public class PerfilCliente {
         this.costoMaximo = costoMaximo;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (! (obj instanceof PerfilCliente)) {
@@ -79,7 +70,6 @@ public class PerfilCliente {
         return (this == perfilCliente) || (perfilCliente.getCiudad().equals(this.ciudad) &&
                 perfilCliente.getNumeroHabitaciones().equals(this.numeroHabitaciones) &&
                 perfilCliente.getNumeroBanos().equals(this.numeroBanos) && perfilCliente.getEstado().equals(this.estado) &&
-                perfilCliente.getPisos().equals(this.pisos) && perfilCliente.getCostoMaximo().equals(this.costoMaximo) &&
-                perfilCliente.getCliente().equals(this.cliente));
+                perfilCliente.getPisos().equals(this.pisos) && perfilCliente.getCostoMaximo().equals(this.costoMaximo));
     }
 }

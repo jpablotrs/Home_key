@@ -1,4 +1,4 @@
-package mx;
+package mx.dataaccess;
 
 import java.sql.*;
 

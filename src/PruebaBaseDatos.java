@@ -1,4 +1,4 @@
-import mx.ConexionBaseDeDatos;
+import mx.dataaccess.ConexionBaseDeDatos;
 import org.junit.Test;
 
 import java.sql.Connection;

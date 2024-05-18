@@ -14,6 +14,7 @@ public class Propiedad {
     private String alquiler;
     private String compra;
     private Cliente cliente;
+    private String claveCatastral;
 
     public Propiedad(){
 
@@ -123,6 +124,14 @@ public class Propiedad {
         this.cliente = cliente;
     }
 
+    public String getClaveCatastral() {
+        return claveCatastral;
+    }
+
+    public void setClaveCatastral(String claveCatastral) {
+        this.claveCatastral = claveCatastral;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (! (obj instanceof Propiedad)) {
@@ -135,6 +144,7 @@ public class Propiedad {
                 propiedad.getNumeroHabitaciones() == this.numeroHabitaciones && propiedad.getNumeroBanos() == this.numeroBanos &&
                 propiedad.getNumeroPisos() == this.numeroPisos && propiedad.getNumeroCocina() == this.numeroCocina &&
                 propiedad.getMetrosCuadrados() == this.metrosCuadrados && propiedad.getNumeroPersonas() == this.numeroPersonas &&
-                propiedad.getAlquiler() == this.alquiler && propiedad.getCompra() == this.compra && propiedad.getCliente().equals(this.cliente));
+                propiedad.getAlquiler() == this.alquiler && propiedad.getCompra() == this.compra && propiedad.getCliente().equals(this.cliente) &&
+                propiedad.getClaveCatastral().equals(claveCatastral));
     }
 }

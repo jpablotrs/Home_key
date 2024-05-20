@@ -1,23 +1,41 @@
 package mx.logic.objetoDeTransferencia;
 
+import java.sql.Blob;
+
 public class Propiedad {
+    private int idPropiedad;
     private String direccion;
     private String ciudad;
     private String estado;
     private String codigoPostal;
-    private String numeroHabitaciones;
-    private String numeroBanos;
-    private String numeroPisos;
-    private String numeroCocina;
-    private String metrosCuadrados;
-    private String numeroPersonas;
-    private String alquiler;
-    private String compra;
-    private Cliente cliente;
+    private int numeroHabitaciones;
+    private int numeroBanos;
+    private int numeroPisos;
+    private int numeroCocina;
+    private int metrosCuadrados;
+    private int numeroPersonas;
+    private int alquiler;
+    private int compra;
+    private int electricidad;
+    private int amueblado;
+    private Blob foto;
+    private Cliente idCliente;
     private String claveCatastral;
 
-    public Propiedad(){
+    public Propiedad() {
+    }
 
+
+    public Cliente getCliente() {
+        return idCliente;
+    }
+
+    public int getIdPropiedad() {
+        return idPropiedad;
+    }
+
+    public void setIdPropiedad(int idPropiedad) {
+        this.idPropiedad = idPropiedad;
     }
 
     public String getDireccion() {
@@ -52,76 +70,103 @@ public class Propiedad {
         this.codigoPostal = codigoPostal;
     }
 
-    public String getNumeroHabitaciones() {
+    public int getNumeroHabitaciones() {
         return numeroHabitaciones;
     }
 
-    public void setNumeroHabitaciones(String numeroHabitaciones) {
+    public void setNumeroHabitaciones(int numeroHabitaciones) {
         this.numeroHabitaciones = numeroHabitaciones;
     }
 
-    public String getNumeroBanos() {
+    public int getNumeroBanos() {
         return numeroBanos;
     }
 
-    public void setNumeroBanos(String numeroBanos) {
+    public void setNumeroBanos(int numeroBanos) {
         this.numeroBanos = numeroBanos;
     }
 
-    public String getNumeroPisos() {
+    public int getNumeroPisos() {
         return numeroPisos;
     }
 
-    public void setNumeroPisos(String numeroPisos) {
+    public void setNumeroPisos(int numeroPisos) {
         this.numeroPisos = numeroPisos;
     }
 
-    public String getNumeroCocina() {
+    public int getNumeroCocina() {
         return numeroCocina;
     }
 
-    public void setNumeroCocina(String numeroCocina) {
+    public void setNumeroCocina(int numeroCocina) {
         this.numeroCocina = numeroCocina;
     }
 
-    public String getMetrosCuadrados() {
+    public int getMetrosCuadrados() {
         return metrosCuadrados;
     }
 
-    public void setMetrosCuadrados(String metrosCuadrados) {
+    public void setMetrosCuadrados(int metrosCuadrados) {
         this.metrosCuadrados = metrosCuadrados;
     }
 
-    public String getNumeroPersonas() {
+    public int getNumeroPersonas() {
         return numeroPersonas;
     }
 
-    public void setNumeroPersonas(String numeroPersonas) {
+    public void setNumeroPersonas(int numeroPersonas) {
         this.numeroPersonas = numeroPersonas;
     }
 
-    public String getAlquiler() {
+    public int getAlquiler() {
         return alquiler;
     }
 
-    public void setAlquiler(String alquiler) {
+    public void setAlquiler(int alquiler) {
         this.alquiler = alquiler;
     }
 
-    public String getCompra() {
+    public int getCompra() {
         return compra;
     }
 
-    public void setCompra(String compra) {
+    public void setCompra(int compra) {
         this.compra = compra;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getElectricidad() {
+        return electricidad;
+    }
+
+    public void setElectricidad(int electricidad) {
+        this.electricidad = electricidad;
+    }
+
+    public int getAmueblado() {
+        return amueblado;
+    }
+
+    public void setAmueblado(int amueblado) {
+        this.amueblado = amueblado;
     }
 
     public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+        this.idCliente = cliente;
+    }
+    public Blob getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Blob foto) {
+        this.foto = foto;
+    }
+
+    public Cliente getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Cliente idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getClaveCatastral() {
@@ -134,17 +179,53 @@ public class Propiedad {
 
     @Override
     public boolean equals(Object obj) {
-        if (! (obj instanceof Propiedad)) {
+        if (!(obj instanceof Propiedad)) {
             return false;
         }
 
         Propiedad propiedad = (Propiedad) obj;
-        return (this == propiedad) || (propiedad.getDireccion().equals(this.direccion) && propiedad.getCiudad().equals(this.ciudad) &&
-                propiedad.getEstado().equals(this.estado) && propiedad.getCodigoPostal().equals(this.codigoPostal) &&
-                propiedad.getNumeroHabitaciones() == this.numeroHabitaciones && propiedad.getNumeroBanos() == this.numeroBanos &&
-                propiedad.getNumeroPisos() == this.numeroPisos && propiedad.getNumeroCocina() == this.numeroCocina &&
-                propiedad.getMetrosCuadrados() == this.metrosCuadrados && propiedad.getNumeroPersonas() == this.numeroPersonas &&
-                propiedad.getAlquiler() == this.alquiler && propiedad.getCompra() == this.compra && propiedad.getCliente().equals(this.cliente) &&
-                propiedad.getClaveCatastral().equals(claveCatastral));
+        return (this == propiedad) ||
+                (propiedad.getDireccion().equals(this.direccion) &&
+                        propiedad.getCiudad().equals(this.ciudad) &&
+                        propiedad.getEstado().equals(this.estado) &&
+                        propiedad.getCodigoPostal().equals(this.codigoPostal) &&
+                        propiedad.getNumeroHabitaciones() == this.numeroHabitaciones &&
+                        propiedad.getNumeroBanos() == this.numeroBanos &&
+                        propiedad.getNumeroPisos() == this.numeroPisos &&
+                        propiedad.getNumeroCocina() == this.numeroCocina &&
+                        propiedad.getMetrosCuadrados() == this.metrosCuadrados &&
+                        propiedad.getNumeroPersonas() == this.numeroPersonas &&
+                        propiedad.getAlquiler() == this.alquiler &&
+                        propiedad.getCompra() == this.compra &&
+                        propiedad.getElectricidad() == this.electricidad &&
+                        propiedad.getAmueblado() == this.amueblado &&
+                        ((this.foto == null && propiedad.getFoto() == null) || (this.foto != null && this.foto.equals(propiedad.getFoto()))) &&
+                        propiedad.getIdCliente().equals(this.idCliente) &&
+                        propiedad.getClaveCatastral().equals(this.claveCatastral));
     }
+
+    @Override
+    public String toString() {
+        return "Propiedad{" +
+                "idPropiedad=" + idPropiedad +
+                ", direccion='" + direccion + '\'' +
+                ", ciudad='" + ciudad + '\'' +
+                ", estado='" + estado + '\'' +
+                ", codigoPostal='" + codigoPostal + '\'' +
+                ", numeroHabitaciones=" + numeroHabitaciones +
+                ", numeroBanos=" + numeroBanos +
+                ", numeroPisos=" + numeroPisos +
+                ", numeroCocina=" + numeroCocina +
+                ", metrosCuadrados=" + metrosCuadrados +
+                ", numeroPersonas=" + numeroPersonas +
+                ", alquiler=" + alquiler +
+                ", compra=" + compra +
+                ", electricidad=" + electricidad +
+                ", amueblado=" + amueblado +
+                ", foto=" + foto +
+                ", cliente=" + idCliente +
+                ", claveCatastral='" + claveCatastral + '\'' +
+                '}';
+    }
+
 }

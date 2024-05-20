@@ -13,6 +13,7 @@ public class Cliente {
     private String telefono;
     private Usuario usuario;
     private PerfilCliente perfilCliente;
+    private int idCliente;
 
     public Cliente(){
 
@@ -109,5 +110,13 @@ public class Cliente {
                 cliente.getApellidoMaterno().equals(this.apellidoMaterno) && cliente.getEstadoCivil().equals(this.estadoCivil) &&
                 cliente.getFechaNacimiento().equals(this.fechaNacimiento) && cliente.getSexo().equals(this.sexo) && cliente.getCorreo().equals(this.correo) &&
                 cliente.getTelefono().equals(this.telefono) && cliente.getUsuario().equals(this.usuario) && cliente.getPerfilCliente().equals(this.perfilCliente));
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 }

@@ -1,6 +1,6 @@
-package mx.logic.interfaces;
+package mx.homek.logic.interfaces;
 
-import mx.logic.objetoDeTransferencia.CompraPropiedad;
+import mx.homek.logic.objetoDeTransferencia.CompraPropiedad;
 
 import java.sql.SQLException;
 

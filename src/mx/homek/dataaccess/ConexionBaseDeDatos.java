@@ -1,12 +1,12 @@
-package mx.dataaccess;
+package mx.homek.dataaccess;
 
 import java.sql.*;
 
 public class ConexionBaseDeDatos {
     private Connection conexion = null;
-    private final String NOMBRE_BD = "jdbc:mysql://localhost:3306/coilvic12/05/24";
-    private final String USUARIO_BD = "administradorCoil";
-    private final String CONTRASENABD = "123456";
+    private final String NOMBRE_BD = "jdbc:mysql://localhost:3306/inmobiliaria";
+    private final String USUARIO_BD = "administradorInmobiliaria";
+    private final String CONTRASENABD = "123";
 
     public Connection obtenerConexion() throws SQLException {
         connect();

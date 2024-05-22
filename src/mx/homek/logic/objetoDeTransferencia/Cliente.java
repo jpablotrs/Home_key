@@ -1,4 +1,4 @@
-package mx.logic.objetoDeTransferencia;
+package mx.homek.logic.objetoDeTransferencia;
 
 import java.util.Date;
 

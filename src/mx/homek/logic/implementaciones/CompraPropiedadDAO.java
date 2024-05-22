@@ -1,8 +1,8 @@
-package mx.logic.implementaciones;
+package mx.homek.logic.implementaciones;
 
-import mx.dataaccess.ConexionBaseDeDatos;
-import mx.logic.interfaces.ICompraPropiedadDAO;
-import mx.logic.objetoDeTransferencia.CompraPropiedad;
+import mx.homek.dataaccess.ConexionBaseDeDatos;
+import mx.homek.logic.interfaces.ICompraPropiedadDAO;
+import mx.homek.logic.objetoDeTransferencia.CompraPropiedad;
 
 import java.sql.Connection;
 import java.sql.SQLException;

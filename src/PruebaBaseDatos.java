@@ -1,4 +1,4 @@
-import mx.dataaccess.ConexionBaseDeDatos;
+import mx.homek.dataaccess.ConexionBaseDeDatos;
 import org.junit.Test;
 
 import java.sql.Connection;

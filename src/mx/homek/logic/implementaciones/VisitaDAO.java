@@ -1,8 +1,8 @@
-package mx.logic.implementaciones;
+package mx.homek.logic.implementaciones;
 
-import mx.dataaccess.ConexionBaseDeDatos;
-import mx.logic.interfaces.IVisitaDAO;
-import mx.logic.objetoDeTransferencia.Visita;
+import mx.homek.dataaccess.ConexionBaseDeDatos;
+import mx.homek.logic.interfaces.IVisitaDAO;
+import mx.homek.logic.objetoDeTransferencia.Visita;
 
 import java.sql.*;
 

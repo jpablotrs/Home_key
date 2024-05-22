@@ -1,8 +1,9 @@
-package mx.logic.objetoDeTransferencia;
+package mx.homek.logic.objetoDeTransferencia;
 
 import java.util.Date;
 
 public class Cliente {
+    private int IdCliente;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -17,6 +18,10 @@ public class Cliente {
     public Cliente(){
 
     }
+
+    public int getIdCliente() { return IdCliente;}
+
+    public void setIdCliente(int IdCliente) {this.IdCliente = IdCliente;}
 
     public String getNombre() {
         return nombre;
@@ -110,4 +115,5 @@ public class Cliente {
                 cliente.getFechaNacimiento().equals(this.fechaNacimiento) && cliente.getSexo().equals(this.sexo) && cliente.getCorreo().equals(this.correo) &&
                 cliente.getTelefono().equals(this.telefono) && cliente.getUsuario().equals(this.usuario) && cliente.getPerfilCliente().equals(this.perfilCliente));
     }
+
 }

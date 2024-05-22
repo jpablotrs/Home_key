@@ -1,6 +1,6 @@
-package mx.logic.interfaces;
+package mx.homek.logic.interfaces;
 
-import mx.logic.objetoDeTransferencia.Cliente;
+import mx.homek.logic.objetoDeTransferencia.Cliente;
 
 import java.sql.SQLException;
 

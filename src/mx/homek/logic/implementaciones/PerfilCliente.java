@@ -1,7 +1,7 @@
-package mx.logic.implementaciones;
+package mx.homek.logic.implementaciones;
 
-import mx.dataaccess.ConexionBaseDeDatos;
-import mx.logic.interfaces.IPerfilClienteDAO;
+import mx.homek.dataaccess.ConexionBaseDeDatos;
+import mx.homek.logic.interfaces.IPerfilClienteDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;

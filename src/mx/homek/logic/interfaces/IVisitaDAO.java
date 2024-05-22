@@ -1,6 +1,6 @@
-package mx.logic.interfaces;
+package mx.homek.logic.interfaces;
 
-import mx.logic.objetoDeTransferencia.Visita;
+import mx.homek.logic.objetoDeTransferencia.Visita;
 
 import java.sql.Date;
 import java.sql.SQLException;

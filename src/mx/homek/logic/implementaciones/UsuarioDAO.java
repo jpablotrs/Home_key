@@ -2,7 +2,7 @@ package mx.homek.logic.implementaciones;
 
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
-import mx.homek.logic.interfaces.iUsuarioDAO;
+import mx.homek.logic.interfaces.IUsuarioDAO;
 import mx.homek.logic.objetoDeTransferencia.Usuario;
 
 import java.sql.Connection;
@@ -10,7 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsuarioDAO implements iUsuarioDAO {
+
+public class UsuarioDAO implements IUsuarioDAO {
     private Connection conexion;
     private ConexionBaseDeDatos administradorBaseDatos;
     ValidadorDeReglas validadorDeReglas;
@@ -153,5 +154,18 @@ public class UsuarioDAO implements iUsuarioDAO {
         }
         conexion.close();
         return existencia;
+    }
+
+    @Override
+    public int convertirUsuarioAID(Usuario usuario) throws SQLException {
+        String consultaSQL = "Select idUsuario from usuario where nombreUsuario = ?";
+        PreparedStatement sentencia = conexion.prepareStatement(consultaSQL);
+        sentencia.setString(1, usuario.getNombreUsuario());
+        ResultSet resultadoConsulta = sentencia.executeQuery();
+        int idUsuario = -1;
+        if (resultadoConsulta.next()) {
+            idUsuario = resultadoConsulta.getInt("idUsuario");
+        }
+        return idUsuario;
     }
 }

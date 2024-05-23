@@ -9,9 +9,18 @@ public class Visita {
     private Propiedad propiedad;
     private String estado;
     private Cliente cliente;
+    private String claveCatastral;
 
     public Visita() {
 
+    }
+
+    public String getClaveCatastral() {
+        return claveCatastral;
+    }
+
+    public void setClaveCatastral(String claveCatastral) {
+        this.claveCatastral = claveCatastral;
     }
 
     public Date getFecha() {

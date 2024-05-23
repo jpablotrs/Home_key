@@ -1,8 +1,9 @@
 package mx.homek.logic.interfaces;
 
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
-import java.util.List;
+
 import java.sql.SQLException;
+import java.util.List;
 
 public interface IPropiedadDAO {
     public abstract int consultarIDPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;

@@ -1,5 +1,6 @@
 package mx.testeos;
 
+import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
@@ -57,6 +58,9 @@ public class pruebasPropiedadDAO {
         Propiedad propiedad = propiedadDAO.consultarPropiedad(claveCatastralExistente);
         assertNotNull("La propiedad consultada existe", propiedad);
 
+        ClienteDAO gestorCliente = new ClienteDAO();
+        int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
+
         Propiedad propiedadAuxiliar = new Propiedad();
         propiedadAuxiliar.setIdPropiedad(2);
         propiedadAuxiliar.setDireccion("123 Calle Falsa");
@@ -74,7 +78,7 @@ public class pruebasPropiedadDAO {
         propiedadAuxiliar.setElectricidad(1);
         propiedadAuxiliar.setAmueblado(1);
         propiedadAuxiliar.setFoto(null);
-        propiedadAuxiliar.setCliente(propiedad.getCliente());
+        propiedadAuxiliar.setCliente(gestorCliente.consultarClientePorIdUsuario(idCliente));
         propiedadAuxiliar.setClaveCatastral("ABC123");
 
         assertEquals("ID de propiedad", propiedadAuxiliar.getIdPropiedad(), propiedad.getIdPropiedad());
@@ -92,7 +96,7 @@ public class pruebasPropiedadDAO {
         assertEquals("Compra", propiedadAuxiliar.getCompra(), propiedad.getCompra());
         assertEquals("Electricidad", propiedadAuxiliar.getElectricidad(), propiedad.getElectricidad());
         assertEquals("Amueblado", propiedadAuxiliar.getAmueblado(), propiedad.getAmueblado());
-        assertEquals("Cliente", propiedadAuxiliar.getCliente().getIdCliente(), propiedad.getCliente().getIdCliente());
+        assertEquals("Cliente", propiedadAuxiliar.getIdCliente().getIdCliente(), propiedad.getIdCliente().getIdCliente());
         assertEquals("Clave catastral", propiedadAuxiliar.getClaveCatastral(), propiedad.getClaveCatastral());
     }
 
@@ -137,7 +141,7 @@ public class pruebasPropiedadDAO {
         assertEquals("Compra", propiedadEsperada.getCompra(), propiedadObtenida.getCompra());
         assertEquals("Electricidad", propiedadEsperada.getElectricidad(), propiedadObtenida.getElectricidad());
         assertEquals("Amueblado", propiedadEsperada.getAmueblado(), propiedadObtenida.getAmueblado());
-        assertEquals("Cliente", propiedadEsperada.getCliente().getIdCliente(), propiedadObtenida.getCliente().getIdCliente());
+        assertEquals("Cliente", propiedadEsperada.getIdCliente().getIdCliente(), propiedadObtenida.getIdCliente().getIdCliente());
         assertEquals("Clave catastral", propiedadEsperada.getClaveCatastral(), propiedadObtenida.getClaveCatastral());
     }
     @Test

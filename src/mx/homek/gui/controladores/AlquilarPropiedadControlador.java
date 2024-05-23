@@ -89,13 +89,13 @@ public class AlquilarPropiedadControlador implements Initializable {
         LabelCiudad.setText(propiedad.getCiudad());
         LabelEstado.setText(propiedad.getEstado());
         LabelCP.setText(propiedad.getCodigoPostal());
-        LabelHabitaciones.setText(propiedad.getNumeroHabitaciones());
-        LabelBaños.setText(propiedad.getNumeroBanos());
-        LabelPisos.setText(propiedad.getNumeroPisos());
-        LabelCocinas.setText(propiedad.getNumeroCocina());
-        LabelMetrosCuadrados.setText(propiedad.getMetrosCuadrados());
-        LabelNumeroDePersonas.setText(propiedad.getNumeroPersonas());
-        LabelPrecioAlquiler.setText(propiedad.getAlquiler());
+        LabelHabitaciones.setText(Integer.toString(propiedad.getNumeroHabitaciones()));
+        LabelBaños.setText(Integer.toString(propiedad.getNumeroBanos()));
+        LabelPisos.setText(Integer.toString(propiedad.getNumeroPisos()));
+        LabelCocinas.setText(Integer.toString(propiedad.getNumeroCocina()));
+        LabelMetrosCuadrados.setText(Integer.toString(propiedad.getMetrosCuadrados()));
+        LabelNumeroDePersonas.setText(Integer.toString(propiedad.getNumeroPersonas()));
+        LabelPrecioAlquiler.setText(Integer.toString(propiedad.getAlquiler()));
     }
 
     public boolean fechaValida() {

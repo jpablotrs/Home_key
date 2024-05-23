@@ -84,7 +84,6 @@ public class ClienteDAO implements IClienteDAO {
             clienteConsultado.setCorreo(correo);
             clienteConsultado.setTelefono(telefono);
             clienteConsultado.setUsuario(usuario);
-            clienteConsultado.setPerfilCliente(perfil);
         }
 
         return clienteConsultado;

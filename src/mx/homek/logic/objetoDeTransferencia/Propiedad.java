@@ -24,7 +24,7 @@ public class Propiedad {
     private String claveCatastral;
     private String estadoOferta;
 
-    public Propiedad(){
+    public Propiedad() {
 
     }
 
@@ -143,6 +143,7 @@ public class Propiedad {
     public void setCliente(Cliente cliente) {
         this.idCliente = cliente;
     }
+
     public Blob getFoto() {
         return foto;
     }
@@ -157,6 +158,14 @@ public class Propiedad {
 
     public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public int getIdPropiedad() {
+        return idPropiedad;
+    }
+
+    public void setIdPropiedad(int idPropiedad) {
+        this.idPropiedad = idPropiedad;
     }
 
     public String getClaveCatastral() {

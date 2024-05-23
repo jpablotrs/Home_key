@@ -44,8 +44,6 @@ public class PerfilClienteDAO implements IPerfilClienteDAO {
             idPerfilPreferencias = resultadoConsulta.getInt("idPreferenciasCliente");
         }
         return idPerfilPreferencias;
-    public int insertarPerfilPreferenciasDelCliente(PerfilClienteDAO preferenciasCliente) throws SQLException {
-        return 0;
     }
 
     @Override

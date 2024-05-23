@@ -27,6 +27,10 @@ public class PropiedadDAO implements IPropiedadDAO {
     @Override
     public int agregarPropiedad(Propiedad propiedad) throws SQLException {
         String insercionSQL = "INSERT INTO propiedad (dirección, ciudad, estado, codigoPostal, numHabitaciones, numBaños, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        ClienteDAO gestorCliente = new ClienteDAO();
+        int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
+
         PreparedStatement insertarPropiedad = conexion.prepareStatement(insercionSQL, PreparedStatement.RETURN_GENERATED_KEYS);
         insertarPropiedad.setString(1, propiedad.getDireccion());
         insertarPropiedad.setString(2, propiedad.getCiudad());
@@ -43,7 +47,7 @@ public class PropiedadDAO implements IPropiedadDAO {
         insertarPropiedad.setInt(13, propiedad.getElectricidad());
         insertarPropiedad.setInt(14, propiedad.getAmueblado());
         insertarPropiedad.setBlob(15, propiedad.getFoto());
-        insertarPropiedad.setInt(16, propiedad.getCliente().getIdCliente());
+        insertarPropiedad.setInt(16, idCliente);
         insertarPropiedad.setString(17, propiedad.getClaveCatastral());
 
         int filasInsertadas = insertarPropiedad.executeUpdate();
@@ -111,6 +115,10 @@ public class PropiedadDAO implements IPropiedadDAO {
     @Override
     public int modificarPropiedad(Propiedad propiedad) throws SQLException {
         String actualizacionSQL = "UPDATE propiedad SET dirección = ?, ciudad = ?, estado = ?, codigoPostal = ?, numHabitaciones = ?, numBaños = ?, numPisos = ?, cocina = ?, metrosCuadrados = ?, numPersonas = ?, alquiler = ?, compra = ?, electricidad = ?, amueblado = ?, foto = ?, Cliente_idCliente = ?, claveCatastral = ? WHERE idPropiedad = ?";
+
+        ClienteDAO gestorCliente = new ClienteDAO();
+        int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
+
         PreparedStatement actualizarPropiedad = conexion.prepareStatement(actualizacionSQL);
         actualizarPropiedad.setString(1, propiedad.getDireccion());
         actualizarPropiedad.setString(2, propiedad.getCiudad());
@@ -127,7 +135,7 @@ public class PropiedadDAO implements IPropiedadDAO {
         actualizarPropiedad.setInt(13, propiedad.getElectricidad());
         actualizarPropiedad.setInt(14, propiedad.getAmueblado());
         actualizarPropiedad.setBlob(15, propiedad.getFoto());
-        actualizarPropiedad.setInt(16, propiedad.getCliente().getIdCliente());
+        actualizarPropiedad.setInt(16, idCliente);
         actualizarPropiedad.setString(17, propiedad.getClaveCatastral());
         actualizarPropiedad.setInt(18, propiedad.getIdPropiedad());
 
@@ -137,6 +145,10 @@ public class PropiedadDAO implements IPropiedadDAO {
     @Override
     public int guardarHistorialDeBusqueda(Propiedad propiedad) throws SQLException {
         String insercionHistorialSQL = "INSERT INTO historial_busqueda (idPropiedad, direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral, fechaBusqueda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+
+        ClienteDAO gestorCliente = new ClienteDAO();
+        int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
+
         PreparedStatement insertarHistorial = conexion.prepareStatement(insercionHistorialSQL);
         insertarHistorial.setInt(1, propiedad.getIdPropiedad());
         insertarHistorial.setString(2, propiedad.getDireccion());
@@ -154,7 +166,7 @@ public class PropiedadDAO implements IPropiedadDAO {
         insertarHistorial.setInt(14, propiedad.getElectricidad());
         insertarHistorial.setInt(15, propiedad.getAmueblado());
         insertarHistorial.setBlob(16, propiedad.getFoto());
-        insertarHistorial.setInt(17, propiedad.getCliente().getIdCliente());
+        insertarHistorial.setInt(17, idCliente);
         insertarHistorial.setString(18, propiedad.getClaveCatastral());
 
         return insertarHistorial.executeUpdate();

@@ -18,7 +18,7 @@ public class PropiedadDAO implements IPropiedadDAO {
     private Connection conexion;
 
     public PropiedadDAO() throws SQLException {
-        administradorBaseDeDatos = new ConexionBaseDeDatos();
+        administradorBaseDeDatos = new mx.dataaccess.ConexionBaseDeDatos();
         conexion = administradorBaseDeDatos.obtenerConexion();
     }
 

@@ -1,4 +1,4 @@
-package mx.dataaccess;
+package mx.homek.dataaccess;
 
 import java.sql.*;
 

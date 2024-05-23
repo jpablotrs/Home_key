@@ -1,6 +1,7 @@
 package mx.homek.logic.implementaciones;
 
 
+import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IPropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
@@ -14,11 +15,11 @@ import java.sql.SQLException;
 
 
 public class PropiedadDAO implements IPropiedadDAO {
-    private mx.dataaccess.ConexionBaseDeDatos administradorBaseDeDatos;
+    private ConexionBaseDeDatos administradorBaseDeDatos;
     private Connection conexion;
 
     public PropiedadDAO() throws SQLException {
-        administradorBaseDeDatos = new mx.dataaccess.ConexionBaseDeDatos();
+        administradorBaseDeDatos = new ConexionBaseDeDatos();
         conexion = administradorBaseDeDatos.obtenerConexion();
     }
 

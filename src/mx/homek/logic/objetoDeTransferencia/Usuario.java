@@ -5,10 +5,8 @@ public class Usuario {
     private String tipoUsuario;
     private String contrasena;
 
-    public Usuario(String nombreUsuario, String tipoUsuario, String contrasena) {
-        this.nombreUsuario = nombreUsuario;
-        this.tipoUsuario = tipoUsuario;
-        this.contrasena = contrasena;
+    public Usuario() {
+
     }
 
     public String getNombreUsuario() {

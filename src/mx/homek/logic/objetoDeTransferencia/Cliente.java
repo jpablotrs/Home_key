@@ -12,7 +12,7 @@ public class Cliente {
     private String correo;
     private String telefono;
     private Usuario usuario;
-    private PerfilCliente perfilCliente;
+
 
     public Cliente(){
 
@@ -90,13 +90,6 @@ public class Cliente {
         this.usuario = usuario;
     }
 
-    public PerfilCliente getPerfilCliente() {
-        return perfilCliente;
-    }
-
-    public void setPerfilCliente(PerfilCliente perfilCliente) {
-        this.perfilCliente = perfilCliente;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -108,6 +101,6 @@ public class Cliente {
         return (this == cliente) || (cliente.getNombre().equals(this.nombre) && cliente.getApellidoPaterno().equals(this.apellidoPaterno) &&
                 cliente.getApellidoMaterno().equals(this.apellidoMaterno) && cliente.getEstadoCivil().equals(this.estadoCivil) &&
                 cliente.getFechaNacimiento().equals(this.fechaNacimiento) && cliente.getSexo().equals(this.sexo) && cliente.getCorreo().equals(this.correo) &&
-                cliente.getTelefono().equals(this.telefono) && cliente.getUsuario().equals(this.usuario) && cliente.getPerfilCliente().equals(this.perfilCliente));
+                cliente.getTelefono().equals(this.telefono) && cliente.getUsuario().equals(this.usuario));
     }
 }

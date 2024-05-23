@@ -7,9 +7,18 @@ public class PerfilCliente {
     private String estado;
     private String pisos;
     private String costoMaximo;
+    private Cliente cliente;
 
     public PerfilCliente(){
 
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getCiudad() {

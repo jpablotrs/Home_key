@@ -19,13 +19,17 @@ public class VisitaDAO implements IVisitaDAO {
     public int insertarVisita(Visita visita) throws SQLException {
         java.sql.Date fecha = (java.sql.Date) visita.getFecha();
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        String consultaSQL = "insert into Visita (fecha, horaEntrada, horaSalida, propiedad, estado) values (?,?,?,?,?)";
+        ClienteDAO clienteDAO = new ClienteDAO();
+        String consultaSQL = "insert into Visita (idVisitante, fecha, horaEntrada, horaSalida, estado, claveCatastral, Propiedad_idPropiedad) values (?,?,?,?,?,?,?)";
         PreparedStatement insertarVisita = conexion.prepareStatement(consultaSQL);
-        insertarVisita.setDate(1, fecha);
-        insertarVisita.setString(2, visita.getHoraEntrada());
-        insertarVisita.setString(3, visita.getHoraSalida());
-        insertarVisita.setInt(4, propiedadDAO.consultarIDPropiedadPorClaveCatastral(visita.getPropiedad().getClaveCatastral()));
+        insertarVisita.setInt(1, clienteDAO.consultarIDClientePorCorreo(visita.getCliente().getCorreo()));
+        insertarVisita.setDate(2, fecha);
+        insertarVisita.setString(3, visita.getHoraEntrada());
+        insertarVisita.setString(4, visita.getHoraSalida());
         insertarVisita.setString(5, visita.getEstado());
+        insertarVisita.setString(6, visita.getPropiedad().getClaveCatastral());
+        insertarVisita.setInt(7, propiedadDAO.consultarIDPropiedadPorClaveCatastral(visita.getPropiedad().getClaveCatastral()));
+
         return insertarVisita.executeUpdate();
     }
 

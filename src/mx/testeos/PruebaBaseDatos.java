@@ -1,3 +1,5 @@
+package mx.testeos;
+
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import org.junit.Test;
 

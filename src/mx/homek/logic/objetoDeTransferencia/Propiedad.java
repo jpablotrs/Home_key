@@ -15,6 +15,7 @@ public class Propiedad {
     private String compra;
     private Cliente cliente;
     private String claveCatastral;
+    private String estadoOferta;
 
     public Propiedad(){
 
@@ -132,6 +133,14 @@ public class Propiedad {
         this.claveCatastral = claveCatastral;
     }
 
+    public String getEstadoOferta() {
+        return estadoOferta;
+    }
+
+    public void setEstadoOferta(String estadoOferta) {
+        this.estadoOferta = estadoOferta;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (! (obj instanceof Propiedad)) {
@@ -145,6 +154,6 @@ public class Propiedad {
                 propiedad.getNumeroPisos() == this.numeroPisos && propiedad.getNumeroCocina() == this.numeroCocina &&
                 propiedad.getMetrosCuadrados() == this.metrosCuadrados && propiedad.getNumeroPersonas() == this.numeroPersonas &&
                 propiedad.getAlquiler() == this.alquiler && propiedad.getCompra() == this.compra && propiedad.getCliente().equals(this.cliente) &&
-                propiedad.getClaveCatastral().equals(claveCatastral));
+                propiedad.getClaveCatastral().equals(claveCatastral) && propiedad.getEstadoOferta().equals(this.estadoOferta));
     }
 }

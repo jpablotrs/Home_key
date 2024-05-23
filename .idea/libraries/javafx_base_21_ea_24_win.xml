@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="javafx-base-21-ea+24-win">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../4° semestre/Construccion Software/JavaFX/javafx-base-21-ea+24-win.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../4° semestre/Construccion Software/JavaFX/javafx-controls-21-ea+24-win.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../4° semestre/Construccion Software/JavaFX/javafx-fxml-21-ea+24-win.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../4° semestre/Construccion Software/JavaFX/javafx-graphics-21-ea+24-win.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../4° semestre/Construccion Software/JavaFX/javafx-maven-plugin-0.0.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

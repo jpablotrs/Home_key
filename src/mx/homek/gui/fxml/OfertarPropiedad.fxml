@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.homek.gui.controladores.OfertarPropiedadControlador">
+   <content>
+      <VBox fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="960.0" prefWidth="980.0">
+         <children>
+            <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../Downloads/logoInmobiliaria.jpeg" />
+               </image>
+               <VBox.margin>
+                  <Insets left="450.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label text="Comprar propiedad" textFill="#000000b7">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Dirección">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelDireccion" layoutX="50.0" layoutY="110.0" text="Dirección obtenida">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Ciudad">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelCiudad" layoutX="50.0" layoutY="180.0" text="Ciudad obtenida">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="215.0" text="Estado">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelEstado" layoutX="50.0" layoutY="250.0" text="Estado obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="250.0" text="CP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelCP" layoutX="50.0" layoutY="320.0" text="CP obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="355.0" text="Numero de habitaciones">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelHabitaciones" layoutX="50.0" layoutY="390.0" text="Numero de habitaciones obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="390.0" text="Numero de baños">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelBaños" layoutX="50.0" layoutY="460.0" text="Numero de baños obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="460.0" text="Numero de pisos">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelPisos" layoutX="50.0" layoutY="530.0" text="Numero de pisos obtenidos">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="530.0" text="Numero de cocinas">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelCocinas" layoutX="50.0" layoutY="600.0" text="Numero de cocinas obtenidas">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="600.0" text="Numero de metros cuadrados">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelMetrosCuadrados" layoutX="50.0" layoutY="670.0" text="Numero de metros cuadrados obtenidos">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="670.0" text="Numero de personas">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelNumeroDePersonas" layoutX="50.0" layoutY="740.0" text="Numero de personas obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Precio por ofertar">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelPrecioOferta" layoutX="50.0" layoutY="800.0" text=" Precio por ofertar obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="35.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0">
+               <children>
+                  <Button fx:id="ButtonCancelar" mnemonicParsing="false" onAction="#onCancelarClick" text="Cancelar">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="110.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ButtonOfertar" defaultButton="true" mnemonicParsing="false" onAction="#onAgregarClick" style="-fx-background-color: #30373e;" text="Ofertar" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="100.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

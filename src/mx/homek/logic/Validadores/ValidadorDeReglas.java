@@ -1,6 +1,10 @@
 package mx.homek.logic.Validadores;
 
-import javax.swing.event.ChangeListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;

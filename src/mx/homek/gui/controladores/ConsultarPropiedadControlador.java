@@ -1,19 +1,23 @@
-/*package mx.homek.gui.controladores;
+package mx.homek.gui.controladores;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import mx.homek.logic.implementaciones.PropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.List;
@@ -84,7 +88,13 @@ public class ConsultarPropiedadControlador implements Initializable {
         mostrarPropiedadesEnTabla(propiedades);
     }
 
-    private List<Propiedad> buscarPropiedades(String ciudad) throws SQLException{
+    public void actualizarTabla() throws SQLException {
+        String ciudad = TextFieldCiudad.getText();
+        List<Propiedad> propiedades = buscarPropiedades(ciudad);
+        mostrarPropiedadesEnTabla(propiedades);
+    }
+
+    private List<Propiedad> buscarPropiedades(String ciudad) throws SQLException {
         try {
             return propiedadDAO.buscarPorCiudad(ciudad);
         } catch (SQLException ex) {
@@ -98,23 +108,37 @@ public class ConsultarPropiedadControlador implements Initializable {
         tablePropiedades.setItems(listaPropiedades);
     }
 
-    public void asignarBotonesDeModificarPropiedad(){
+    public void asignarBotonesDeModificarPropiedad() {
         Callback<TableColumn<Propiedad, Void>, TableCell<Propiedad, Void>> frabricaDeCelda = (final TableColumn<Propiedad, Void> param) -> {
             final TableCell<Propiedad, Void> cell = new TableCell<Propiedad, Void>() {
-                private final Button btn_Modificar = new Button();{
+                private final Button btn_Modificar = new Button();
+
+                {
                     btn_Modificar.setText("Modificar");
                     btn_Modificar.setOnAction((ActionEvent event) -> {
-                        Propiedad propiedadSeleccionada = getTableView().getItems().get(getIndex());
-                        PropiedadAuxiliar.setInstancia(propiedadSeleccionada);
-                        String ruta = "/mx/homek/gui/fxml/ModificarPropiedad.fxml";
+                        try {
+
+                            Propiedad propiedadSeleccionada = getTableView().getItems().get(getIndex());
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/homek/gui/fxml/ModificarPropiedad.fxml"));
+                            Scene scene = new Scene(loader.load());
+                            ModificarPropiedadControlador controller = loader.getController();
+                            controller.setClaveCatastral(propiedadSeleccionada.getClaveCatastral());
+
+                            Stage stage = new Stage();
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     });
                 }
+
                 @Override
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty) {
                         setGraphic(null);
-                    }else{
+                    } else {
                         setGraphic(btn_Modificar);
                     }
                 }
@@ -123,7 +147,4 @@ public class ConsultarPropiedadControlador implements Initializable {
         };
         column_Modificar.setCellFactory(frabricaDeCelda);
     }
-
-
 }
-*/

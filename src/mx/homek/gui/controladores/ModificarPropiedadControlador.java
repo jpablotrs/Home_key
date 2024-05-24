@@ -1,4 +1,5 @@
 package mx.homek.gui.controladores;
+
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,10 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mx.homek.logic.implementaciones.PropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
-import mx.homek.logic.objetoDeTransferencia.Cliente;
 
 import java.net.URL;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -68,10 +67,17 @@ public class ModificarPropiedadControlador implements Initializable {
     private TextField Foto;
 
     @FXML
-    private Button ButtonAgregar;
+    private Button ButtonModificar;
 
     @FXML
     private Button ButtonCancelar;
+
+    private String claveCatastral;
+
+    public void setClaveCatastral(String claveCatastral) {
+        this.claveCatastral = claveCatastral;
+        llenarVentana(claveCatastral);
+    }
 
     @FXML
     private void onGuardarClick(ActionEvent event) {
@@ -92,17 +98,13 @@ public class ModificarPropiedadControlador implements Initializable {
             propiedad.setCompra(Integer.parseInt(Compra.getText()));
             propiedad.setElectricidad(Integer.parseInt(Electricidad.getText()));
             propiedad.setAmueblado(Integer.parseInt(Amueblado.getText()));
-            Blob fotoBlob = new javax.sql.rowset.serial.SerialBlob(Foto.getText().getBytes());
-            propiedad.setFoto(fotoBlob);
-
-            Cliente cliente = new Cliente();
-            cliente.setIdCliente(3);
-            propiedad.setCliente(cliente);
             propiedad.setClaveCatastral(TextFieldClaveCatastral.getText());
 
             int resultado = propiedadDAO.modificarPropiedad(propiedad);
             if (resultado != 1) {
                 System.out.println("Propiedad modificada con éxito con id: ");
+                Stage stage = (Stage) ButtonModificar.getScene().getWindow();
+                stage.close();
             } else {
                 System.out.println("Error al modificar la propiedad.");
             }
@@ -117,7 +119,7 @@ public class ModificarPropiedadControlador implements Initializable {
         try {
             Propiedad propiedad = new Propiedad();
             PropiedadDAO propiedadDAO = new PropiedadDAO();
-            propiedad = propiedadDAO.obtenerPropiedadPorClaveCatastral("Clave 1");
+            propiedad = propiedadDAO.obtenerPropiedadPorClaveCatastral(claveCatastral);
 
             if (propiedad != null) {
                 TextFieldDireccion.setText(propiedad.getDireccion());
@@ -134,7 +136,15 @@ public class ModificarPropiedadControlador implements Initializable {
                 Compra.setText(String.valueOf(propiedad.getCompra()));
                 Electricidad.setText(String.valueOf(propiedad.getElectricidad()));
                 Amueblado.setText(String.valueOf(propiedad.getAmueblado()));
-                Foto.setText(propiedad.getFoto().toString());
+
+                if (propiedad.getFoto() != null) {
+                    // Si la foto no es null, se muestra su descripción
+                    Foto.setText(propiedad.getFoto().toString());
+                } else {
+                    // Si la foto es null, se indica que no hay foto
+                    Foto.setText("Sin foto");
+                }
+
                 TextFieldClaveCatastral.setText(String.valueOf(propiedad.getClaveCatastral()));
             } else {
                 System.out.println("No se encontró ninguna propiedad con la clave catastral proporcionada.");
@@ -152,7 +162,6 @@ public class ModificarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String claveCatastral = "Clave 1";
-        llenarVentana(claveCatastral);
+        // No se asigna nada en la inicialización por ahora
     }
 }

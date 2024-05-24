@@ -125,7 +125,7 @@
                         <Insets left="180.0" top="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="ButtonGuardar" defaultButton="true" mnemonicParsing="false" onAction="#onGuardarClick" style="-fx-background-color: #30373e;" text="Guardar" textFill="WHITE">
+                  <Button fx:id="ButtonModificar" defaultButton="true" mnemonicParsing="false" onAction="#onGuardarClick" style="-fx-background-color: #30373e;" text="Guardar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="100.0" top="20.0" />
                      </HBox.margin>

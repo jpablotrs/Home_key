@@ -120,12 +120,12 @@ public class    PropiedadDAO implements IPropiedadDAO {
         if (resultadoConsulta.next()) {
             Propiedad propiedad = new Propiedad();
             propiedad.setIdPropiedad(resultadoConsulta.getInt("idPropiedad"));
-            propiedad.setDireccion(resultadoConsulta.getString("direccion"));
+            propiedad.setDireccion(resultadoConsulta.getString("dirección"));
             propiedad.setCiudad(resultadoConsulta.getString("ciudad"));
             propiedad.setEstado(resultadoConsulta.getString("estado"));
             propiedad.setCodigoPostal(resultadoConsulta.getString("codigoPostal"));
             propiedad.setNumeroHabitaciones(resultadoConsulta.getInt("numHabitaciones"));
-            propiedad.setNumeroBanos(resultadoConsulta.getInt("numBanos"));
+            propiedad.setNumeroBanos(resultadoConsulta.getInt("numBaños"));
             propiedad.setNumeroPisos(resultadoConsulta.getInt("numPisos"));
             propiedad.setNumeroCocina(resultadoConsulta.getInt("cocina"));
             propiedad.setMetrosCuadrados(resultadoConsulta.getInt("metrosCuadrados"));
@@ -337,12 +337,12 @@ public class    PropiedadDAO implements IPropiedadDAO {
     private Propiedad obtenerPropiedadDesdeResultSet(ResultSet resultadoConsulta) throws SQLException {
         Propiedad propiedad = new Propiedad();
         propiedad.setIdPropiedad(resultadoConsulta.getInt("idPropiedad"));
-        propiedad.setDireccion(resultadoConsulta.getString("direccion"));
+        propiedad.setDireccion(resultadoConsulta.getString("dirección"));
         propiedad.setCiudad(resultadoConsulta.getString("ciudad"));
         propiedad.setEstado(resultadoConsulta.getString("estado"));
         propiedad.setCodigoPostal(resultadoConsulta.getString("codigoPostal"));
         propiedad.setNumeroHabitaciones(resultadoConsulta.getInt("numHabitaciones"));
-        propiedad.setNumeroBanos(resultadoConsulta.getInt("numBanos"));
+        propiedad.setNumeroBanos(resultadoConsulta.getInt("numBaños"));
         propiedad.setNumeroPisos(resultadoConsulta.getInt("numPisos"));
         propiedad.setNumeroCocina(resultadoConsulta.getInt("cocina"));
         propiedad.setMetrosCuadrados(resultadoConsulta.getInt("metrosCuadrados"));

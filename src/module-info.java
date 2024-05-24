@@ -1,4 +1,4 @@
-module src.mx.homek {
+module mx.homek {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
@@ -14,9 +14,9 @@ module src.mx.homek {
     exports mx.homek.logic.implementaciones;
     exports mx.homek.logic.objetoDeTransferencia;
     exports mx.homek.logic.interfaces;
+    exports mx.homek.gui;
     exports mx.homek.gui.controladores;
     exports mx.homek.gui.aplicaciones;
     exports mx.testeos;
-    exports mx.homek.gui;
     opens mx.homek.gui to javafx.fxml;
 }

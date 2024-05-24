@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class ConexionBaseDeDatos {
     private Connection conexion = null;
-    private final String NOMBRE_BD = "jdbc:mysql://localhost:3306/inmobiliaria";
+    private final String NOMBRE_BD = "jdbc:mysql://localhost/inmobiliariabd";
     private final String USUARIO_BD = "root";
-    private final String CONTRASENABD = "root";
+    private final String CONTRASENABD = "AngiLebo2012";
 
     public Connection obtenerConexion() throws SQLException {
         connect();

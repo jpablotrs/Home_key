@@ -109,4 +109,7 @@ public class Cliente {
                 cliente.getTelefono().equals(this.telefono) && cliente.getUsuario().equals(this.usuario));
     }
 
+    public PerfilCliente getPerfilCliente() {
+        return null;
+    }
 }

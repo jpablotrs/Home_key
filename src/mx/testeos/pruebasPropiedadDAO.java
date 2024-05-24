@@ -37,7 +37,7 @@ public class pruebasPropiedadDAO {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(3);
         propiedad.setCliente(cliente);
-        propiedad.setClaveCatastral("ABC123");
+        propiedad.setClaveCatastral("Clave 2");
         int idGenerado = propiedadDAO.agregarPropiedad(propiedad);
 
         assertTrue("Se generó un ID válido para la propiedad", idGenerado > 0);
@@ -176,7 +176,7 @@ public class pruebasPropiedadDAO {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(3);
         propiedadExistente.setCliente(cliente);
-        propiedadExistente.setClaveCatastral("ABC123 Actualizado");
+        propiedadExistente.setClaveCatastral("Clave 1");
         int resultado = propiedadDAO.modificarPropiedad(propiedadExistente);
         assertEquals("Se modificó la propiedad correctamente", 1, resultado);
     }
@@ -245,5 +245,29 @@ public class pruebasPropiedadDAO {
         List<Propiedad> propiedades = propiedadDAO.buscarPorPrecioCompra(precioCompra);
         assertNotNull(propiedades);
         assertTrue(propiedades.size() > 0);
+    }
+
+    @Test
+    public void obtenerPropiedadPorClaveCatastral() throws SQLException {
+        PropiedadDAO propiedadDAO = new PropiedadDAO();
+        String claveCatastral = "Clave 1";
+        Propiedad propiedad = propiedadDAO.obtenerPropiedadPorClaveCatastral(claveCatastral);
+        assertNotNull(propiedad);
+        assertNotNull(propiedad.getIdPropiedad());
+        assertNotNull(propiedad.getDireccion());
+        assertNotNull(propiedad.getCiudad());
+        assertNotNull(propiedad.getEstado());
+        assertNotNull(propiedad.getCodigoPostal());
+        assertNotNull(propiedad.getNumeroHabitaciones());
+        assertNotNull(propiedad.getNumeroBanos());
+        assertNotNull(propiedad.getNumeroPisos());
+        assertNotNull(propiedad.getNumeroCocina());
+        assertNotNull(propiedad.getMetrosCuadrados());
+        assertNotNull(propiedad.getNumeroPersonas());
+        assertNotNull(propiedad.getAlquiler());
+        assertNotNull(propiedad.getCompra());
+        assertNotNull(propiedad.getElectricidad());
+        assertNotNull(propiedad.getAmueblado());
+        assertNotNull(propiedad.getFoto());
     }
 }

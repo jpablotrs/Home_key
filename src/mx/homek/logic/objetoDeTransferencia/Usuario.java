@@ -29,7 +29,7 @@ public class Usuario {
     }
 
     public void setContrasena(String contrasena) {
-        contrasena = contrasena;
+        this.contrasena = contrasena;
     }
 
     @Override

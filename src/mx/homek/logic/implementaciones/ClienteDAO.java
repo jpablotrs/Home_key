@@ -34,7 +34,20 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public int insertarCliente(Cliente cliente) throws SQLException {
-        return 0;
+        java.sql.Date fecha = new java.sql.Date(cliente.getFechaNacimiento().getTime());
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        String consultaSQL = "insert into cliente(nombre,apellidoPaterno,apellidoMaterno,estadoCivil,fechaNacimiento,sexo,correo,telefono,Usuario_idUsuario) values (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement sentencia = conexion.prepareStatement(consultaSQL);
+        sentencia.setString(1, cliente.getNombre());
+        sentencia.setString(2, cliente.getApellidoPaterno());
+        sentencia.setString(3, cliente.getApellidoMaterno());
+        sentencia.setString(4, cliente.getEstadoCivil());
+        sentencia.setDate(5, fecha);
+        sentencia.setString(6, cliente.getSexo());
+        sentencia.setString(7, cliente.getCorreo());
+        sentencia.setString(8, cliente.getTelefono());
+        sentencia.setInt(9, usuarioDAO.convertirUsuarioAID(cliente.getUsuario()));
+        return  sentencia.executeUpdate();
     }
 
     @Override

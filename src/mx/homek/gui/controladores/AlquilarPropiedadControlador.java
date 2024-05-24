@@ -2,7 +2,9 @@ package mx.homek.gui.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadAlquiladaDAO;
@@ -11,10 +13,12 @@ import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.PropiedadAlquilada;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AlquilarPropiedadControlador implements Initializable {
@@ -38,6 +42,10 @@ public class AlquilarPropiedadControlador implements Initializable {
     private Label LabelMetrosCuadrados;
     @FXML
     private Label LabelNumeroDePersonas;
+    @FXML
+    private Label LabelElectricidad;
+    @FXML
+    private Label LabelAmueblado;
     @FXML
     private Label LabelPrecioAlquiler;
     @FXML
@@ -95,6 +103,21 @@ public class AlquilarPropiedadControlador implements Initializable {
         LabelCocinas.setText(Integer.toString(propiedad.getNumeroCocina()));
         LabelMetrosCuadrados.setText(Integer.toString(propiedad.getMetrosCuadrados()));
         LabelNumeroDePersonas.setText(Integer.toString(propiedad.getNumeroPersonas()));
+
+        if(propiedad.getElectricidad() == 1) {
+            LabelElectricidad.setText("Si cuenta con servicio electrico incluido");
+        }
+        else {
+            LabelElectricidad.setText("No cuenta con servicio electrico incluido");
+        }
+
+        if(propiedad.getAmueblado() == 1) {
+            LabelAmueblado.setText("Si cuenta con amueblado");
+        }
+        else {
+            LabelAmueblado.setText("No cuenta con amueblado");
+        }
+
         LabelPrecioAlquiler.setText(Integer.toString(propiedad.getAlquiler()));
     }
 
@@ -172,5 +195,23 @@ public class AlquilarPropiedadControlador implements Initializable {
     }
 
     public void onCancelarClick() {
+//        Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
+//        confirmacionDeSalida.setHeaderText("Salir del menú");
+//        confirmacionDeSalida.setContentText("¿Desea Salir del menú Subir Constancia?");
+//        Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
+//        if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
+//            try {
+//                Scene escena = LabelCiudad.getScene();
+//                Stage stageSubirConstancia = (Stage) escena.getWindow();
+//                stageSubirConstancia.close();
+//                ConsultarPropiedadesAplicacion consultarPropiedadesAplicacion = new ConsultarPropiedadesAplicacion(nombreUsuario,tipoUsuario);
+//            } catch (IOException ioException) {
+//                Alert escenaNoEncontrada = new Alert(Alert.AlertType.ERROR);
+//                escenaNoEncontrada.setTitle("Error de cambio de pantalla");
+//                escenaNoEncontrada.setContentText("Error al regresar al menu principal");
+//                escenaNoEncontrada.setHeaderText("Error de cambio de pantalla");
+//                escenaNoEncontrada.showAndWait();
+//            }
+//        }
     }
 }

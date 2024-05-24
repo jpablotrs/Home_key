@@ -26,7 +26,7 @@ public class PropiedadDAO implements IPropiedadDAO {
 
     @Override
     public int agregarPropiedad(Propiedad propiedad) throws SQLException {
-        String insercionSQL = "INSERT INTO propiedad (dirección, ciudad, estado, codigoPostal, numHabitaciones, numBaños, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insercionSQL = "INSERT INTO propiedad (direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         ClienteDAO gestorCliente = new ClienteDAO();
         int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());

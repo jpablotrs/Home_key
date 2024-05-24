@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.CrearCuentaApplication;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
@@ -15,7 +16,6 @@ import mx.homek.logic.implementaciones.UsuarioDAO;
 import mx.homek.logic.objetoDeTransferencia.Usuario;
 
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -93,6 +93,9 @@ public class LoginController implements Initializable {
         validadorDeReglas.agregarLimiteAPasswordField(PasswordFieldContraseña, 30);
     }
     public void onCrearCuentaClick(){
-
+        Scene escena = TextFieldUsuario.getScene();
+        Stage stageLogin = (Stage) escena.getWindow();
+        stageLogin.close();
+        CrearCuentaApplication crearCuentaApplication = new CrearCuentaApplication();
     }
 }

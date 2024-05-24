@@ -81,7 +81,7 @@
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField promptText="Estado civil aquí">
+            <TextField promptText="Estado civil aquí" fx:id="textFieldEstadoCivil">
                <VBox.margin>
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>
@@ -94,7 +94,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <DatePicker>
+            <DatePicker fx:id="datePickerFecha">
                <VBox.margin>
                   <Insets left="40.0" top="5.0" />
                </VBox.margin>
@@ -159,7 +159,7 @@
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="TextFieldTelefono" promptText="+">
+            <TextField fx:id="TextFieldTelefono" promptText="+52">
                <VBox.margin>
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>
@@ -172,7 +172,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <TextField fx:id="TextFieldCorreo" promptText="profesorexterno@xxx.com">
+            <TextField fx:id="TextFieldCorreo" promptText="persona@xxx.com">
                <VBox.margin>
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>

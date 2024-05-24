@@ -138,10 +138,8 @@ public class ModificarPropiedadControlador implements Initializable {
                 Amueblado.setText(String.valueOf(propiedad.getAmueblado()));
 
                 if (propiedad.getFoto() != null) {
-                    // Si la foto no es null, se muestra su descripción
                     Foto.setText(propiedad.getFoto().toString());
                 } else {
-                    // Si la foto es null, se indica que no hay foto
                     Foto.setText("Sin foto");
                 }
 
@@ -162,6 +160,6 @@ public class ModificarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // No se asigna nada en la inicialización por ahora
+    
     }
 }

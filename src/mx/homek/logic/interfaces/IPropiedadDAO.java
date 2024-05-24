@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface IPropiedadDAO {
     public abstract int consultarIDPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
+    public abstract Propiedad obtenerPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
+
     public abstract int agregarPropiedad(Propiedad propiedad) throws SQLException;
     public abstract Propiedad consultarPropiedad(String claveCatastral) throws SQLException;
     public abstract int eliminarPropiedad(Propiedad propiedad) throws SQLException;
     public abstract int modificarPropiedad(Propiedad propiedad) throws SQLException;
-    public abstract int guardarHistorialDeBusqueda(Propiedad propiedad) throws SQLException;
+    public abstract int guardarHistorialDeBusqueta(Propiedad propiedad) throws SQLException;
 
     public abstract List<Propiedad> buscarPorCiudad(String ciudad) throws SQLException;
     public abstract List<Propiedad> buscarPorEstado(String estado) throws SQLException;

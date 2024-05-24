@@ -1,6 +1,5 @@
 package mx.homek.logic.objetoDeTransferencia;
 
-
 import java.sql.Blob;
 
 public class Propiedad {

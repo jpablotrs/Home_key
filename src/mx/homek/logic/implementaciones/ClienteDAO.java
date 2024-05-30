@@ -1,5 +1,7 @@
 package mx.homek.logic.implementaciones;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IClienteDAO;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
@@ -30,8 +32,7 @@ public class ClienteDAO implements IClienteDAO {
     public int insertarCliente(Cliente cliente) throws SQLException {
         java.sql.Date fecha = (Date) cliente.getFechaNacimiento();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        PerfilClienteDAO perfilClienteDAO = new PerfilClienteDAO();
-        String consultaSQL = "insert into cliente(nombre,apellidoPaterno,apellidoMaterno,estadoCivil,fechaNacimiento,sexo,correo,telefono,Usuario_idUsuario,preferenciasCliente_idPreferenciasCliente) values (?,?,?,?,?,?,?,?,?,?)";
+        String consultaSQL = "insert into cliente(nombre,apellidoPaterno,apellidoMaterno,estadoCivil,fechaNacimiento,sexo,correo,telefono,Usuario_idUsuario) values (?,?,?,?,?,?,?,?,?)";
         PreparedStatement sentencia = conexion.prepareStatement(consultaSQL);
         sentencia.setString(1, cliente.getNombre());
         sentencia.setString(2, cliente.getApellidoPaterno());
@@ -42,8 +43,24 @@ public class ClienteDAO implements IClienteDAO {
         sentencia.setString(7, cliente.getCorreo());
         sentencia.setString(8, cliente.getTelefono());
         sentencia.setInt(9, usuarioDAO.convertirUsuarioAID(cliente.getUsuario()));
-        sentencia.setInt(10, perfilClienteDAO.convertirPerfilPreferenciasAID(cliente.getPerfilCliente()));
         return  sentencia.executeUpdate();
+    }
+
+    @Override
+    public ObservableList<String> consultarClientes () throws SQLException{
+        String consultaSQL = "SELECT nombre,apellidoMaterno,apellidoPaterno FROM cliente";
+        PreparedStatement consultarClientes = conexion.prepareStatement(consultaSQL);
+        ResultSet resultado = consultarClientes.executeQuery();
+        ObservableList<String> clientes = FXCollections.observableArrayList();
+
+        if(resultado.next()) {
+            String nombre = resultado.getString("nombre");
+            String apellidoMaterno = resultado.getString("apellidoMaterno");
+            String apellidoPaterno = resultado.getString("apellidoPaterno");
+            String nombreCompleto = nombre + " " + apellidoMaterno + " " + apellidoPaterno;
+            clientes.add(nombreCompleto);
+        }
+        return clientes;
     }
 
     @Override

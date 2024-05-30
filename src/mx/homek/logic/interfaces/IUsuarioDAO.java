@@ -6,6 +6,17 @@ import java.sql.SQLException;
 
 public interface IUsuarioDAO {
     public abstract int insertarUsuario(Usuario usuario) throws SQLException;
+
+    Usuario consultarUsuarioPorNombre(String nombreUsuario) throws SQLException;
+
+    Usuario consultarUsuarioPorId(int idUsuario) throws SQLException;
+
+    boolean verificarUsuarioExistente(String nombreUsuario, String contraseñaUsuario) throws SQLException;
+
+    String consultarTipoUsuarioPorNombre(String nombreUsuario) throws SQLException;
+
+    int obtenerIDUsuarioPorNombre(String nombreUsuario) throws SQLException;
+
     public abstract boolean existeNombreUsuario(String nombreUsuario) throws SQLException;
     public abstract int convertirUsuarioAID(Usuario usuario) throws SQLException;
 }

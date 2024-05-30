@@ -1,6 +1,8 @@
 package mx.homek.logic.implementaciones;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IPropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
@@ -26,6 +28,7 @@ public class PropiedadDAO implements IPropiedadDAO {
 
     @Override
     public int agregarPropiedad(Propiedad propiedad) throws SQLException {
+        ClienteDAO clienteDAO = new ClienteDAO();
         String insercionSQL = "INSERT INTO propiedad (dirección, ciudad, estado, codigoPostal, numHabitaciones, numBaños, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement insertarPropiedad = conexion.prepareStatement(insercionSQL, PreparedStatement.RETURN_GENERATED_KEYS);
         insertarPropiedad.setString(1, propiedad.getDireccion());
@@ -43,7 +46,7 @@ public class PropiedadDAO implements IPropiedadDAO {
         insertarPropiedad.setInt(13, propiedad.getElectricidad());
         insertarPropiedad.setInt(14, propiedad.getAmueblado());
         insertarPropiedad.setBlob(15, propiedad.getFoto());
-        insertarPropiedad.setInt(16, propiedad.getCliente().getIdCliente());
+        insertarPropiedad.setInt(16, clienteDAO.consultarIDClientePorCorreo(propiedad.getCliente().getCorreo()));
         insertarPropiedad.setString(17, propiedad.getClaveCatastral());
 
         int filasInsertadas = insertarPropiedad.executeUpdate();
@@ -65,6 +68,20 @@ public class PropiedadDAO implements IPropiedadDAO {
         if(resultadoConsulta.next())
             return resultadoConsulta.getInt("idPropiedad");
         return -1;
+    }
+
+    @Override
+    public ObservableList<String> consultarPropiedades() throws SQLException {
+        String consultaSQL = "SELECT claveCatastral FROM propiedad";
+        PreparedStatement consultarPropiedades = conexion.prepareStatement(consultaSQL);
+        ResultSet resultado = consultarPropiedades.executeQuery();
+        ObservableList<String> propiedades = FXCollections.observableArrayList();
+
+        if(resultado.next()) {
+            String clave = resultado.getString("claveCatastral");
+            propiedades.add(clave);
+        }
+        return propiedades;
     }
 
     @Override

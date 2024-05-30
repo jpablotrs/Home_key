@@ -7,6 +7,9 @@ import java.sql.SQLException;
 
 public interface IVisitaDAO {
     public abstract int insertarVisita(Visita visita) throws SQLException;
+
+    //int consultarIDVisitaPorDatosSinObjeto(String claveCatastral, String correo, Date fecha, String horaEntrada) throws SQLException;
+
     public abstract int consultarIDVisitaPorDatos(Visita visita) throws SQLException;
     public abstract int cancelarVisita(Visita visita) throws SQLException;
     public abstract int reagendarVisita(Visita visita, Date fecha, String horaEntrada, String horaSalida) throws SQLException;

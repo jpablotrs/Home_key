@@ -5,7 +5,8 @@ import mx.homek.logic.objetoDeTransferencia.Usuario;
 import java.sql.SQLException;
 
 public interface IUsuarioDAO {
-    int insertarUsuario(Usuario usuario) throws SQLException;
+
+    public abstract int insertarUsuario(Usuario usuario) throws SQLException;
 
     Usuario consultarUsuarioPorNombre(String nombreUsuario) throws SQLException;
 
@@ -20,4 +21,5 @@ public interface IUsuarioDAO {
     boolean existeNombreUsuario(String nombreUsuario) throws SQLException;
 
     int convertirUsuarioAID(Usuario usuario) throws SQLException;
+
 }

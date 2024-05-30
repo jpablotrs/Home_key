@@ -1,5 +1,6 @@
 package mx.homek.logic.interfaces;
 
+import javafx.collections.ObservableList;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
 import java.sql.SQLException;
@@ -10,6 +11,9 @@ public interface IPropiedadDAO {
     public abstract Propiedad obtenerPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
 
     public abstract int agregarPropiedad(Propiedad propiedad) throws SQLException;
+
+    ObservableList<String> consultarPropiedades() throws SQLException;
+
     public abstract Propiedad consultarPropiedad(String claveCatastral) throws SQLException;
     public abstract int eliminarPropiedad(Propiedad propiedad) throws SQLException;
     public abstract int modificarPropiedad(Propiedad propiedad) throws SQLException;

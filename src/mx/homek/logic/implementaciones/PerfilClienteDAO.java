@@ -20,7 +20,7 @@ public class PerfilClienteDAO implements IPerfilClienteDAO {
     @Override
     public int insertarPerfilPreferenciasDelCliente(PerfilCliente preferenciasCliente) throws SQLException {
         ClienteDAO clienteDAO = new ClienteDAO();
-        String consultaSQL = "insert into preferenciascliente (ciudad, numHabitaciones, numBaños, Estado, pisos, costoMax, idCliente) values (?,?,?,?,?,?,?)";
+        String consultaSQL = "insert into preferenciascliente (ciudad, numHabitaciones, numBaños, Estado, pisos, costoMax, id_Cliente) values (?,?,?,?,?,?,?)";
         PreparedStatement sentencia = conexion.prepareStatement(consultaSQL);
         sentencia.setString(1, preferenciasCliente.getCiudad());
         sentencia.setString(2, preferenciasCliente.getNumeroHabitaciones());

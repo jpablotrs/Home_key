@@ -1,6 +1,8 @@
 package mx.homek.logic.implementaciones;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IPropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
@@ -82,7 +84,6 @@ public class    PropiedadDAO implements IPropiedadDAO {
 
         String insercionSQL = "INSERT INTO propiedad (direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         ClienteDAO gestorCliente = new ClienteDAO();
-
         PreparedStatement insertarPropiedad = conexion.prepareStatement(insercionSQL, PreparedStatement.RETURN_GENERATED_KEYS);
         insertarPropiedad.setString(1, propiedad.getDireccion());
         insertarPropiedad.setString(2, propiedad.getCiudad());
@@ -100,7 +101,6 @@ public class    PropiedadDAO implements IPropiedadDAO {
         insertarPropiedad.setInt(14, propiedad.getAmueblado());
         insertarPropiedad.setInt(15,id);
         insertarPropiedad.setString(16, propiedad.getClaveCatastral());
-
         int filasInsertadas = insertarPropiedad.executeUpdate();
         if (filasInsertadas > 0) {
             ResultSet generatedKeys = insertarPropiedad.getGeneratedKeys();
@@ -109,6 +109,20 @@ public class    PropiedadDAO implements IPropiedadDAO {
             }
         }
         return -1;
+    }
+
+    @Override
+    public ObservableList<String> consultarPropiedades() throws SQLException {
+        String consultaSQL = "SELECT claveCatastral FROM propiedad";
+        PreparedStatement consultarPropiedades = conexion.prepareStatement(consultaSQL);
+        ResultSet resultado = consultarPropiedades.executeQuery();
+        ObservableList<String> propiedades = FXCollections.observableArrayList();
+
+        if(resultado.next()) {
+            String clave = resultado.getString("claveCatastral");
+            propiedades.add(clave);
+        }
+        return propiedades;
     }
 
     @Override

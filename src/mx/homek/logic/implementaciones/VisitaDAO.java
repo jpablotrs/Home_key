@@ -32,13 +32,33 @@ public class VisitaDAO implements IVisitaDAO {
 
         return insertarVisita.executeUpdate();
     }
+/*
+    @Override
+    public Visita consultarIDVisitaPorDatosSinObjeto(String claveCatastral, String correo, Date fecha, String horaEntrada) throws SQLException {
+        java.sql.Date fecha1 = (java.sql.Date) fecha;
+        ClienteDAO clienteDAO = new ClienteDAO();
+        PropiedadDAO propiedadDAO = new PropiedadDAO();
+        String consultaSQL = "select * from visita where idPropiedad = ? and idCliente = ? and fecha = ? and horaEntrada = ?";
+        PreparedStatement consultarId = conexion.prepareStatement(consultaSQL);
+        consultarId.setInt(1, propiedadDAO.consultarIDPropiedadPorClaveCatastral(claveCatastral));
+        consultarId.setInt(2, clienteDAO.consultarIDClientePorCorreo(correo));
+        consultarId.setDate(3, fecha);
+        consultarId.setString(4, horaEntrada);
+        ResultSet resultadoConsulta = consultarId.executeQuery();
+        if(resultadoConsulta.next()){
+            Visita visita = new Visita();
+            visita.setPropiedad(resultadoConsulta.getInt("Propiedad_idPropiedad"));
+        }
+            return resultadoConsulta.getInt("idVisita");
+        return -1;
+    }*/
 
     @Override
     public int consultarIDVisitaPorDatos(Visita visita) throws SQLException {
         java.sql.Date fecha = (java.sql.Date) visita.getFecha();
         ClienteDAO clienteDAO = new ClienteDAO();
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        String consultaSQL = "select idVisita from visita where idPropiedad = ? and idCliente = ? and fecha = ? and horaEntrada = ?";
+        String consultaSQL = "select idVisita from visita where Propiedad_idPropiedad = ? and idVisitante = ? and fecha = ? and horaEntrada = ?";
         PreparedStatement consultarId = conexion.prepareStatement(consultaSQL);
         consultarId.setInt(1, propiedadDAO.consultarIDPropiedadPorClaveCatastral(visita.getPropiedad().getClaveCatastral()));
         consultarId.setInt(2, clienteDAO.consultarIDClientePorCorreo(visita.getCliente().getCorreo()));
@@ -52,7 +72,7 @@ public class VisitaDAO implements IVisitaDAO {
 
     @Override
     public int cancelarVisita(Visita visita) throws SQLException {
-        String consultaSQL = "UPDATE visita SET estado = 'cancelado' WHERE idVisita = ?";
+        String consultaSQL = "UPDATE visita SET estado = 'Cancelado' WHERE idVisita = ?";
         PreparedStatement cancelarVisita = conexion.prepareStatement(consultaSQL);
         cancelarVisita.setInt(1, consultarIDVisitaPorDatos(visita));
         return cancelarVisita.executeUpdate();

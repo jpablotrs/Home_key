@@ -158,6 +158,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     @Override
     public int convertirUsuarioAID(Usuario usuario) throws SQLException {
+        conexion = administradorBaseDatos.obtenerConexion();
         String consultaSQL = "Select idUsuario from usuario where nombreUsuario = ?";
         PreparedStatement sentencia = conexion.prepareStatement(consultaSQL);
         sentencia.setString(1, usuario.getNombreUsuario());
@@ -166,6 +167,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         if (resultadoConsulta.next()) {
             idUsuario = resultadoConsulta.getInt("idUsuario");
         }
+        conexion.close();
         return idUsuario;
     }
 

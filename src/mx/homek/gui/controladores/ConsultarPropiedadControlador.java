@@ -14,6 +14,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mx.homek.gui.aplicaciones.AlquilarPropiedaAplicacion;
+import mx.homek.gui.aplicaciones.ComprarPropiedadAplicacion;
+import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
+import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.implementaciones.PropiedadDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
@@ -27,7 +31,24 @@ import java.util.logging.Logger;
 import java.sql.SQLException;
 
 public class ConsultarPropiedadControlador implements Initializable {
+    String nombreUsuario;
+    String tipoUsuario;
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
     @FXML
     private Label labelConsultarPropiedad;
     @FXML
@@ -66,7 +87,12 @@ public class ConsultarPropiedadControlador implements Initializable {
     private TableColumn<Propiedad, String> column_Direccion;
     @FXML
     private TableColumn<Propiedad, Void> column_Modificar;
+    @FXML
+    Button botonComprar;
+    @FXML
+    Button botonAlquilar;
 
+    Propiedad propiedadSeleccionada;
     private PropiedadDAO propiedadDAO;
 
     @Override
@@ -79,6 +105,13 @@ public class ConsultarPropiedadControlador implements Initializable {
         column_ClaveCatastral.setCellValueFactory(new PropertyValueFactory<>("claveCatastral"));
         column_Direccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         asignarBotonesDeModificarPropiedad();
+        botonAlquilar.setDisable(true);
+        botonComprar.setDisable(true);
+        tablePropiedades.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            propiedadSeleccionada = newValue;
+            botonAlquilar.setDisable(false);
+            botonComprar.setDisable(false);
+        });
     }
 
     @FXML
@@ -88,15 +121,22 @@ public class ConsultarPropiedadControlador implements Initializable {
         mostrarPropiedadesEnTabla(propiedades);
     }
 
-    public void actualizarTabla() throws SQLException {
-        String ciudad = TextFieldCiudad.getText();
-        List<Propiedad> propiedades = buscarPropiedades(ciudad);
-        mostrarPropiedadesEnTabla(propiedades);
+    public void actualizarTabla()  {
+        try {
+            String ciudad = TextFieldCiudad.getText();
+            List<Propiedad> propiedades = buscarPropiedades(ciudad);
+            mostrarPropiedadesEnTabla(propiedades);
+            tablePropiedades.refresh();
+        }
+        catch (SQLException sqlException){
+            CreadorAlertas creadorAlertas = new CreadorAlertas();
+            creadorAlertas.crearAlertaDeError("Error en la consulta","Error","Error");
+        }
     }
 
     private List<Propiedad> buscarPropiedades(String ciudad) throws SQLException {
         try {
-            return propiedadDAO.buscarPorCiudad(ciudad);
+            return propiedadDAO.buscarPorNumeroHabitaciones(2);
         } catch (SQLException ex) {
             Logger.getLogger(ConsultarPropiedadControlador.class.getName()).log(Level.SEVERE, null, ex);
             return new ArrayList<>();
@@ -105,7 +145,11 @@ public class ConsultarPropiedadControlador implements Initializable {
 
     private void mostrarPropiedadesEnTabla(List<Propiedad> propiedades) {
         ObservableList<Propiedad> listaPropiedades = FXCollections.observableArrayList(propiedades);
+        for(Propiedad propiedad : propiedades){
+            listaPropiedades.add(propiedad);
+        }
         tablePropiedades.setItems(listaPropiedades);
+        tablePropiedades.refresh();
     }
 
     public void asignarBotonesDeModificarPropiedad() {
@@ -146,5 +190,34 @@ public class ConsultarPropiedadControlador implements Initializable {
             return cell;
         };
         column_Modificar.setCellFactory(frabricaDeCelda);
+    }
+    public void onRegresarClick(){
+        Scene escena = TextFieldCiudad.getScene();
+        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+        stageAgregarProfesorExterno.close();
+        MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
+    }
+    public void onComprarClick() {
+        Scene escena = TextFieldCiudad.getScene();
+        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+        stageAgregarProfesorExterno.close();
+        try{
+            ComprarPropiedadAplicacion comprarPropiedadAplicacion = new ComprarPropiedadAplicacion(nombreUsuario,tipoUsuario,propiedadSeleccionada);
+    }
+        catch (IOException ioException){
+
+        }
+
+    }
+    public void onAlquilarClick(){
+        Scene escena = TextFieldCiudad.getScene();
+        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+        stageAgregarProfesorExterno.close();
+        try{
+            AlquilarPropiedaAplicacion alquilarPropiedaAplicacion = new AlquilarPropiedaAplicacion(nombreUsuario, tipoUsuario,propiedadSeleccionada);
+        }
+        catch (IOException ioException){
+
+        }
     }
 }

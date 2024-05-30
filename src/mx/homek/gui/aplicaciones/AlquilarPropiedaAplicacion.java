@@ -18,7 +18,6 @@ public class AlquilarPropiedaAplicacion extends Stage {
         controladorAlquilarPropiedad.setNombreUsuario(nombreUsuario);
         controladorAlquilarPropiedad.setPropiedad(propiedad);
         controladorAlquilarPropiedad.cargarDatosPropiedad();
-        escenaAquilarPropiedad.getStylesheets().add(AlquilarPropiedaAplicacion.class.getResource("css/textoblanco.css").toExternalForm());
         this.setTitle("Alquilar propiedad");
         this.setScene(escenaAquilarPropiedad);
         this.show();

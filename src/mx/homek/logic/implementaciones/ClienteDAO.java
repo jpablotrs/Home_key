@@ -34,18 +34,48 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public int insertarCliente(Cliente cliente) throws SQLException {
-        return 0;
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        String consulta = "insert into Cliente (nombre,apellidoPaterno,apellidoMaterno,estadoCivil,fechaNacimiento,sexo,correo,telefono,Usuario_idUsuario) values (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement insercion = conexion.prepareStatement(consulta);
+        insercion.setString(1,cliente.getNombre());
+        insercion.setString(2,cliente.getApellidoPaterno());
+        insercion.setString(3,cliente.getApellidoMaterno());
+        insercion.setString(4,cliente.getEstadoCivil());
+        insercion.setDate(5,new java.sql.Date(cliente.getFechaNacimiento().getTime()));
+        insercion.setString(6,cliente.getSexo());
+        insercion.setString(7,cliente.getCorreo());
+        insercion.setString(8,cliente.getTelefono());
+        insercion.setInt(9,usuarioDAO.obtenerIDUsuarioPorNombre(cliente.getUsuario().getNombreUsuario()));
+        return insercion.executeUpdate();
     }
 
     @Override
     public int modificarCliente(Cliente cliente) throws SQLException {
-        return 0;
+        String consulta = "UPDATE cliente" +
+                "SET" +
+                "    nombre = ?," +
+                "    apellidoPaterno = ?," +
+                "    apellidoMaterno = ?," +
+                "    estadoCivil = ?," +
+                "    fechaNacimiento = ?," +
+                "    sexo = ?," +
+                "    correo = ?," +
+                "    telefono = ?," +
+                "WHERE" +
+                "    idCliente = ?";
+        PreparedStatement modificar = conexion.prepareStatement(consulta);
+        modificar.setString(1,cliente.getNombre());
+        modificar.setString(2,cliente.getApellidoPaterno());
+        modificar.setString(3,cliente.getApellidoMaterno());
+        modificar.setString(4,cliente.getEstadoCivil());
+        modificar.setDate(5,new java.sql.Date(cliente.getFechaNacimiento().getTime()));
+        modificar.setString(6,cliente.getSexo());
+        modificar.setString(7,cliente.getCorreo());
+        modificar.setString(8,cliente.getTelefono());
+        modificar.setInt(9,consultarIDClientePorCorreo(cliente.getCorreo()));
+        return modificar.executeUpdate();
     }
 
-    @Override
-    public int eliminarCliente(Cliente cliente) throws SQLException {
-        return 0;
-    }
 
     @Override
     public Cliente consultarClientePorIdUsuario(int idUsuario) throws SQLException {
@@ -65,15 +95,10 @@ public class ClienteDAO implements IClienteDAO {
             Date fechaNacimiento = resultado.getDate("fechaNacimiento");
             String sexo = resultado.getString("sexo");
             String correo = resultado.getString("correo");
-            String telefono = resultado.getString("tel├®fono");
+            String telefono = resultado.getString("telefono");
             int idUsuarioConsultado = resultado.getInt("Usuario_idUsuario");
-            int idPerfilCliente = resultado.getInt("preferenciasCliente_IdPreferenciasCliente");
-
             UsuarioDAO gestorUsuario = new UsuarioDAO();
             Usuario usuario = gestorUsuario.consultarUsuarioPorId(idUsuarioConsultado);
-
-            PerfilClienteDAO gestorPerfil = new PerfilClienteDAO();
-            PerfilCliente perfil = gestorPerfil.consultarPerfilPorId(idPerfilCliente);
 
             clienteConsultado.setNombre(nombre);
             clienteConsultado.setApellidoPaterno(apellidoPaterno);
@@ -88,4 +113,5 @@ public class ClienteDAO implements IClienteDAO {
 
         return clienteConsultado;
     }
+
 }

@@ -11,7 +11,6 @@ import java.io.IOException;
 public class HomekeyAplicacion extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        new ConsultarPropiedadAplicacion();
         FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Ventana principal");

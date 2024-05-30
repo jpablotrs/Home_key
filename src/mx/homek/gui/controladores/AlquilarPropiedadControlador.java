@@ -2,7 +2,12 @@ package mx.homek.gui.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.ConsultarPropiedadAplicacion;
+import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
+import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadAlquiladaDAO;
@@ -11,6 +16,7 @@ import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.PropiedadAlquilada;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -104,7 +110,7 @@ public class AlquilarPropiedadControlador implements Initializable {
         int fechasComparadas = java.sql.Date.valueOf(fechaSeleccionada).compareTo(java.sql.Date.valueOf(fechaActual));
 
         boolean fechaValida = false;
-        if(fechasComparadas < 0) {
+        if(fechasComparadas > 0) {
             fechaValida = true;
         }
 
@@ -128,7 +134,9 @@ public class AlquilarPropiedadControlador implements Initializable {
                         alquilador = gestorCliente.consultarClientePorIdUsuario(idUsuario);
                     }
                     catch (SQLException sqlException) {
-
+                        System.out.println(sqlException.getMessage());
+                        CreadorAlertas creadorAlertas = new CreadorAlertas();
+                        creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
                     }
 
                     PropiedadAlquilada propiedadAlquilada = new PropiedadAlquilada();
@@ -141,9 +149,22 @@ public class AlquilarPropiedadControlador implements Initializable {
                     try {
                         PropiedadAlquiladaDAO gestorPropiedadAlquilada = new PropiedadAlquiladaDAO();
                         gestorPropiedadAlquilada.alquilarPropiedad(propiedadAlquilada);
+                        CreadorAlertas creadorAlertas = new CreadorAlertas();
+                        creadorAlertas.crearAlertaDeInformacion("Alquiler exitoso","Usted ha alquilado la propiedad", "Alquiler exitoso");
+                        Scene escena = LabelBaños.getScene();
+                        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+                        stageAgregarProfesorExterno.close();
+                        try {
+                            ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario, tipoUsuario);
+                        }
+                        catch (IOException ioException){
+
+                        }
                     }
                     catch (SQLException sqlException) {
-
+                        System.out.println(sqlException.getMessage());
+                        CreadorAlertas creadorAlertas = new CreadorAlertas();
+                        creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
                     }
                 }
                 else {
@@ -172,5 +193,14 @@ public class AlquilarPropiedadControlador implements Initializable {
     }
 
     public void onCancelarClick() {
+        Scene escena = LabelBaños.getScene();
+        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+        stageAgregarProfesorExterno.close();
+        try {
+            ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario, tipoUsuario);
+        }
+        catch (IOException ioException){
+
+        }
     }
 }

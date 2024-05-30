@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import mx.homek.gui.aplicaciones.LoginApplication;
+import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
@@ -15,10 +16,9 @@ import mx.homek.logic.implementaciones.UsuarioDAO;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Usuario;
 
-
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,7 +27,26 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class CrearCuentaController implements Initializable {
+public class ModicarCuentaController implements Initializable {
+    String nombreUsuaeio;
+    String tipoUsuario;
+
+    public String getNombreUsuaeio() {
+        return nombreUsuaeio;
+    }
+
+    public void setNombreUsuaeio(String nombreUsuaeio) {
+        this.nombreUsuaeio = nombreUsuaeio;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
     private CreadorAlertas creadorAlertas;
     private ValidadorDeReglas validadorDeReglas;
     @FXML
@@ -54,8 +73,6 @@ public class CrearCuentaController implements Initializable {
     private TextField textFieldEstadoCivil;
     @FXML
     private DatePicker datePickerFecha;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         creadorAlertas = new CreadorAlertas();
@@ -76,10 +93,31 @@ public class CrearCuentaController implements Initializable {
         listaUniversidadesDisponibles.add("Masculino");
         listaUniversidadesDisponibles.add("Femenino");
         ComboBoxUniversidad.setItems(listaUniversidadesDisponibles);
-        validadorDeReglas.proponerNombreUsuario(TextFieldNombre,TextFieldPrimerApellido,TextFieldSegundoApellido,TextFieldNombreUsuario);
+    }
+    public void setCampos(){
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Cliente cliente = new Cliente();
+        try {
+            ClienteDAO clienteDAO = new ClienteDAO();
+            int id = usuarioDAO.obtenerIDUsuarioPorNombre(nombreUsuaeio);
+            cliente = clienteDAO.consultarClientePorIdUsuario(id);
+        }
+        catch (SQLException sqlException){
+            creadorAlertas.crearAlertaDeAdvertencia("Error en la consulta","Error en la consulta","Error");
+        }
+        TextFieldNombreUsuario.setText(cliente.getUsuario().getNombreUsuario());
+        ComboBoxUniversidad.setValue(cliente.getSexo());
+        TextFieldNombreUsuario.setDisable(true);
+        TextFieldNombre.setText(cliente.getNombre());
+        TextFieldCorreo.setText(cliente.getCorreo());
+        textFieldEstadoCivil.setText(cliente.getEstadoCivil());
+        PasswordFieldContraseña.setText(cliente.getUsuario().getContrasena());
+        TextFieldTelefono.setText(cliente.getTelefono());
+        TextFieldPrimerApellido.setText(cliente.getApellidoPaterno());
+        TextFieldSegundoApellido.setText(cliente.getApellidoMaterno());
     }
     public void onAgregarClick(){
-        ArrayList <String> campos = new ArrayList<>();
+        ArrayList<String> campos = new ArrayList<>();
         ArrayList <String> camposCombo = new ArrayList<>();
         String nombre = TextFieldNombre.getText();
         String apellidoPaterno = TextFieldPrimerApellido.getText();
@@ -156,23 +194,23 @@ public class CrearCuentaController implements Initializable {
                     alertaContraseñaInsegura.showAndWait();
                 }
                 else {
-                    if (usuarioDAO.insertarUsuario(usuario) > 0 && clienteDAO.insertarCliente(cliente) > 0) {
+                    if (usuarioDAO.modificarUsuario(usuario) > 0 && clienteDAO.modificarCliente(cliente) > 0) {
 
                         Alert alertaRegistroExitoso = new Alert(Alert.AlertType.INFORMATION);
                         alertaRegistroExitoso.setTitle("Registro exitoso");
-                        alertaRegistroExitoso.setContentText("El Cliente ha sido registrado con éxito");
+                        alertaRegistroExitoso.setContentText("El CLiente ha sido registrado con éxito");
                         alertaRegistroExitoso.setHeaderText("Registro de Cliente exitoso");
                         alertaRegistroExitoso.showAndWait();
-                            Scene escena = TextFieldNombre.getScene();
-                            Stage stageAgregarProfesorUV = (Stage) escena.getWindow();
-                            stageAgregarProfesorUV.close();
-                            LoginApplication loginApplication = new LoginApplication();
+                        Scene escena = TextFieldNombre.getScene();
+                        Stage stageAgregarProfesorUV = (Stage) escena.getWindow();
+                        stageAgregarProfesorUV.close();
+                        MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
 
                     }
                     else{
                         Alert alertaRegistroExitoso = new Alert(Alert.AlertType.ERROR);
                         alertaRegistroExitoso.setTitle("Registro fallido");
-                        alertaRegistroExitoso.setContentText("El Cliente no se ha podido añadir");
+                        alertaRegistroExitoso.setContentText("El profesor no se ha podido añadir");
                         alertaRegistroExitoso.setHeaderText("Registro fallido");
                         alertaRegistroExitoso.showAndWait();
                     }
@@ -188,20 +226,17 @@ public class CrearCuentaController implements Initializable {
             }
         }
     }
-
-
-    public void onCancelarClick() {
+    public void onCancelarClick(){
         Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacionDeSalida.setHeaderText("Salir del menú");
         confirmacionDeSalida.setContentText("¿Desea Salir del menú Agregar Profesor Externo?");
         Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
         if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
 
-                Scene escena = TextFieldNombre.getScene();
-                Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
-                stageAgregarProfesorExterno.close();
-                LoginApplication loginApplication = new LoginApplication();
+            Scene escena = TextFieldNombre.getScene();
+            Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+            stageAgregarProfesorExterno.close();
+            MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuaeio,tipoUsuario);
         }
     }
 }
-

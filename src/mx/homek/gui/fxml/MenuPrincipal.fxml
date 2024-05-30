@@ -48,7 +48,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="Bienvenido al sistema HomeKey">
+            <Label fx:id="LabelEtiqueta" alignment="CENTER" text="Bienvenido al sistema HomeKey">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

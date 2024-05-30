@@ -20,4 +20,5 @@ public interface IUsuarioDAO {
     boolean existeNombreUsuario(String nombreUsuario) throws SQLException;
 
     int convertirUsuarioAID(Usuario usuario) throws SQLException;
+    int modificarUsuario(Usuario usuario) throws SQLException;
 }

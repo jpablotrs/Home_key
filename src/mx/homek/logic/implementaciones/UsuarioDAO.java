@@ -168,4 +168,18 @@ public class UsuarioDAO implements IUsuarioDAO {
         }
         return idUsuario;
     }
+
+    @Override
+    public int modificarUsuario(Usuario usuario) throws SQLException {
+        conexion = administradorBaseDatos.obtenerConexion();
+        String consultaSql = "UPDATE usuario SET contraseña = ? WHERE idUsuario = ?;";
+        validadorDeReglas.hashearContraseña(usuario.getContrasena());
+        PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
+        sentencia.setString(1, validadorDeReglas.hashearContraseña(usuario.getContrasena()));
+        sentencia.setInt(2,obtenerIDUsuarioPorNombre(usuario.getNombreUsuario()));
+        int resultado = sentencia.executeUpdate();
+        conexion.close();
+
+        return resultado;
+    }
 }

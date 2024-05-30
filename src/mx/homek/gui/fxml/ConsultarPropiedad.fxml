@@ -31,7 +31,7 @@
                </font>
             </Label>
             <TextField fx:id="TextFieldCiudad" layoutX="25.0" layoutY="123.0" maxHeight="200.0" prefHeight="26.0" prefWidth="257.0" promptText="Ciudad de la propiedad aqui" />
-            <Button fx:id="ButtonBuscar" defaultButton="true" layoutX="302.0" layoutY="121.0" mnemonicParsing="false" onAction="#onBuscarClick" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #30373e;" text="Buscar" textFill="WHITE">
+            <Button fx:id="ButtonBuscar" defaultButton="true" layoutX="302.0" layoutY="121.0" mnemonicParsing="false" onAction="#onBuscarClick" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #176E09;" text="Buscar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -57,10 +57,25 @@
             <TableView fx:id="tablePropiedades" layoutX="31.0" layoutY="249.0" prefHeight="209.0" prefWidth="747.0">
                <columns>
                   <TableColumn fx:id="column_ClaveCatastral" prefWidth="107.20000648498535" text="Clave catastral" />
-                  <TableColumn fx:id="column_Direccion" minWidth="0.0" prefWidth="434.4000244140625" text="Direccion" />
-                  <TableColumn fx:id="column_Modificar" minWidth="0.0" prefWidth="201.599853515625" text="Detalles" />
+                  <TableColumn fx:id="column_Direccion" minWidth="0.0" prefWidth="285.0" text="Direccion" />
+                  <TableColumn fx:id="column_Modificar" minWidth="0.0" prefWidth="400.0" text="Detalles" />
                </columns>
             </TableView>
+            <Button layoutX="161.0" layoutY="474.0" mnemonicParsing="false" onAction="#onRegresarClick" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: #176E09;" text="Regresar" textFill="WHITE" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="551.0" AnchorPane.topAnchor="474.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="301.0" layoutY="474.0" mnemonicParsing="false" style="-fx-background-color: #176E09;" text="Alquilar" textFill="WHITE" onAction="#onAlquilarClick" fx:id="botonAlquilar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="416.0" layoutY="474.0" mnemonicParsing="false" style="-fx-background-color: #176E09;" text="Comprar" textFill="WHITE" onAction="#onComprarClick" fx:id="botonComprar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
 
          </children>
       </AnchorPane>

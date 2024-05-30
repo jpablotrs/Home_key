@@ -12,8 +12,7 @@ public class LoginApplication extends Stage {
     public LoginApplication(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/login.fxml"));
-            Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 600, 400);
-            escenaComprarPropiedad.getStylesheets().add(ComprarPropiedadAplicacion.class.getResource("css/textoblanco.css").toExternalForm());
+            Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 800, 600);
             this.setTitle("Iniciar Sesión");
             this.setScene(escenaComprarPropiedad);
             this.show();

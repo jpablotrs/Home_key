@@ -38,7 +38,7 @@ public class pruebasPropiedadDAO {
         cliente.setIdCliente(3);
         propiedad.setCliente(cliente);
         propiedad.setClaveCatastral("Clave 4");
-        int idGenerado = propiedadDAO.agregarPropiedad(propiedad);
+        int idGenerado = propiedadDAO.agregarPropiedad(propiedad,3);
 
         assertTrue("Se generó un ID válido para la propiedad", idGenerado > 0);
     }

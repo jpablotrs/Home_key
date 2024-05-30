@@ -4,9 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
+import mx.homek.logic.Validadores.CreadorAlertas;
+import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
+import mx.homek.logic.implementaciones.UsuarioDAO;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
 
@@ -16,7 +21,25 @@ import java.sql.SQLException;
 public class AgregarPropiedadControlador {
     @FXML
     public TextField TextFieldClaveCatastral;
+    String nombreUsuario;
+    String tipoUsuario;
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+    CreadorAlertas creadorAlertas = new CreadorAlertas();
     @FXML
     public Label LabelClaveCatastral;
 
@@ -97,16 +120,24 @@ public class AgregarPropiedadControlador {
             cliente.setIdCliente(3);
             propiedad.setCliente(cliente);
             propiedad.setClaveCatastral(TextFieldClaveCatastral.getText());
-
-            int idGenerado = propiedadDAO.agregarPropiedad(propiedad);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            ClienteDAO clienteDAO = new ClienteDAO();
+            int idUsuario = usuarioDAO.obtenerIDUsuarioPorNombre(nombreUsuario);
+            Cliente cliente1 = clienteDAO.consultarClientePorIdUsuario(idUsuario);
+            int idCLiente = clienteDAO.consultarIDClientePorCorreo(cliente1.getCorreo());
+            int idGenerado = propiedadDAO.agregarPropiedad(propiedad,idCLiente);
             if (idGenerado != -1) {
-                System.out.println("Propiedad agregada con éxito con id: " + idGenerado);
+                creadorAlertas.crearAlertaDeInformacion("Registro de propiedad exitoso","Registro exitoso","Exito");
+                Stage stage = (Stage) ButtonCancelar.getScene().getWindow();
+                stage.close();
+                MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
+
             } else {
                 System.out.println("Error al agregar la propiedad.");
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -114,5 +145,6 @@ public class AgregarPropiedadControlador {
     private void onCancelarClick(ActionEvent event) {
         Stage stage = (Stage) ButtonCancelar.getScene().getWindow();
         stage.close();
+        MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
     }
 }

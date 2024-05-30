@@ -67,7 +67,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
 
 
     @Override
-    public int agregarPropiedad(Propiedad propiedad) throws SQLException {
+    public int agregarPropiedad(Propiedad propiedad,int id) throws SQLException {
         String consultaExistenciaSQL = "SELECT COUNT(*) AS total FROM propiedad WHERE claveCatastral = ?";
         PreparedStatement verificarExistencia = conexion.prepareStatement(consultaExistenciaSQL);
         verificarExistencia.setString(1, propiedad.getClaveCatastral());
@@ -80,7 +80,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
             }
         }
 
-        String insercionSQL = "INSERT INTO propiedad (dirección, ciudad, estado, codigoPostal, numHabitaciones, numBaños, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insercionSQL = "INSERT INTO propiedad (direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         ClienteDAO gestorCliente = new ClienteDAO();
 
         PreparedStatement insertarPropiedad = conexion.prepareStatement(insercionSQL, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -98,7 +98,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
         insertarPropiedad.setInt(12, propiedad.getCompra());
         insertarPropiedad.setInt(13, propiedad.getElectricidad());
         insertarPropiedad.setInt(14, propiedad.getAmueblado());
-        insertarPropiedad.setInt(15,3);
+        insertarPropiedad.setInt(15,id);
         insertarPropiedad.setString(16, propiedad.getClaveCatastral());
 
         int filasInsertadas = insertarPropiedad.executeUpdate();
@@ -257,9 +257,8 @@ public class    PropiedadDAO implements IPropiedadDAO {
     @Override
     public List<Propiedad> buscarPorNumeroHabitaciones(int numeroHabitaciones) throws SQLException {
         List<Propiedad> propiedades = new ArrayList<>();
-        String consultaSQL = "SELECT * FROM propiedad WHERE numHabitaciones = ?";
+        String consultaSQL = "SELECT * FROM propiedad ";
         try (PreparedStatement consultarPropiedades = conexion.prepareStatement(consultaSQL)) {
-            consultarPropiedades.setInt(1, numeroHabitaciones);
             try (ResultSet resultadoConsulta = consultarPropiedades.executeQuery()) {
                 while (resultadoConsulta.next()) {
                     Propiedad propiedad = obtenerPropiedadDesdeResultSet(resultadoConsulta);
@@ -337,12 +336,12 @@ public class    PropiedadDAO implements IPropiedadDAO {
     private Propiedad obtenerPropiedadDesdeResultSet(ResultSet resultadoConsulta) throws SQLException {
         Propiedad propiedad = new Propiedad();
         propiedad.setIdPropiedad(resultadoConsulta.getInt("idPropiedad"));
-        propiedad.setDireccion(resultadoConsulta.getString("dirección"));
+        propiedad.setDireccion(resultadoConsulta.getString("direccion"));
         propiedad.setCiudad(resultadoConsulta.getString("ciudad"));
         propiedad.setEstado(resultadoConsulta.getString("estado"));
         propiedad.setCodigoPostal(resultadoConsulta.getString("codigoPostal"));
         propiedad.setNumeroHabitaciones(resultadoConsulta.getInt("numHabitaciones"));
-        propiedad.setNumeroBanos(resultadoConsulta.getInt("numBaños"));
+        propiedad.setNumeroBanos(resultadoConsulta.getInt("numBanos"));
         propiedad.setNumeroPisos(resultadoConsulta.getInt("numPisos"));
         propiedad.setNumeroCocina(resultadoConsulta.getInt("cocina"));
         propiedad.setMetrosCuadrados(resultadoConsulta.getInt("metrosCuadrados"));

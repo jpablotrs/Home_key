@@ -9,7 +9,7 @@ public interface IPropiedadDAO {
     public abstract int consultarIDPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
     public abstract Propiedad obtenerPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
 
-    public abstract int agregarPropiedad(Propiedad propiedad) throws SQLException;
+    public abstract int agregarPropiedad(Propiedad propiedad,int id) throws SQLException;
     public abstract Propiedad consultarPropiedad(String claveCatastral) throws SQLException;
     public abstract int eliminarPropiedad(Propiedad propiedad) throws SQLException;
     public abstract int modificarPropiedad(Propiedad propiedad) throws SQLException;

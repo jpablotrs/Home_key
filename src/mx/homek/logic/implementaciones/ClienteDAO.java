@@ -1,5 +1,7 @@
 package mx.homek.logic.implementaciones;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IClienteDAO;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
@@ -100,6 +102,7 @@ public class ClienteDAO implements IClienteDAO {
             UsuarioDAO gestorUsuario = new UsuarioDAO();
             Usuario usuario = gestorUsuario.consultarUsuarioPorId(idUsuarioConsultado);
 
+            clienteConsultado.setIdCliente(resultado.getInt("idCliente"));
             clienteConsultado.setNombre(nombre);
             clienteConsultado.setApellidoPaterno(apellidoPaterno);
             clienteConsultado.setApellidoMaterno(apellidoMaterno);
@@ -113,5 +116,96 @@ public class ClienteDAO implements IClienteDAO {
 
         return clienteConsultado;
     }
+
+    @Override
+    public Cliente consultarClientePorIdCliente(int idCliente) throws SQLException {
+        String consultaSQL = "select * from cliente where idCliente = ?";
+
+        PreparedStatement consultarId = conexion.prepareStatement(consultaSQL);
+        consultarId.setInt(1, idCliente);
+
+        ResultSet resultado = consultarId.executeQuery();
+
+        Cliente clienteConsultado = new Cliente();
+        if(resultado.next()) {
+            String nombre = resultado.getString("nombre");
+            String apellidoPaterno = resultado.getString("apellidoPaterno");
+            String apellidoMaterno = resultado.getString("apellidoMaterno");
+            String estadoCivil = resultado.getString("estadoCivil");
+            Date fechaNacimiento = resultado.getDate("fechaNacimiento");
+            String sexo = resultado.getString("sexo");
+            String correo = resultado.getString("correo");
+            String telefono = resultado.getString("telefono");
+            int idUsuarioConsultado = resultado.getInt("Usuario_idUsuario");
+            UsuarioDAO gestorUsuario = new UsuarioDAO();
+            Usuario usuario = gestorUsuario.consultarUsuarioPorId(idUsuarioConsultado);
+
+            clienteConsultado.setIdCliente(resultado.getInt("idCliente"));
+            clienteConsultado.setNombre(nombre);
+            clienteConsultado.setApellidoPaterno(apellidoPaterno);
+            clienteConsultado.setApellidoMaterno(apellidoMaterno);
+            clienteConsultado.setEstadoCivil(estadoCivil);
+            clienteConsultado.setFechaNacimiento(fechaNacimiento);
+            clienteConsultado.setSexo(sexo);
+            clienteConsultado.setCorreo(correo);
+            clienteConsultado.setTelefono(telefono);
+            clienteConsultado.setUsuario(usuario);
+        }
+
+        return clienteConsultado;
+    }
+
+    public  Cliente consultarClientePorNombre(String nombreUsuario) throws SQLException {
+        String consultaSQL = "select * from cliente where Usuario_idUsuario = ?";
+
+        PreparedStatement consultarId = conexion.prepareStatement(consultaSQL);
+        consultarId.setString(1, nombreUsuario);
+
+        ResultSet resultado = consultarId.executeQuery();
+
+        Cliente clienteConsultado = new Cliente();
+        if(resultado.next()) {
+            String nombre = resultado.getString("nombre");
+            String apellidoPaterno = resultado.getString("apellidoPaterno");
+            String apellidoMaterno = resultado.getString("apellidoMaterno");
+            String estadoCivil = resultado.getString("estadoCivil");
+            Date fechaNacimiento = resultado.getDate("fechaNacimiento");
+            String sexo = resultado.getString("sexo");
+            String correo = resultado.getString("correo");
+            String telefono = resultado.getString("telefono");
+            int idUsuarioConsultado = resultado.getInt("Usuario_idUsuario");
+            UsuarioDAO gestorUsuario = new UsuarioDAO();
+            Usuario usuario = gestorUsuario.consultarUsuarioPorId(idUsuarioConsultado);
+
+            clienteConsultado.setNombre(nombre);
+            clienteConsultado.setApellidoPaterno(apellidoPaterno);
+            clienteConsultado.setApellidoMaterno(apellidoMaterno);
+            clienteConsultado.setEstadoCivil(estadoCivil);
+            clienteConsultado.setFechaNacimiento(fechaNacimiento);
+            clienteConsultado.setSexo(sexo);
+            clienteConsultado.setCorreo(correo);
+            clienteConsultado.setTelefono(telefono);
+            clienteConsultado.setUsuario(usuario);
+        }
+
+        return clienteConsultado;
+    }
+    @Override
+    public ObservableList<String> consultarClientes () throws SQLException{
+        String consultaSQL = "SELECT nombre,apellidoMaterno,apellidoPaterno FROM cliente";
+        PreparedStatement consultarClientes = conexion.prepareStatement(consultaSQL);
+        ResultSet resultado = consultarClientes.executeQuery();
+        ObservableList<String> clientes = FXCollections.observableArrayList();
+
+        if(resultado.next()) {
+            String nombre = resultado.getString("nombre");
+            String apellidoMaterno = resultado.getString("apellidoMaterno");
+            String apellidoPaterno = resultado.getString("apellidoPaterno");
+            String nombreCompleto = nombre + " " + apellidoMaterno + " " + apellidoPaterno;
+            clientes.add(nombreCompleto);
+        }
+        return clientes;
+    }
+
 
 }

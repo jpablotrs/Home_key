@@ -11,6 +11,7 @@ public interface IUsuarioDAO {
 
     Usuario consultarUsuarioPorId(int idUsuario) throws SQLException;
 
+
     boolean verificarUsuarioExistente(String nombreUsuario, String contraseñaUsuario) throws SQLException;
 
     String consultarTipoUsuarioPorNombre(String nombreUsuario) throws SQLException;

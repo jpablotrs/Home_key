@@ -13,4 +13,6 @@ public interface IClienteDAO {
 
     public abstract int modificarCliente(Cliente cliente) throws SQLException;
     public abstract Cliente consultarClientePorIdUsuario(int idUsuario) throws SQLException;
+    public abstract Cliente consultarClientePorNombre(String nombreUsuario) throws SQLException;
+    public abstract  Cliente consultarClientePorIdCliente(int idCliente) throws SQLException;
 }

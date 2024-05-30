@@ -18,7 +18,6 @@ public class ComprarPropiedadAplicacion extends Stage {
         controladorComprarPropiedad.setNombreUsuario(nombreUsuario);
         controladorComprarPropiedad.setPropiedad(propiedad);
         controladorComprarPropiedad.cargarDatosPropiedad();
-        escenaComprarPropiedad.getStylesheets().add(ComprarPropiedadAplicacion.class.getResource("css/textoblanco.css").toExternalForm());
         this.setTitle("Comprar propiedad");
         this.setScene(escenaComprarPropiedad);
         this.show();

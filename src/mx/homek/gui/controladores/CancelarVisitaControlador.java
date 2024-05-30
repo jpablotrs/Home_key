@@ -1,13 +1,12 @@
 package mx.homek.gui.controladores;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import mx.homek.gui.aplicaciones.LoginApplication;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
@@ -18,18 +17,18 @@ import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.Usuario;
 import mx.homek.logic.objetoDeTransferencia.Visita;
-import org.w3c.dom.Text;
 
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AgregarVisitaControlador implements Initializable {
+public class CancelarVisitaControlador implements Initializable {
     private String nombreUsuario;
     private String tipoUsuario;
 
@@ -51,6 +50,8 @@ public class AgregarVisitaControlador implements Initializable {
         this.tipoUsuario = tipoUsuario;
     }
 
+    @FXML
+    private ComboBox ComboBoxVisita;
     @FXML
     private ComboBox ComboBoxPropiedad;
     @FXML
@@ -75,6 +76,21 @@ public class AgregarVisitaControlador implements Initializable {
             PropiedadDAO propiedadDAO = new PropiedadDAO();
             ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs();
             ComboBoxPropiedad.setItems(listaPropiedades);
+            ComboBoxPropiedad.setDisable(true);
+
+
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            ClienteDAO clienteDAO = new ClienteDAO();
+            Usuario usuario = usuarioDAO.consultarUsuarioPorNombre(nombreUsuario);
+            Cliente cliente = clienteDAO.consultarClientePorIdUsuario(usuario.getId());
+            VisitaDAO visitaDAO = new VisitaDAO();
+            ObservableList<Visita> listaVisitas = FXCollections.observableArrayList(visitaDAO.consultarVisitas(cliente.getIdCliente()));
+            ComboBoxVisita.setItems(listaVisitas);
+
+            DatePickerFecha.setDisable(true);
+            TextFieldHoraEntrada.setDisable(true);
+            TextFieldHoraSalida.setDisable(true);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -95,6 +111,22 @@ public class AgregarVisitaControlador implements Initializable {
         validadorDeReglas = new ValidadorDeReglas();
         validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 15);
         validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 15);
+    }
+
+    Visita visita = null;
+
+    public void visitaOnAction() {
+        visita = (Visita) ComboBoxVisita.getValue();
+        ObservableList<Propiedad> listaPropiedades = ComboBoxPropiedad.getItems();
+        Propiedad propiedad = listaPropiedades.filtered(p -> p.getIdPropiedad() == visita.getPropiedad().getIdPropiedad()).get(0);
+        ComboBoxPropiedad.setValue(propiedad);
+        TextFieldHoraEntrada.setText(visita.getHoraEntrada());
+        TextFieldHoraSalida.setText(visita.getHoraSalida());
+
+        java.util.Date fecha = new java.util.Date(visita.getFecha().getTime());
+        DatePickerFecha.setValue(fecha.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
     }
 
     public void onAgregarClick() {
@@ -175,14 +207,13 @@ public class AgregarVisitaControlador implements Initializable {
                 Usuario usuario = usuarioDAO.consultarUsuarioPorNombre(nombreUsuario);
                 Cliente cliente =clienteDAO.consultarClientePorIdUsuario(usuario.getId());
 
-                Visita visita = new Visita();
                 visita.setCliente(cliente);
                 visita.setFecha(Date.valueOf(fecha));
                 visita.setPropiedad(propiedad);
                 visita.setHoraEntrada(horaEntrada);
                 visita.setHoraSalida(horaSalida);
                 visita.setEstado(1);
-                visitaDAO.insertarVisita(visita);
+                visitaDAO.cancelarVisita(visita);
 
                 Alert alertaGuardadoCorrecto = new Alert(Alert.AlertType.INFORMATION);
                 alertaGuardadoCorrecto.setTitle("Éxito");

@@ -6,10 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import mx.homek.gui.aplicaciones.AgregarPropiedadAplicacion;
-import mx.homek.gui.aplicaciones.ConsultarPropiedadAplicacion;
-import mx.homek.gui.aplicaciones.LoginApplication;
-import mx.homek.gui.aplicaciones.ModificarCuentaApplication;
+import mx.homek.gui.aplicaciones.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,8 +45,29 @@ public class MenuPrincipalController implements Initializable {
         ModificarCuentaApplication modificarCuentaApplication = new ModificarCuentaApplication(nombreUsuario,tipoUsuario);
     }
     public void onMisVisitasClick(){
+        Scene escena = LabelEtiqueta.getScene();
+        Stage stagePrincipal = (Stage) escena.getWindow();
+        stagePrincipal.close();
 
+        RegistrarVisitaAplicacion registrarVisitaAplicacion = new RegistrarVisitaAplicacion(nombreUsuario,tipoUsuario);
     }
+
+    public void onReagedarVisitaClick() {
+        Scene escena = LabelEtiqueta.getScene();
+        Stage stagePrincipal = (Stage) escena.getWindow();
+        stagePrincipal.close();
+
+        ReagendarVisitaAplicacion reagendarVisitaAplicacion = new ReagendarVisitaAplicacion(nombreUsuario,tipoUsuario);
+    }
+
+    public void onCancelarVisitaClick() {
+        Scene escena = LabelEtiqueta.getScene();
+        Stage stagePrincipal = (Stage) escena.getWindow();
+        stagePrincipal.close();
+
+        CancelarVisitaAplicacion cancelarVisitaAplicacion = new CancelarVisitaAplicacion(nombreUsuario,tipoUsuario);
+    }
+
     public void onConsultarPropiedadesClick(){
         Scene escena = LabelEtiqueta.getScene();
         Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();

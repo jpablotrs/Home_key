@@ -1,8 +1,9 @@
 package mx.homek.gui.aplicaciones;
-/*
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mx.homek.gui.HomekeyAplicacion;
 import mx.homek.gui.controladores.AgregarVisitaControlador;
 
 import java.io.IOException;
@@ -15,10 +16,9 @@ public class AgregarVisitaAplicacion extends Stage {
         AgregarVisitaControlador agregarVisitaControlador = fxmlLoader.<AgregarVisitaControlador> getController();
         agregarVisitaControlador.setNombreUsuario(nombreUsuario);
         agregarVisitaControlador.setTipoUsuario(tipoUsuario);
-        SceneAgregarVisita.getStylesheets().add(HomekeyAplicacion.class.getResource("css/textoblanco.css").toExternalForm());
         this.setTitle("Agregar Visita");
         this.setScene(SceneAgregarVisita);
         this.show();
     }
 
-}*/
+}

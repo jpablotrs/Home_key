@@ -5,6 +5,8 @@ import mx.homek.logic.interfaces.IVisitaDAO;
 import mx.homek.logic.objetoDeTransferencia.Visita;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VisitaDAO implements IVisitaDAO {
     private ConexionBaseDeDatos administradorBaseDeDatos;
@@ -20,38 +22,41 @@ public class VisitaDAO implements IVisitaDAO {
         java.sql.Date fecha = (java.sql.Date) visita.getFecha();
         PropiedadDAO propiedadDAO = new PropiedadDAO();
         ClienteDAO clienteDAO = new ClienteDAO();
-        String consultaSQL = "insert into Visita (idVisitante, fecha, horaEntrada, horaSalida, estado, claveCatastral, Propiedad_idPropiedad) values (?,?,?,?,?,?,?)";
+        String consultaSQL = "insert into Visita (idVisitante, fecha, horaEntrada, horaSalida, estado, Propiedad_idPropiedad) values (?,?,?,?,?,?)";
         PreparedStatement insertarVisita = conexion.prepareStatement(consultaSQL);
-        insertarVisita.setInt(1, clienteDAO.consultarIDClientePorCorreo(visita.getCliente().getCorreo()));
+        insertarVisita.setInt(1, visita.getCliente().getIdCliente());
         insertarVisita.setDate(2, fecha);
         insertarVisita.setString(3, visita.getHoraEntrada());
         insertarVisita.setString(4, visita.getHoraSalida());
-        insertarVisita.setString(5, visita.getEstado());
-        insertarVisita.setString(6, visita.getPropiedad().getClaveCatastral());
-        insertarVisita.setInt(7, propiedadDAO.consultarIDPropiedadPorClaveCatastral(visita.getPropiedad().getClaveCatastral()));
+        insertarVisita.setInt(5, visita.getEstado());
+        insertarVisita.setInt(6, visita.getPropiedad().getIdPropiedad());
 
         return insertarVisita.executeUpdate();
     }
-/*
+
     @Override
-    public Visita consultarIDVisitaPorDatosSinObjeto(String claveCatastral, String correo, Date fecha, String horaEntrada) throws SQLException {
-        java.sql.Date fecha1 = (java.sql.Date) fecha;
+    public List<Visita> consultarVisitas(int idVisitante) throws SQLException {
         ClienteDAO clienteDAO = new ClienteDAO();
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        String consultaSQL = "select * from visita where idPropiedad = ? and idCliente = ? and fecha = ? and horaEntrada = ?";
+        String consultaSQL = "select * from visita where idVisitante = ? and estado = 1";
         PreparedStatement consultarId = conexion.prepareStatement(consultaSQL);
-        consultarId.setInt(1, propiedadDAO.consultarIDPropiedadPorClaveCatastral(claveCatastral));
-        consultarId.setInt(2, clienteDAO.consultarIDClientePorCorreo(correo));
-        consultarId.setDate(3, fecha);
-        consultarId.setString(4, horaEntrada);
+        consultarId.setInt(1, idVisitante);
+
         ResultSet resultadoConsulta = consultarId.executeQuery();
+        List<Visita> listaVisitas = new ArrayList<>();
         if(resultadoConsulta.next()){
             Visita visita = new Visita();
-            visita.setPropiedad(resultadoConsulta.getInt("Propiedad_idPropiedad"));
+            visita.setIdVisita(resultadoConsulta.getInt("idVisita"));
+            visita.setEstado(resultadoConsulta.getInt("estado"));
+            visita.setPropiedad(propiedadDAO.consultarPropiedad(resultadoConsulta.getInt("Propiedad_idPropiedad")));
+            visita.setHoraSalida(resultadoConsulta.getString("horaSalida"));
+            visita.setHoraEntrada(resultadoConsulta.getString("horaEntrada"));
+            visita.setFecha(resultadoConsulta.getDate("fecha"));
+            visita.setCliente(clienteDAO.consultarClientePorIdUsuario(resultadoConsulta.getInt("Propiedad_idPropiedad")));
+            listaVisitas.add(visita);
         }
-            return resultadoConsulta.getInt("idVisita");
-        return -1;
-    }*/
+        return listaVisitas;
+    }
 
     @Override
     public int consultarIDVisitaPorDatos(Visita visita) throws SQLException {
@@ -72,20 +77,20 @@ public class VisitaDAO implements IVisitaDAO {
 
     @Override
     public int cancelarVisita(Visita visita) throws SQLException {
-        String consultaSQL = "UPDATE visita SET estado = 'Cancelado' WHERE idVisita = ?";
+        String consultaSQL = "UPDATE visita SET estado = 2 WHERE idVisita = ?";
         PreparedStatement cancelarVisita = conexion.prepareStatement(consultaSQL);
-        cancelarVisita.setInt(1, consultarIDVisitaPorDatos(visita));
+        cancelarVisita.setInt(1, visita.getIdVisita());
         return cancelarVisita.executeUpdate();
     }
 
     @Override
-    public int reagendarVisita(Visita visita, Date fecha, String horaEntrada, String horaSalida) throws SQLException {
+    public int reagendarVisita(Visita visita) throws SQLException {
         String consultaSQL = "UPDATE visita SET fecha = ?, horaEntrada = ?, horaSalida = ? WHERE idVisita = ?";
         PreparedStatement reagendarVisita = conexion.prepareStatement(consultaSQL);
-        reagendarVisita.setDate(1, fecha);
-        reagendarVisita.setString(2, horaEntrada);
-        reagendarVisita.setString(3, horaSalida);
-        reagendarVisita.setInt(4, consultarIDVisitaPorDatos(visita));
+        reagendarVisita.setDate(1, (java.sql.Date) visita.getFecha());
+        reagendarVisita.setString(2, visita.getHoraEntrada());
+        reagendarVisita.setString(3, visita.getHoraSalida());
+        reagendarVisita.setInt(4, visita.getIdVisita());
         return reagendarVisita.executeUpdate();
     }
 }

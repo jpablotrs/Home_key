@@ -2,7 +2,12 @@ package mx.homek.gui.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.ConsultarPropiedadAplicacion;
+import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
+import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.CompraPropiedadDAO;
@@ -11,6 +16,8 @@ import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.CompraPropiedad;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
+import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -99,6 +106,7 @@ public class ComprarPropiedadControlador implements Initializable {
             int idUsuario = gestorUsuario.obtenerIDUsuarioPorNombre(nombreUsuario);
             ClienteDAO gestorCliente = new ClienteDAO();
             comprador = gestorCliente.consultarClientePorIdUsuario(idUsuario);
+
         }
         catch (SQLException sqlException) {
 
@@ -114,6 +122,12 @@ public class ComprarPropiedadControlador implements Initializable {
         try {
             CompraPropiedadDAO gestorCompra = new CompraPropiedadDAO();
             gestorCompra.insertarCompraPropiedad(compraPropiedad);
+            CreadorAlertas creadorAlertas = new CreadorAlertas();
+            creadorAlertas.crearAlertaDeInformacion("Ha comprado la propiedad exitosamente","Compra exitosa","La propiedad es suya");
+            Scene escena = LabelCocinas.getScene();
+            Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+            stageAgregarProfesorExterno.close();
+            MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
         }
         catch (SQLException sqlException) {
 
@@ -121,5 +135,14 @@ public class ComprarPropiedadControlador implements Initializable {
     }
 
     public void onCancelarClick() {
+        Scene escena = LabelCocinas.getScene();
+        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+        stageAgregarProfesorExterno.close();
+        try {
+            ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario, tipoUsuario);
+        }
+        catch (IOException ioException){
+
+        }
     }
 }

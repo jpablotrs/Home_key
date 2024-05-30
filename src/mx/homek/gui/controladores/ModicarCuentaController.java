@@ -110,6 +110,7 @@ public class ModicarCuentaController implements Initializable {
         TextFieldNombreUsuario.setDisable(true);
         TextFieldNombre.setText(cliente.getNombre());
         TextFieldCorreo.setText(cliente.getCorreo());
+        TextFieldCorreo.setDisable(true);
         textFieldEstadoCivil.setText(cliente.getEstadoCivil());
         PasswordFieldContraseña.setText(cliente.getUsuario().getContrasena());
         TextFieldTelefono.setText(cliente.getTelefono());

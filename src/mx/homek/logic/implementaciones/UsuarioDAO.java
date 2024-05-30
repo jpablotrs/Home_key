@@ -41,7 +41,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public Usuario consultarUsuarioPorNombre(String nombreUsuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "Select nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ?";
+        String consultaSql = "Select idUsuario, nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ?";
 
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
         sentencia.setString(1, nombreUsuario);
@@ -53,7 +53,9 @@ public class UsuarioDAO implements IUsuarioDAO {
             String nombreDeUsuario = resultadoConsulta.getString("nombreUsuario");
             String contraseña = resultadoConsulta.getString("contraseña");
             String tipoUsuario = resultadoConsulta.getString("tipoUsuario");
+            int id = resultadoConsulta.getInt("idUsuario");
 
+            usuarioConsultado.setId(id);
             usuarioConsultado.setNombreUsuario(nombreDeUsuario);
             usuarioConsultado.setContrasena(contraseña);
             usuarioConsultado.setTipoUsuario(tipoUsuario);

@@ -23,7 +23,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Visitas">
             <items>
-                  <MenuItem fx:id="MenuItemEvaluarOfertasDeColaboración" mnemonicParsing="false" onAction="#onMisVisitasClick" text="Mis Visitas" />
+                  <MenuItem fx:id="MenuItemAgendarVisita" mnemonicParsing="false" onAction="#onMisVisitasClick" text="Registrar Visitas" />
+                <MenuItem fx:id="MenuItemReagendarVisita" mnemonicParsing="false" onAction="#onReagedarVisitaClick" text="Reagendar Visita" />
+                <MenuItem fx:id="MenuItemCancelarVisita" mnemonicParsing="false" onAction="#onCancelarVisitaClick" text="Cancelar Visita" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Cuenta">

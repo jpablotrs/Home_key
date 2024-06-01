@@ -4,13 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.ConsultarPropiedadAplicacion;
 
 import java.io.IOException;
 
 public class HomekeyAplicacion extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/ComprarPropiedad.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Ventana principal");
         stage.setScene(scene);

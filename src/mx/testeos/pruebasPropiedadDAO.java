@@ -37,8 +37,8 @@ public class pruebasPropiedadDAO {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(3);
         propiedad.setCliente(cliente);
-        propiedad.setClaveCatastral("ABC123");
-        int idGenerado = propiedadDAO.agregarPropiedad(propiedad);
+        propiedad.setClaveCatastral("Clave 4");
+        int idGenerado = propiedadDAO.agregarPropiedad(propiedad,3);
 
         assertTrue("Se generó un ID válido para la propiedad", idGenerado > 0);
     }
@@ -46,7 +46,7 @@ public class pruebasPropiedadDAO {
     @Test
     public void testConsultarIDPropiedadPorClaveCatastral() throws SQLException {
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        String claveCatastralExistente = "ABC123";
+        String claveCatastralExistente = "Clave 1";
         int idExistente = propiedadDAO.consultarIDPropiedadPorClaveCatastral(claveCatastralExistente);
         assertEquals(true, idExistente > 0);
     }
@@ -54,7 +54,7 @@ public class pruebasPropiedadDAO {
     @Test
     public void testConsultarPropiedadExistente() throws SQLException {
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        String claveCatastralExistente = "ABC123";
+        String claveCatastralExistente = "Clave 1";
         Propiedad propiedad = propiedadDAO.consultarPropiedad(claveCatastralExistente);
         assertNotNull("La propiedad consultada existe", propiedad);
 
@@ -62,24 +62,24 @@ public class pruebasPropiedadDAO {
         int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
 
         Propiedad propiedadAuxiliar = new Propiedad();
-        propiedadAuxiliar.setIdPropiedad(2);
-        propiedadAuxiliar.setDireccion("123 Calle Falsa");
+        propiedadAuxiliar.setIdPropiedad(1);
+        propiedadAuxiliar.setDireccion("Calle principal");
         propiedadAuxiliar.setCiudad("Xalapa");
         propiedadAuxiliar.setEstado("Veracruz");
-        propiedadAuxiliar.setCodigoPostal("91000");
-        propiedadAuxiliar.setNumeroHabitaciones(3);
-        propiedadAuxiliar.setNumeroBanos(2);
+        propiedadAuxiliar.setCodigoPostal("91020");
+        propiedadAuxiliar.setNumeroHabitaciones(1);
+        propiedadAuxiliar.setNumeroBanos(1);
         propiedadAuxiliar.setNumeroPisos(1);
         propiedadAuxiliar.setNumeroCocina(1);
-        propiedadAuxiliar.setMetrosCuadrados(150);
-        propiedadAuxiliar.setNumeroPersonas(4);
+        propiedadAuxiliar.setMetrosCuadrados(1);
+        propiedadAuxiliar.setNumeroPersonas(1);
         propiedadAuxiliar.setAlquiler(1);
-        propiedadAuxiliar.setCompra(0);
+        propiedadAuxiliar.setCompra(1);
         propiedadAuxiliar.setElectricidad(1);
         propiedadAuxiliar.setAmueblado(1);
         propiedadAuxiliar.setFoto(null);
         propiedadAuxiliar.setCliente(gestorCliente.consultarClientePorIdUsuario(idCliente));
-        propiedadAuxiliar.setClaveCatastral("ABC123");
+        propiedadAuxiliar.setClaveCatastral("Clave 1");
 
         assertEquals("ID de propiedad", propiedadAuxiliar.getIdPropiedad(), propiedad.getIdPropiedad());
         assertEquals("Dirección", propiedadAuxiliar.getDireccion(), propiedad.getDireccion());
@@ -147,7 +147,7 @@ public class pruebasPropiedadDAO {
     @Test
     public void testEliminarPropiedadExistente() throws SQLException {
         PropiedadDAO propiedadDAO = new PropiedadDAO();
-        int idPropiedadExistente = 3;
+        int idPropiedadExistente = 1;
         Propiedad propiedadAEliminar = new Propiedad();
         propiedadAEliminar.setIdPropiedad(idPropiedadExistente);
         int resultado = propiedadDAO.eliminarPropiedad(propiedadAEliminar);
@@ -176,7 +176,7 @@ public class pruebasPropiedadDAO {
         Cliente cliente = new Cliente();
         cliente.setIdCliente(3);
         propiedadExistente.setCliente(cliente);
-        propiedadExistente.setClaveCatastral("ABC123 Actualizado");
+        propiedadExistente.setClaveCatastral("Clave 1");
         int resultado = propiedadDAO.modificarPropiedad(propiedadExistente);
         assertEquals("Se modificó la propiedad correctamente", 1, resultado);
     }
@@ -245,5 +245,29 @@ public class pruebasPropiedadDAO {
         List<Propiedad> propiedades = propiedadDAO.buscarPorPrecioCompra(precioCompra);
         assertNotNull(propiedades);
         assertTrue(propiedades.size() > 0);
+    }
+
+    @Test
+    public void obtenerPropiedadPorClaveCatastral() throws SQLException {
+        PropiedadDAO propiedadDAO = new PropiedadDAO();
+        String claveCatastral = "Clave 1";
+        Propiedad propiedad = propiedadDAO.obtenerPropiedadPorClaveCatastral(claveCatastral);
+        assertNotNull(propiedad);
+        assertNotNull(propiedad.getIdPropiedad());
+        assertNotNull(propiedad.getDireccion());
+        assertNotNull(propiedad.getCiudad());
+        assertNotNull(propiedad.getEstado());
+        assertNotNull(propiedad.getCodigoPostal());
+        assertNotNull(propiedad.getNumeroHabitaciones());
+        assertNotNull(propiedad.getNumeroBanos());
+        assertNotNull(propiedad.getNumeroPisos());
+        assertNotNull(propiedad.getNumeroCocina());
+        assertNotNull(propiedad.getMetrosCuadrados());
+        assertNotNull(propiedad.getNumeroPersonas());
+        assertNotNull(propiedad.getAlquiler());
+        assertNotNull(propiedad.getCompra());
+        assertNotNull(propiedad.getElectricidad());
+        assertNotNull(propiedad.getAmueblado());
+        assertNotNull(propiedad.getFoto());
     }
 }

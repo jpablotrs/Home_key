@@ -1,6 +1,5 @@
 package mx.homek.logic.objetoDeTransferencia;
 
-
 import java.sql.Blob;
 
 public class Propiedad {
@@ -213,25 +212,6 @@ public class Propiedad {
 
     @Override
     public String toString() {
-        return "Propiedad{" +
-                "idPropiedad=" + idPropiedad +
-                ", direccion='" + direccion + '\'' +
-                ", ciudad='" + ciudad + '\'' +
-                ", estado='" + estado + '\'' +
-                ", codigoPostal='" + codigoPostal + '\'' +
-                ", numeroHabitaciones=" + numeroHabitaciones +
-                ", numeroBanos=" + numeroBanos +
-                ", numeroPisos=" + numeroPisos +
-                ", numeroCocina=" + numeroCocina +
-                ", metrosCuadrados=" + metrosCuadrados +
-                ", numeroPersonas=" + numeroPersonas +
-                ", alquiler=" + alquiler +
-                ", compra=" + compra +
-                ", electricidad=" + electricidad +
-                ", amueblado=" + amueblado +
-                ", foto=" + foto +
-                ", cliente=" + idCliente +
-                ", claveCatastral='" + claveCatastral + '\'' +
-                '}';
+        return  direccion +", "+ ciudad + ", "+ estado;
     }
 }

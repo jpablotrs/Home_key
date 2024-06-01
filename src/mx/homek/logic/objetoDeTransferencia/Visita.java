@@ -3,24 +3,41 @@ package mx.homek.logic.objetoDeTransferencia;
 import java.util.Date;
 
 public class Visita {
+    private int idVisita;
     private Date fecha;
     private String horaEntrada;
     private String horaSalida;
     private Propiedad propiedad;
-    private String estado;
     private Cliente cliente;
-    private String claveCatastral;
+    private int estado;
+    private String estadoDescripcion;
 
     public Visita() {
 
     }
 
-    public String getClaveCatastral() {
-        return claveCatastral;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setClaveCatastral(String claveCatastral) {
-        this.claveCatastral = claveCatastral;
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public String getEstadoDescripcion() {
+        if (estado == 1)
+            return "Vigente";
+        else
+            return "Cancelada";
+    }
+
+
+    public int getIdVisita() {
+        return idVisita;
+    }
+
+    public void setIdVisita(int idVisita) {
+        this.idVisita = idVisita;
     }
 
     public Date getFecha() {
@@ -55,14 +72,6 @@ public class Visita {
         this.propiedad = propiedad;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public Cliente getCliente() {
         return cliente;
     }
@@ -80,7 +89,16 @@ public class Visita {
         Visita visita = (Visita) obj;
         return (this == visita) || (visita.getFecha().equals(this.fecha) &&
                 visita.getHoraEntrada().equals(this.horaEntrada) && visita.getHoraSalida().equals(this.horaSalida) &&
-                visita.getPropiedad().equals(this.propiedad) && visita.getEstado().equals(this.estado) &&
+                visita.getPropiedad().equals(this.propiedad)  &&
                 visita.getCliente().equals(this.cliente));
+    }
+
+    @Override
+    public String toString() {
+        var sFecha = String.format("%02d/%02d/%02d", fecha.getDate(), fecha.getMonth()+1, fecha.getYear()+1900);
+        return String.format("%s - %s, %s, %s", sFecha,
+                this.propiedad.getDireccion(),
+                this.propiedad.getCiudad(),
+                this.propiedad.getEstado());
     }
 }

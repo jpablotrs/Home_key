@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPaneMenuPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.homek.gui.controladores.MenuPrincipalController">
+   <top>
+      <MenuBar prefHeight="40.0" style="-fx-background-color: #176E09;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Propiedades">
+            <items>
+              <MenuItem fx:id="MenuItemConsultarColaboraciones" mnemonicParsing="false" onAction="#onAgregarPropiedadClick" text="Agregar Propiedad" />
+                  <MenuItem fx:id="MenuItemConsultarNumeralia" mnemonicParsing="false" onAction="#onConsultarPropiedadesClick" text="Consultar Propiedades" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Visitas">
+            <items>
+                  <MenuItem fx:id="MenuItemAgendarVisita" mnemonicParsing="false" onAction="#onMisVisitasClick" text="Registrar Visitas" />
+                <MenuItem fx:id="MenuItemReagendarVisita" mnemonicParsing="false" onAction="#onReagedarVisitaClick" text="Reagendar Visita" />
+                <MenuItem fx:id="MenuItemCancelarVisita" mnemonicParsing="false" onAction="#onCancelarVisitaClick" text="Cancelar Visita" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Cuenta">
+            <items>
+                  <MenuItem fx:id="MenuItemConsultarConstacnias" mnemonicParsing="false" onAction="#onMicuentaClick" text="Mi Cuenta" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#onCerrarSesionClick" style="-fx-background-color: #30373e;" text="Cerrar sesión" />
+              </items>
+            </Menu>
+        </menus>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </MenuBar>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="LabelEtiqueta" alignment="CENTER" text="Bienvenido al sistema HomeKey">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="100.0" top="40.0" />
+               </VBox.margin>
+            </Label>
+            <ImageView fitHeight="151.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets left="135.0" top="20.0" />
+               </VBox.margin>
+               <image>
+                  <Image url="@../Imagenes/45c49466-a8f2-4b24-8621-00fddfc1d2ce.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

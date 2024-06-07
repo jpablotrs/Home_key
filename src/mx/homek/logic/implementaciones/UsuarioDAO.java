@@ -91,19 +91,24 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public boolean verificarUsuarioExistente(String nombreUsuario, String contraseñaUsuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "Select nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ? and contraseña = ?";
-        PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
-        sentencia.setString(1, nombreUsuario);
-        sentencia.setString(2, validadorDeReglas.hashearContraseña(contraseñaUsuario));
-        ResultSet resultadoConsulta = sentencia.executeQuery();
+        if(conexion != null){
+            String consultaSql = "Select nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ? and contraseña = ?";
+            PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
+            sentencia.setString(1, nombreUsuario);
+            sentencia.setString(2, validadorDeReglas.hashearContraseña(contraseñaUsuario));
+            ResultSet resultadoConsulta = sentencia.executeQuery();
 
-        boolean existeUsuario = false;
-        if(resultadoConsulta.next()) {
-            existeUsuario = true;
+            boolean existeUsuario = false;
+            if (resultadoConsulta.next()) {
+                existeUsuario = true;
+            }
+
+            conexion.close();
+            return existeUsuario;
         }
-
-        conexion.close();
-        return existeUsuario;
+        else {
+            return false;
+        }
     }
 
     @Override

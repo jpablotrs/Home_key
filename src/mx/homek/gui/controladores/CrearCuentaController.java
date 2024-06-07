@@ -72,6 +72,11 @@ public class CrearCuentaController implements Initializable {
         validadorDeReglas.agregarLimiteATextField(TextFieldSegundoApellido,30);
         validadorDeReglas.agregarLimiteATextField(textFieldEstadoCivil,12);
         validadorDeReglas.agregarLimiteAPasswordField(PasswordFieldContraseña,30);
+        validadorDeReglas.limitarCampoTexto(TextFieldNombre);
+        validadorDeReglas.limitarCampoTexto(TextFieldPrimerApellido);
+        validadorDeReglas.limitarCampoTexto(TextFieldSegundoApellido);
+        validadorDeReglas.limitarCampoNumerico(TextFieldTelefono);
+        validadorDeReglas.limitarCampoTexto(textFieldEstadoCivil);
         ObservableList<String> listaUniversidadesDisponibles = FXCollections.observableArrayList();
         listaUniversidadesDisponibles.add("Masculino");
         listaUniversidadesDisponibles.add("Femenino");

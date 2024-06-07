@@ -93,8 +93,8 @@ public class AgregarVisitaControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         validadorDeReglas = new ValidadorDeReglas();
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 15);
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 15);
+        validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 8);
+        validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 8);
     }
 
     public void onAgregarClick() {

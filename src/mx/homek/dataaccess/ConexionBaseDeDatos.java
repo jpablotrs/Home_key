@@ -1,5 +1,7 @@
 package mx.homek.dataaccess;
 
+import mx.homek.logic.Validadores.CreadorAlertas;
+
 import java.sql.*;
 
 public class ConexionBaseDeDatos {
@@ -19,8 +21,12 @@ public class ConexionBaseDeDatos {
             conexion=DriverManager.getConnection(NOMBRE_BD,USUARIO_BD,CONTRASENABD);
         }
         catch (ClassNotFoundException errorClase) {
+            CreadorAlertas creadorAlertas = new CreadorAlertas();
+            creadorAlertas.crearAlertaDeError("No hay conexión con la base de datos","Error de conexión","Error");
         }
         catch (SQLException errorSql) {
+            CreadorAlertas creadorAlertas = new CreadorAlertas();
+            creadorAlertas.crearAlertaDeError("No hay conexión con la base de datos","Error de conexión","Error");
         }
     }
 

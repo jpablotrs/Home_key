@@ -5,6 +5,7 @@ module mx.homek {
     requires junit;
     requires mysql.connector.j;
     requires java.sql.rowset;
+    requires java.desktop;
 
     opens mx.homek.gui.controladores to javafx.fxml;
     opens mx.homek.gui.aplicaciones to javafx.fxml;

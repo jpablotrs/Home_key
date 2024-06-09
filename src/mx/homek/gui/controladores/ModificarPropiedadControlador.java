@@ -4,6 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,6 +21,13 @@ public class ModificarPropiedadControlador implements Initializable {
 
     @FXML
     public Label LabelClaveCatastral;
+    public TextField NoAutos;
+    public CheckBox checkBoxGarageSi;
+    public CheckBox checkBoxGarageNo;
+    public CheckBox checkBoxAmuebladoSi;
+    public CheckBox checkBoxAmuebladoNo;
+    public CheckBox checkBoxAlquilerNo;
+    public CheckBox checkBoxAlquilerSi;
 
     @FXML
     private TextField TextFieldDireccion;
@@ -74,6 +82,72 @@ public class ModificarPropiedadControlador implements Initializable {
 
     private String claveCatastral;
 
+    @FXML
+    void checkBoxGarageSi(ActionEvent event){
+        if(checkBoxGarageSi.isSelected()){
+            checkBoxGarageNo.setSelected(false); // Desactiva el otro checkbox
+            checkBoxGarageNo.setDisable(true);
+        } else {
+            checkBoxGarageNo.setDisable(false);
+        }
+    }
+
+    @FXML
+    void checkBoxGarageNo(ActionEvent event){
+        if(checkBoxGarageNo.isSelected()){
+            checkBoxGarageSi.setSelected(false); // Desactiva el otro checkbox
+            checkBoxGarageSi.setDisable(true);
+        } else {
+            checkBoxGarageSi.setDisable(false);
+        }
+    }
+
+    @FXML
+    void checkBoxAmuebladoSi(ActionEvent event){
+        if(checkBoxAmuebladoSi.isSelected()){
+            checkBoxAmuebladoNo.setSelected(false); // Desactiva el otro checkbox
+            checkBoxAmuebladoNo.setDisable(true);
+        } else {
+            checkBoxAmuebladoNo.setDisable(false);
+        }
+    }
+
+    @FXML
+    void checkBoxAmuebladoNo(ActionEvent event){
+        if(checkBoxAmuebladoNo.isSelected()){
+            checkBoxAmuebladoSi.setSelected(false); // Desactiva el otro checkbox
+            checkBoxAmuebladoSi.setDisable(true);
+        } else {
+            checkBoxAmuebladoSi.setDisable(false);
+        }
+    }
+
+    @FXML
+    void checkBoxAlquilerSi(ActionEvent event){
+        if(checkBoxAlquilerSi.isSelected()){
+            checkBoxAlquilerNo.setSelected(false); // Desactiva el otro checkbox
+            checkBoxAlquilerNo.setDisable(true);
+            Alquiler.setVisible(true); // Muestra el TextField Alquiler
+        } else {
+            checkBoxAlquilerNo.setDisable(false);
+            Alquiler.setVisible(false); // Muestra el TextField Alquiler
+
+        }
+    }
+
+    @FXML
+    void checkBoxAlquilerNo(ActionEvent event){
+        if(checkBoxAlquilerNo.isSelected()){
+            checkBoxAlquilerSi.setSelected(false); // Desactiva el otro checkbox
+            checkBoxAlquilerSi.setDisable(true);
+            Alquiler.setVisible(false); // Oculta el TextField Alquiler
+        } else {
+            checkBoxAlquilerSi.setDisable(false);
+        }
+    }
+
+
+
     public void setClaveCatastral(String claveCatastral) {
         this.claveCatastral = claveCatastral;
         llenarVentana(claveCatastral);
@@ -94,12 +168,24 @@ public class ModificarPropiedadControlador implements Initializable {
             propiedad.setNumeroCocina(Integer.parseInt(NoCocina.getText()));
             propiedad.setMetrosCuadrados(Integer.parseInt(MetrosCuadrados.getText()));
             propiedad.setNumeroPersonas(Integer.parseInt(NoPersonas.getText()));
+            if(checkBoxAlquilerSi.isSelected()){
             propiedad.setAlquiler(Integer.parseInt(Alquiler.getText()));
+            } else if (checkBoxAlquilerNo.isSelected()) {
+                propiedad.setAlquiler(0);
+            }
             propiedad.setCompra(Integer.parseInt(Compra.getText()));
-            propiedad.setElectricidad(Integer.parseInt(Electricidad.getText()));
-            propiedad.setAmueblado(Integer.parseInt(Amueblado.getText()));
+            if(checkBoxAmuebladoSi.isSelected()){
+                propiedad.setAmueblado(1);
+            }else if(checkBoxAmuebladoNo.isSelected()){
+                propiedad.setAmueblado(0);
+            }
+            if(checkBoxGarageSi.isSelected()){
+                propiedad.setGarage(1);
+            }else if(checkBoxGarageNo.isSelected()){
+                propiedad.setGarage(0);
+            }
+            propiedad.setNumeroAutos(Integer.parseInt(NoAutos.getText()));
             propiedad.setClaveCatastral(TextFieldClaveCatastral.getText());
-
             int resultado = propiedadDAO.modificarPropiedad(propiedad);
             if (resultado != 1) {
                 System.out.println("Propiedad modificada con éxito con id: ");
@@ -132,17 +218,32 @@ public class ModificarPropiedadControlador implements Initializable {
                 NoCocina.setText(String.valueOf(propiedad.getNumeroCocina()));
                 MetrosCuadrados.setText(String.valueOf(propiedad.getMetrosCuadrados()));
                 NoPersonas.setText(String.valueOf(propiedad.getNumeroPersonas()));
-                Alquiler.setText(String.valueOf(propiedad.getAlquiler()));
                 Compra.setText(String.valueOf(propiedad.getCompra()));
-                Electricidad.setText(String.valueOf(propiedad.getElectricidad()));
-                Amueblado.setText(String.valueOf(propiedad.getAmueblado()));
+                if(propiedad.getAlquiler()>0){
+                    checkBoxAlquilerNo.setDisable(true);
+                    checkBoxAlquilerSi.setSelected(true);
+                    Alquiler.setVisible(true);
+                    Alquiler.setText(String.valueOf(propiedad.getAlquiler()));
+                }else{
+                    checkBoxAlquilerSi.setDisable(true);
+                    checkBoxAlquilerNo.setSelected(true);
 
-                if (propiedad.getFoto() != null) {
-                    Foto.setText(propiedad.getFoto().toString());
-                } else {
-                    Foto.setText("Sin foto");
                 }
-
+                if(propiedad.getGarage() == 1){
+                    checkBoxGarageNo.setDisable(true);
+                    checkBoxGarageSi.setSelected(true);
+                }else{
+                    checkBoxGarageSi.setDisable(true);
+                    checkBoxGarageNo.setSelected(true);
+                }
+                if(propiedad.getAmueblado() == 1){
+                    checkBoxAmuebladoNo.setDisable(true);
+                    checkBoxAmuebladoSi.setSelected(true);
+                }else{
+                    checkBoxAmuebladoSi.setDisable(true);
+                    checkBoxAmuebladoNo.setSelected(true);
+                }
+                NoAutos.setText(String.valueOf(propiedad.getNumeroAutos()));
                 TextFieldClaveCatastral.setText(String.valueOf(propiedad.getClaveCatastral()));
             } else {
                 System.out.println("No se encontró ninguna propiedad con la clave catastral proporcionada.");
@@ -160,6 +261,6 @@ public class ModificarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    
+        Alquiler.setVisible(false);
     }
 }

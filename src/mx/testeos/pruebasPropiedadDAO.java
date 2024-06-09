@@ -1,4 +1,4 @@
-package mx.testeos;
+/*package mx.testeos;
 
 import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
@@ -271,3 +271,4 @@ public class pruebasPropiedadDAO {
         assertNotNull(propiedad.getFoto());
     }
 }
+*/

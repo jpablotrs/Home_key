@@ -131,7 +131,7 @@ public class pruebasVisitaDAO {
         propiedad.setNumeroPersonas(3);
         propiedad.setAlquiler(6000);
         propiedad.setCompra(2400000);
-        propiedad.setElectricidad(3);
+        /*propiedad.setElectricidad(3);*/
         propiedad.setAmueblado(1);
         propiedad.setClaveCatastral("0000-0000-0000");
         propiedad.setCliente(cliente);

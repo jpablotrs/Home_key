@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -97,22 +98,26 @@
                   <Label layoutX="294.0" layoutY="52.0" text="No.Personas" />
                   <Label layoutX="294.0" layoutY="79.0" text="Alquiler" />
                   <Label layoutX="292.0" layoutY="108.0" text="Compra " />
-                  <Label layoutX="43.0" layoutY="130.0" text="Electricidad" />
+                  <Label layoutX="43.0" layoutY="130.0" text="Garage" />
                   <Label layoutX="42.0" layoutY="159.0" text="Amueblado" />
-                  <Label layoutX="294.0" layoutY="136.0" text="Foto" />
+                  <Label layoutX="294.0" layoutY="136.0" text="No.Autos" />
                   <TextField fx:id="NumeroHabitaciones" layoutX="137.0" layoutY="10.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoBanos" layoutX="137.0" layoutY="39.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoPisos" layoutX="137.0" layoutY="68.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoCocina" layoutX="137.0" layoutY="97.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="MetrosCuadrados" layoutX="393.0" layoutY="17.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoPersonas" layoutX="393.0" layoutY="46.0" prefHeight="25.0" prefWidth="74.0" />
-                  <TextField fx:id="Alquiler" layoutX="393.0" layoutY="75.0" prefHeight="25.0" prefWidth="74.0" />
+                  <TextField fx:id="Alquiler" layoutX="490.0" layoutY="75.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="Compra" layoutX="393.0" layoutY="104.0" prefHeight="25.0" prefWidth="74.0" />
-                  <TextField fx:id="Electricidad" layoutX="137.0" layoutY="126.0" prefHeight="25.0" prefWidth="74.0" />
-                  <TextField fx:id="Amueblado" layoutX="137.0" layoutY="155.0" prefHeight="25.0" prefWidth="74.0" />
-                  <TextField fx:id="Foto" layoutX="393.0" layoutY="132.0" prefHeight="25.0" prefWidth="74.0" />
+                  <TextField fx:id="NoAutos" layoutX="393.0" layoutY="132.0" prefHeight="25.0" prefWidth="74.0" />
                   <Label fx:id="LabelClaveCatastral" layoutX="293.0" layoutY="164.0" text="Clave Catastral" />
                   <TextField fx:id="TextFieldClaveCatastral" layoutX="393.0" layoutY="159.0" prefHeight="25.0" prefWidth="74.0" />
+                  <CheckBox fx:id="checkBoxGarageSi" layoutX="138.0" layoutY="131.0" mnemonicParsing="false" text="Si" onAction="#checkBoxGarageSi"/>
+                  <CheckBox fx:id="checkBoxGarageNo" layoutX="186.0" layoutY="131.0" mnemonicParsing="false" text="No" onAction="#checkBoxGarageNo" />
+                  <CheckBox fx:id="checkBoxAmuebladoSi" layoutX="138.0" layoutY="156.0" mnemonicParsing="false" text="Si" onAction="#checkBoxAmuebladoSi" />
+                  <CheckBox fx:id="checkBoxAmuebladoNo" layoutX="186.0" layoutY="156.0" mnemonicParsing="false" text="No" onAction="#checkBoxAmuebladoNo" />
+                  <CheckBox fx:id="checkBoxAlquilerSi" layoutX="386.0" layoutY="79.0" mnemonicParsing="false" text="Si" onAction="#checkBoxAlquilerSi" />
+                  <CheckBox fx:id="checkBoxAlquilerNo" layoutX="434.0" layoutY="79.0" mnemonicParsing="false" text="No" onAction="#checkBoxAlquilerNo" />
                </children>
             </Pane>
             <HBox prefHeight="100.0" prefWidth="200.0">

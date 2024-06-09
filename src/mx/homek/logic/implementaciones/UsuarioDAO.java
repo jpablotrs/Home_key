@@ -24,7 +24,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public int insertarUsuario(Usuario usuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "Insert into Usuario (nombreUsuario, contraseña, tipoUsuario) values (?, ?, ?)";
+        String consultaSql = "Insert into Usuario (nombreUsuario, contrasenia, tipoUsuario) values (?, ?, ?)";
         validadorDeReglas.hashearContraseña(usuario.getContrasena());
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
 
@@ -41,7 +41,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public Usuario consultarUsuarioPorNombre(String nombreUsuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "Select idUsuario, nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ?";
+        String consultaSql = "Select idUsuario, nombreUsuario, contrasenia, tipoUsuario from Usuario where nombreUsuario = ?";
 
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
         sentencia.setString(1, nombreUsuario);
@@ -51,7 +51,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
         if(resultadoConsulta.next()) {
             String nombreDeUsuario = resultadoConsulta.getString("nombreUsuario");
-            String contraseña = resultadoConsulta.getString("contraseña");
+            String contraseña = resultadoConsulta.getString("contrasenia");
             String tipoUsuario = resultadoConsulta.getString("tipoUsuario");
             int id = resultadoConsulta.getInt("idUsuario");
 
@@ -67,7 +67,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public Usuario consultarUsuarioPorId(int idUsuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "Select nombreUsuario, contraseña, tipoUsuario from Usuario where idUsuario = ?";
+        String consultaSql = "Select nombreUsuario, contrasenia, tipoUsuario from Usuario where idUsuario = ?";
 
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
         sentencia.setInt(1, idUsuario);
@@ -77,7 +77,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 
         if(resultadoConsulta.next()) {
             String nombreDeUsuario = resultadoConsulta.getString("nombreUsuario");
-            String contraseña = resultadoConsulta.getString("contraseña");
+            String contraseña = resultadoConsulta.getString("contrasenia");
             String tipoUsuario = resultadoConsulta.getString("tipoUsuario");
 
             usuarioConsultado.setNombreUsuario(nombreDeUsuario);
@@ -92,7 +92,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     public boolean verificarUsuarioExistente(String nombreUsuario, String contraseñaUsuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
         if(conexion != null){
-            String consultaSql = "Select nombreUsuario, contraseña, tipoUsuario from Usuario where nombreUsuario = ? and contraseña = ?";
+            String consultaSql = "Select nombreUsuario, contrasenia, tipoUsuario from Usuario where nombreUsuario = ? and contrasenia = ?";
             PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
             sentencia.setString(1, nombreUsuario);
             sentencia.setString(2, validadorDeReglas.hashearContraseña(contraseñaUsuario));
@@ -181,7 +181,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public int modificarUsuario(Usuario usuario) throws SQLException {
         conexion = administradorBaseDatos.obtenerConexion();
-        String consultaSql = "UPDATE usuario SET contraseña = ? WHERE idUsuario = ?;";
+        String consultaSql = "UPDATE usuario SET contrasenia = ? WHERE idUsuario = ?;";
         validadorDeReglas.hashearContraseña(usuario.getContrasena());
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
         sentencia.setString(1, validadorDeReglas.hashearContraseña(usuario.getContrasena()));

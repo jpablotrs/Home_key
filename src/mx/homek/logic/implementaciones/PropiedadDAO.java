@@ -52,23 +52,31 @@ public class    PropiedadDAO implements IPropiedadDAO {
             propiedad.setNumeroHabitaciones(resultadoConsulta.getInt("numHabitaciones"));
             propiedad.setNumeroBanos(resultadoConsulta.getInt("numBanos"));
             propiedad.setNumeroPisos(resultadoConsulta.getInt("numPisos"));
-            propiedad.setNumeroCocina(resultadoConsulta.getInt("Cocina"));
+            propiedad.setNumeroCocina(resultadoConsulta.getInt("cocina"));
             propiedad.setMetrosCuadrados(resultadoConsulta.getInt("metrosCuadrados"));
             propiedad.setNumeroPersonas(resultadoConsulta.getInt("numPersonas"));
             propiedad.setAlquiler(resultadoConsulta.getInt("alquiler"));
             propiedad.setCompra(resultadoConsulta.getInt("compra"));
-            propiedad.setElectricidad(resultadoConsulta.getInt("electricidad"));
             propiedad.setAmueblado(resultadoConsulta.getInt("amueblado"));
-            propiedad.setFoto(resultadoConsulta.getBlob("foto"));
             propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
+            propiedad.setEstadoOferta(resultadoConsulta.getString("estadoOferta"));
+            propiedad.setGarage(resultadoConsulta.getInt("garage"));
+            propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
+
+            int clienteIdCliente = resultadoConsulta.getInt("Cliente_idCliente");
+            Cliente cliente = new Cliente();
+            cliente.setIdCliente(clienteIdCliente);
+            propiedad.setCliente(cliente);
+
             return propiedad;
         } else {
             return null;
         }
     }
 
+
     @Override
-    public int agregarPropiedad(Propiedad propiedad,int id) throws SQLException {
+    public int agregarPropiedad(Propiedad propiedad, int id) throws SQLException {
         String consultaExistenciaSQL = "SELECT COUNT(*) AS total FROM propiedad WHERE claveCatastral = ?";
         PreparedStatement verificarExistencia = conexion.prepareStatement(consultaExistenciaSQL);
         verificarExistencia.setString(1, propiedad.getClaveCatastral());
@@ -81,8 +89,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
             }
         }
 
-        String insercionSQL = "INSERT INTO propiedad (direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, Cliente_idCliente, claveCatastral) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        ClienteDAO gestorCliente = new ClienteDAO();
+        String insercionSQL = "INSERT INTO propiedad (direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, amueblado, Cliente_idCliente, claveCatastral, estadoOferta, garage, numeroAutos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement insertarPropiedad = conexion.prepareStatement(insercionSQL, PreparedStatement.RETURN_GENERATED_KEYS);
         insertarPropiedad.setString(1, propiedad.getDireccion());
         insertarPropiedad.setString(2, propiedad.getCiudad());
@@ -96,10 +103,13 @@ public class    PropiedadDAO implements IPropiedadDAO {
         insertarPropiedad.setInt(10, propiedad.getNumeroPersonas());
         insertarPropiedad.setInt(11, propiedad.getAlquiler());
         insertarPropiedad.setInt(12, propiedad.getCompra());
-        insertarPropiedad.setInt(13, propiedad.getElectricidad());
-        insertarPropiedad.setInt(14, propiedad.getAmueblado());
-        insertarPropiedad.setInt(15,id);
-        insertarPropiedad.setString(16, propiedad.getClaveCatastral());
+        insertarPropiedad.setInt(13, propiedad.getAmueblado());
+        insertarPropiedad.setInt(14, id);
+        insertarPropiedad.setString(15, propiedad.getClaveCatastral());
+        insertarPropiedad.setString(16, propiedad.getEstadoOferta());
+        insertarPropiedad.setInt(17, propiedad.getGarage());
+        insertarPropiedad.setInt(18, propiedad.getNumeroAutos());
+
         int filasInsertadas = insertarPropiedad.executeUpdate();
         if (filasInsertadas > 0) {
             ResultSet generatedKeys = insertarPropiedad.getGeneratedKeys();
@@ -109,6 +119,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
         }
         return -1;
     }
+
 
     @Override
     public ObservableList<String> consultarPropiedades() throws SQLException {
@@ -169,17 +180,21 @@ public class    PropiedadDAO implements IPropiedadDAO {
             propiedad.setNumeroPersonas(resultadoConsulta.getInt("numPersonas"));
             propiedad.setAlquiler(resultadoConsulta.getInt("alquiler"));
             propiedad.setCompra(resultadoConsulta.getInt("compra"));
-            propiedad.setElectricidad(resultadoConsulta.getInt("electricidad"));
             propiedad.setAmueblado(resultadoConsulta.getInt("amueblado"));
-            propiedad.setFoto(resultadoConsulta.getBlob("foto"));
+            propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
+            propiedad.setEstadoOferta(resultadoConsulta.getString("estadoOferta"));
+            propiedad.setGarage(resultadoConsulta.getInt("garage"));
+            propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
+
             Cliente cliente = new Cliente();
             cliente.setIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
             propiedad.setCliente(cliente);
-            propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
+
             return propiedad;
         }
         return null;
     }
+
 
     @Override
     public Propiedad consultarPropiedad(int idPropiedad) throws SQLException {
@@ -202,17 +217,21 @@ public class    PropiedadDAO implements IPropiedadDAO {
             propiedad.setNumeroPersonas(resultadoConsulta.getInt("numPersonas"));
             propiedad.setAlquiler(resultadoConsulta.getInt("alquiler"));
             propiedad.setCompra(resultadoConsulta.getInt("compra"));
-            propiedad.setElectricidad(resultadoConsulta.getInt("electricidad"));
             propiedad.setAmueblado(resultadoConsulta.getInt("amueblado"));
-            propiedad.setFoto(resultadoConsulta.getBlob("foto"));
+            propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
+            propiedad.setEstadoOferta(resultadoConsulta.getString("estadoOferta"));
+            propiedad.setGarage(resultadoConsulta.getInt("garage"));
+            propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
+
             Cliente cliente = new Cliente();
             cliente.setIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
             propiedad.setCliente(cliente);
-            propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
+
             return propiedad;
         }
         return null;
     }
+
 
     @Override
     public int eliminarPropiedad(Propiedad propiedad) throws SQLException {
@@ -225,7 +244,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
     @Override
     public int modificarPropiedad(Propiedad propiedad) throws SQLException {
         int idModificado = -1;
-        String actualizacionSQL = "UPDATE propiedad SET direccion = ?, ciudad = ?, estado = ?, codigoPostal = ?, numHabitaciones = ?, numBanos = ?, numPisos = ?, cocina = ?, metrosCuadrados = ?, numPersonas = ?, alquiler = ?, compra = ?, electricidad = ?, amueblado = ?, foto = ?, Cliente_idCliente = ? WHERE claveCatastral = ?";
+        String actualizacionSQL = "UPDATE propiedad SET direccion = ?, ciudad = ?, estado = ?, codigoPostal = ?, numHabitaciones = ?, numBanos = ?, numPisos = ?, cocina = ?, metrosCuadrados = ?, numPersonas = ?, alquiler = ?, compra = ?, amueblado = ?, estadoOferta = ?, garage = ?, numeroAutos = ? WHERE claveCatastral = ?";
 
         try (PreparedStatement actualizarPropiedad = conexion.prepareStatement(actualizacionSQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
             actualizarPropiedad.setString(1, propiedad.getDireccion());
@@ -240,10 +259,10 @@ public class    PropiedadDAO implements IPropiedadDAO {
             actualizarPropiedad.setInt(10, propiedad.getNumeroPersonas());
             actualizarPropiedad.setInt(11, propiedad.getAlquiler());
             actualizarPropiedad.setInt(12, propiedad.getCompra());
-            actualizarPropiedad.setInt(13, propiedad.getElectricidad());
-            actualizarPropiedad.setInt(14, propiedad.getAmueblado());
-            actualizarPropiedad.setBlob(15, propiedad.getFoto());
-            actualizarPropiedad.setInt(16, 3);
+            actualizarPropiedad.setInt(13, propiedad.getAmueblado());
+            actualizarPropiedad.setString(14, propiedad.getEstadoOferta());
+            actualizarPropiedad.setInt(15, propiedad.getGarage());
+            actualizarPropiedad.setInt(16, propiedad.getNumeroAutos());
             actualizarPropiedad.setString(17, propiedad.getClaveCatastral());
 
             int filasActualizadas = actualizarPropiedad.executeUpdate();
@@ -265,7 +284,7 @@ public class    PropiedadDAO implements IPropiedadDAO {
 
     @Override
     public int guardarHistorialDeBusqueta(Propiedad propiedad) throws SQLException {
-        String insercionHistorialSQL = "INSERT INTO historial_busqueda (idPropiedad, direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, electricidad, amueblado, foto, Cliente_idCliente, claveCatastral, fechaBusqueda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        String insercionHistorialSQL = "INSERT INTO historial_busqueda (idPropiedad, direccion, ciudad, estado, codigoPostal, numHabitaciones, numBanos, numPisos, cocina, metrosCuadrados, numPersonas, alquiler, compra, amueblado, Cliente_idCliente, claveCatastral, estadoOferta, garage, numeroAutos, fechaBusqueda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         ClienteDAO gestorCliente = new ClienteDAO();
         int idCliente = gestorCliente.consultarIDClientePorCorreo(propiedad.getIdCliente().getCorreo());
@@ -284,14 +303,17 @@ public class    PropiedadDAO implements IPropiedadDAO {
         insertarHistorial.setInt(11, propiedad.getNumeroPersonas());
         insertarHistorial.setInt(12, propiedad.getAlquiler());
         insertarHistorial.setInt(13, propiedad.getCompra());
-        insertarHistorial.setInt(14, propiedad.getElectricidad());
-        insertarHistorial.setInt(15, propiedad.getAmueblado());
-        insertarHistorial.setBlob(16, propiedad.getFoto());
-        insertarHistorial.setInt(17, idCliente);
-        insertarHistorial.setString(18, propiedad.getClaveCatastral());
+        insertarHistorial.setInt(14, propiedad.getAmueblado());
+        insertarHistorial.setInt(15, idCliente);
+        insertarHistorial.setString(16, propiedad.getClaveCatastral());
+        insertarHistorial.setString(17, propiedad.getEstadoOferta());
+        insertarHistorial.setInt(18, propiedad.getGarage());
+        insertarHistorial.setInt(19, propiedad.getNumeroAutos());
 
         return insertarHistorial.executeUpdate();
     }
+
+
     @Override
     public List<Propiedad> buscarPorCiudad(String ciudad) throws SQLException {
         List<Propiedad> propiedades = new ArrayList<>();
@@ -418,9 +440,10 @@ public class    PropiedadDAO implements IPropiedadDAO {
         propiedad.setNumeroPersonas(resultadoConsulta.getInt("numPersonas"));
         propiedad.setAlquiler(resultadoConsulta.getInt("alquiler"));
         propiedad.setCompra(resultadoConsulta.getInt("compra"));
-        propiedad.setElectricidad(resultadoConsulta.getInt("electricidad"));
         propiedad.setAmueblado(resultadoConsulta.getInt("amueblado"));
-        propiedad.setFoto(resultadoConsulta.getBlob("foto"));
+        propiedad.setEstadoOferta(resultadoConsulta.getString("estadoOferta"));
+        propiedad.setGarage(resultadoConsulta.getInt("garage"));
+        propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
         Cliente cliente = new Cliente();
         cliente.setIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
         propiedad.setCliente(cliente);

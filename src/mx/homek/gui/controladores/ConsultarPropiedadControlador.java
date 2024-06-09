@@ -144,13 +144,14 @@ public class ConsultarPropiedadControlador implements Initializable {
     }
 
     private void mostrarPropiedadesEnTabla(List<Propiedad> propiedades) {
-        ObservableList<Propiedad> listaPropiedades = FXCollections.observableArrayList(propiedades);
-        for(Propiedad propiedad : propiedades){
-            listaPropiedades.add(propiedad);
-        }
+        ObservableList<Propiedad> listaPropiedades = FXCollections.observableArrayList();
+        listaPropiedades.clear(); // Vacía la lista antes de agregar nuevos elementos
+        listaPropiedades.addAll(propiedades); // Agrega todas las propiedades a la lista
         tablePropiedades.setItems(listaPropiedades);
         tablePropiedades.refresh();
     }
+
+
 
     public void asignarBotonesDeModificarPropiedad() {
         Callback<TableColumn<Propiedad, Void>, TableCell<Propiedad, Void>> frabricaDeCelda = (final TableColumn<Propiedad, Void> param) -> {

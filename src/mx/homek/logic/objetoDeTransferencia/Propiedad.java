@@ -1,7 +1,5 @@
 package mx.homek.logic.objetoDeTransferencia;
 
-import java.sql.Blob;
-
 public class Propiedad {
     private int idPropiedad;
     private String direccion;
@@ -16,15 +14,15 @@ public class Propiedad {
     private int numeroPersonas;
     private int alquiler;
     private int compra;
-    private int electricidad;
     private int amueblado;
-    private Blob foto;
+    private int garage;
+    private int numeroAutos;
+
     private Cliente idCliente;
     private String claveCatastral;
     private String estadoOferta;
 
     public Propiedad() {
-
     }
 
     public String getDireccion() {
@@ -123,14 +121,6 @@ public class Propiedad {
         this.compra = compra;
     }
 
-    public int getElectricidad() {
-        return electricidad;
-    }
-
-    public void setElectricidad(int electricidad) {
-        this.electricidad = electricidad;
-    }
-
     public int getAmueblado() {
         return amueblado;
     }
@@ -139,16 +129,24 @@ public class Propiedad {
         this.amueblado = amueblado;
     }
 
+    public int getGarage() {
+        return garage;
+    }
+
+    public void setGarage(int garage) {
+        this.garage = garage;
+    }
+
+    public int getNumeroAutos() {
+        return numeroAutos;
+    }
+
+    public void setNumeroAutos(int numeroAutos) {
+        this.numeroAutos = numeroAutos;
+    }
+
     public void setCliente(Cliente cliente) {
         this.idCliente = cliente;
-    }
-
-    public Blob getFoto() {
-        return foto;
-    }
-
-    public void setFoto(Blob foto) {
-        this.foto = foto;
     }
 
     public Cliente getIdCliente() {
@@ -203,15 +201,15 @@ public class Propiedad {
                         propiedad.getNumeroPersonas() == this.numeroPersonas &&
                         propiedad.getAlquiler() == this.alquiler &&
                         propiedad.getCompra() == this.compra &&
-                        propiedad.getElectricidad() == this.electricidad &&
                         propiedad.getAmueblado() == this.amueblado &&
-                        ((this.foto == null && propiedad.getFoto() == null) || (this.foto != null && this.foto.equals(propiedad.getFoto()))) &&
+                        propiedad.getGarage() == this.garage &&
+                        propiedad.getNumeroAutos() == this.numeroAutos &&
                         propiedad.getIdCliente().equals(this.idCliente) &&
                         propiedad.getClaveCatastral().equals(this.claveCatastral));
     }
 
     @Override
     public String toString() {
-        return  direccion +", "+ ciudad + ", "+ estado;
+        return direccion + ", " + ciudad + ", " + estado;
     }
 }

@@ -6,6 +6,11 @@
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/21-ea+24/javafx-fxml-21-ea+24-win.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/21-ea+24/javafx-graphics-21-ea+24-win.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-maven-plugin/0.0.8/javafx-maven-plugin-0.0.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Downlads/Java/activation-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Downlads/Java/Atxy2k.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Downlads/Java/itextpdf-5.5.13.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Downlads/Java/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../Downlads/Java/log4j-1.2.17.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

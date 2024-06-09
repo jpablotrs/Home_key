@@ -2,7 +2,9 @@ package mx.homek.logic.implementaciones;
 
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.ICompraPropiedadDAO;
+import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.CompraPropiedad;
+import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,6 +43,23 @@ public class CompraPropiedadDAO implements ICompraPropiedadDAO {
 
         PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
         sentencia.setInt(1, idPropiedad);
+
+        return sentencia.executeUpdate();
+    }
+
+    @Override
+    public int cambiarDueño(Cliente cliente, Propiedad propiedad) throws SQLException {
+        String consultaSql = "update propiedad set Cliente_idCliente = ? where idPropiedad = ?";
+
+        ClienteDAO gestorCliente = new ClienteDAO();
+        int idCliente = gestorCliente.consultarIDClientePorCorreo(cliente.getCorreo());
+
+        PropiedadDAO gestorPropiedad = new PropiedadDAO();
+        int idPropiedad = gestorPropiedad.consultarIDPropiedadPorClaveCatastral(propiedad.getClaveCatastral());
+
+        PreparedStatement sentencia = conexion.prepareStatement(consultaSql);
+        sentencia.setInt(1, idCliente);
+        sentencia.setInt(2, idPropiedad);
 
         return sentencia.executeUpdate();
     }

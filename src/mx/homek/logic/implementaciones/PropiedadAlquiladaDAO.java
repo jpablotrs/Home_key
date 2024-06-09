@@ -2,11 +2,16 @@ package mx.homek.logic.implementaciones;
 
 import mx.homek.dataaccess.ConexionBaseDeDatos;
 import mx.homek.logic.interfaces.IPropiedadAlquiladaDAO;
+import mx.homek.logic.objetoDeTransferencia.Cliente;
+import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.PropiedadAlquilada;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class PropiedadAlquiladaDAO implements IPropiedadAlquiladaDAO {
     ConexionBaseDeDatos administradorBaseDeDatos;
@@ -40,5 +45,40 @@ public class PropiedadAlquiladaDAO implements IPropiedadAlquiladaDAO {
         sentencia.setInt(5, idCliente);
 
         return sentencia.executeUpdate();
+    }
+
+    @Override
+    public ArrayList<PropiedadAlquilada> consultarPropiedadesAlquiladasPorPropiedad(Propiedad propiedad) throws SQLException {
+        String consltaSql = "select * from alquilarPropiedad where Propiedad_idPropiedad = ?";
+
+        PropiedadDAO gestorPropiedad = new PropiedadDAO();
+        int idPropiedad = gestorPropiedad.consultarIDPropiedadPorClaveCatastral(propiedad.getClaveCatastral());
+
+        PreparedStatement sentencia = conexion.prepareStatement(consltaSql);
+        sentencia.setInt(1, idPropiedad);
+
+        ResultSet resultado = sentencia.executeQuery();
+        ArrayList<PropiedadAlquilada> propiedadesAlquiladas = new ArrayList<PropiedadAlquilada>();
+
+        while(resultado.next()) {
+            Date fechaAlquiler = resultado.getDate("fechaAlquiler");
+            Date fechaInicio = resultado.getDate("fechaLlegada");
+            Date fechaFin = resultado.getDate("fechaSalida");
+            int idCliente = resultado.getInt("Cliente_idCliente");
+
+            ClienteDAO gestorCliente = new ClienteDAO();
+            Cliente clienteConsultado = gestorCliente.consultarClientePorIdCliente(idCliente);
+
+            PropiedadAlquilada propiedadAlquiladaConsultada = new PropiedadAlquilada();
+            propiedadAlquiladaConsultada.setFechaAlquiler(fechaAlquiler);
+            propiedadAlquiladaConsultada.setFechaEntrada(fechaInicio);
+            propiedadAlquiladaConsultada.setFechaSalida(fechaFin);
+            propiedadAlquiladaConsultada.setPropiedad(propiedad);
+            propiedadAlquiladaConsultada.setCliente(clienteConsultado);
+
+            propiedadesAlquiladas.add(propiedadAlquiladaConsultada);
+        }
+
+        return propiedadesAlquiladas;
     }
 }

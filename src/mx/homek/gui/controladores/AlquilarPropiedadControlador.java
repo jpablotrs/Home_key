@@ -21,6 +21,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AlquilarPropiedadControlador implements Initializable {
@@ -104,9 +106,8 @@ public class AlquilarPropiedadControlador implements Initializable {
         LabelPrecioAlquiler.setText(Integer.toString(propiedad.getAlquiler()));
     }
 
-    public boolean fechaValida() {
+    public boolean fechaValida(LocalDate fechaSeleccionada) {
         LocalDate fechaActual = LocalDate.now();
-        LocalDate fechaSeleccionada = DatePickerFechaInicial.getValue();
         int fechasComparadas = java.sql.Date.valueOf(fechaSeleccionada).compareTo(java.sql.Date.valueOf(fechaActual));
 
         boolean fechaValida = false;
@@ -117,54 +118,123 @@ public class AlquilarPropiedadControlador implements Initializable {
         return fechaValida;
     }
 
+    public boolean validarPeriodoDeAlquilerValido(Date fechaInicio, Date fechaFin) {
+        ArrayList<PropiedadAlquilada> registrosDeAlquiler = new ArrayList<PropiedadAlquilada>();
+
+        try {
+            PropiedadAlquiladaDAO gestorPropiedadAlquilada = new PropiedadAlquiladaDAO();
+            registrosDeAlquiler = gestorPropiedadAlquilada.consultarPropiedadesAlquiladasPorPropiedad(propiedad);
+        }
+        catch (SQLException sqlException) {
+            Alert alertaErrorConsulta = new Alert(Alert.AlertType.ERROR);
+            alertaErrorConsulta.setTitle("Error de base de datos");
+            alertaErrorConsulta.setContentText("Hubo un error al conectar con la base de datos por favor intentelo mas tarde o recargue la pagina");
+            alertaErrorConsulta.setHeaderText("Error de base de datos");
+            alertaErrorConsulta.showAndWait();
+        }
+
+        boolean fechaValida = false;
+        boolean fechaFinInvalida = false;
+        boolean fechaInicioInvalida = false;
+
+        if(registrosDeAlquiler != null) {
+            for(PropiedadAlquilada registroDeAlquiler : registrosDeAlquiler) {
+                Date fechaInicioObtenida = registroDeAlquiler.getFechaEntrada();
+                Date fechaFinObteniada = registroDeAlquiler.getFechaSalida();
+
+                int verificarFechaInicioPreAlquiler = fechaInicio.compareTo(fechaInicioObtenida);
+                int verificarFechaFinPreAlquiler = fechaFin.compareTo(fechaInicioObtenida);
+
+                if(!fechaFinInvalida && !fechaInicioInvalida) {
+                    if(verificarFechaInicioPreAlquiler < 0) {
+                        if(verificarFechaFinPreAlquiler > -1) {
+                            fechaFinInvalida = true;
+                        }
+                    }
+                    else {
+                        int verificarFechaInicioPostAlquiler = fechaInicio.compareTo(fechaFinObteniada);
+
+                        if(verificarFechaInicioPostAlquiler < 1) {
+                            fechaInicioInvalida = true;
+                        }
+                    }
+                }
+            }
+
+            if(fechaFinInvalida) {
+                Alert fechaDeFinInvalida = new Alert(Alert.AlertType.ERROR);
+                fechaDeFinInvalida.setTitle("Error de fecha");
+                fechaDeFinInvalida.setContentText("El fin de periodo de alquiler seleccionado choca con el inicio de otro alquiler, por favor selecione otra fecha");
+                fechaDeFinInvalida.setHeaderText("Error de fecha");
+                fechaDeFinInvalida.showAndWait();
+            }
+            else if(fechaInicioInvalida) {
+                Alert fechaDeInicioInvalida = new Alert(Alert.AlertType.ERROR);
+                fechaDeInicioInvalida.setTitle("Error de fecha");
+                fechaDeInicioInvalida.setContentText("El inicio de periodo de alquiler seleccionado choca con el fin de otro alquiler, por favor selecione otra fecha");
+                fechaDeInicioInvalida.setHeaderText("Error de fecha");
+                fechaDeInicioInvalida.showAndWait();
+            }
+            else {
+                fechaValida = true;
+            }
+        }
+
+        return fechaValida;
+    }
+
     public void onAgregarClick() {
         LocalDate fechaSeleccionada = DatePickerFechaInicial.getValue();
         if(fechaSeleccionada != null) {
             String numeroDeMeses = TextFieldNumeroMeses.getText();
             if(!validadorDeReglas.validadorCampoVacio(numeroDeMeses)) {
-                if(fechaValida()) {
+                if(fechaValida(fechaSeleccionada)) {
                     LocalDate fechaSalida = fechaSeleccionada.plusMonths(Integer.parseInt(numeroDeMeses));
-                    LocalDate fechaActual = LocalDate.now();
-                    Cliente alquilador = new Cliente();
+                    Date fechaInicio = java.sql.Date.valueOf(fechaSeleccionada);
+                    Date fechaFin = java.sql.Date.valueOf(fechaSalida);
+                    if(validarPeriodoDeAlquilerValido(fechaInicio, fechaFin)) {
+                        LocalDate fechaActual = LocalDate.now();
+                        Cliente alquilador = new Cliente();
 
-                    try {
-                        UsuarioDAO gestorUsuario = new UsuarioDAO();
-                        int idUsuario = gestorUsuario.obtenerIDUsuarioPorNombre(nombreUsuario);
-                        ClienteDAO gestorCliente = new ClienteDAO();
-                        alquilador = gestorCliente.consultarClientePorIdUsuario(idUsuario);
-                    }
-                    catch (SQLException sqlException) {
-                        System.out.println(sqlException.getMessage());
-                        CreadorAlertas creadorAlertas = new CreadorAlertas();
-                        creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
-                    }
-
-                    PropiedadAlquilada propiedadAlquilada = new PropiedadAlquilada();
-                    propiedadAlquilada.setFechaAlquiler(java.sql.Date.valueOf(fechaActual));
-                    propiedadAlquilada.setFechaEntrada(java.sql.Date.valueOf(fechaSeleccionada));
-                    propiedadAlquilada.setFechaSalida(java.sql.Date.valueOf(fechaSalida));
-                    propiedadAlquilada.setPropiedad(propiedad);
-                    propiedadAlquilada.setCliente(alquilador);
-
-                    try {
-                        PropiedadAlquiladaDAO gestorPropiedadAlquilada = new PropiedadAlquiladaDAO();
-                        gestorPropiedadAlquilada.alquilarPropiedad(propiedadAlquilada);
-                        CreadorAlertas creadorAlertas = new CreadorAlertas();
-                        creadorAlertas.crearAlertaDeInformacion("Alquiler exitoso","Usted ha alquilado la propiedad", "Alquiler exitoso");
-                        Scene escena = LabelBaños.getScene();
-                        Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
-                        stageAgregarProfesorExterno.close();
                         try {
-                            ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario, tipoUsuario);
+                            UsuarioDAO gestorUsuario = new UsuarioDAO();
+                            int idUsuario = gestorUsuario.obtenerIDUsuarioPorNombre(nombreUsuario);
+                            ClienteDAO gestorCliente = new ClienteDAO();
+                            alquilador = gestorCliente.consultarClientePorIdUsuario(idUsuario);
                         }
-                        catch (IOException ioException){
+                        catch (SQLException sqlException) {
+                            System.out.println(sqlException.getMessage());
+                            CreadorAlertas creadorAlertas = new CreadorAlertas();
+                            creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
+                        }
 
+                        PropiedadAlquilada propiedadAlquilada = new PropiedadAlquilada();
+                        propiedadAlquilada.setFechaAlquiler(java.sql.Date.valueOf(fechaActual));
+                        propiedadAlquilada.setFechaEntrada(fechaInicio);
+                        propiedadAlquilada.setFechaSalida(fechaFin);
+                        propiedadAlquilada.setPropiedad(propiedad);
+                        propiedadAlquilada.setCliente(alquilador);
+
+                        try {
+                            PropiedadAlquiladaDAO gestorPropiedadAlquilada = new PropiedadAlquiladaDAO();
+                            gestorPropiedadAlquilada.alquilarPropiedad(propiedadAlquilada);
+                            CreadorAlertas creadorAlertas = new CreadorAlertas();
+                            creadorAlertas.crearAlertaDeInformacion("Alquiler exitoso","Usted ha alquilado la propiedad", "Alquiler exitoso");
+                            Scene escena = LabelBaños.getScene();
+                            Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();
+                            stageAgregarProfesorExterno.close();
+                            try {
+                                ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario, tipoUsuario);
+                            }
+                            catch (IOException ioException){
+
+                            }
                         }
-                    }
-                    catch (SQLException sqlException) {
-                        System.out.println(sqlException.getMessage());
-                        CreadorAlertas creadorAlertas = new CreadorAlertas();
-                        creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
+                        catch (SQLException sqlException) {
+                            System.out.println(sqlException.getMessage());
+                            CreadorAlertas creadorAlertas = new CreadorAlertas();
+                            creadorAlertas.crearAlertaDeError("Error en la insercion","Error","Error");
+                        }
                     }
                 }
                 else {

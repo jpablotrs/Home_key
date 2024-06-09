@@ -123,6 +123,7 @@ public class ComprarPropiedadControlador implements Initializable {
             CompraPropiedadDAO gestorCompra = new CompraPropiedadDAO();
             gestorCompra.insertarCompraPropiedad(compraPropiedad);
             CreadorAlertas creadorAlertas = new CreadorAlertas();
+            gestorCompra.cambiarDueño(comprador, propiedad);
             creadorAlertas.crearAlertaDeInformacion("Ha comprado la propiedad exitosamente","Compra exitosa","La propiedad es suya");
             Scene escena = LabelCocinas.getScene();
             Stage stageAgregarProfesorExterno = (Stage) escena.getWindow();

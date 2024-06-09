@@ -190,6 +190,38 @@
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
             </Label>
+            <Label layoutX="50.0" layoutY="730.0" text="Electricidad">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelElectricidad" layoutX="50.0" layoutY="800.0" text="Electricidad obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label layoutX="50.0" layoutY="800.0" text="Amueblado">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="LabelAmueblado" layoutX="50.0" layoutY="870.0" text="Amueblado obtenido">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
             <Label text="Precio por ofertar">
                <font>
                   <Font size="16.0" />

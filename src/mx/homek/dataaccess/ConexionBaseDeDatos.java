@@ -8,7 +8,7 @@ public class ConexionBaseDeDatos {
     private Connection conexion = null;
     private final String NOMBRE_BD = "jdbc:mysql://localhost/inmobiliaria";
     private final String USUARIO_BD = "root";
-    private final String CONTRASENABD = "root";
+    private final String CONTRASENABD = "123456";
 
     public Connection obtenerConexion() throws SQLException {
         connect();

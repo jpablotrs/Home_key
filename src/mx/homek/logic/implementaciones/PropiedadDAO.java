@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class    PropiedadDAO implements IPropiedadDAO {
+public class PropiedadDAO implements IPropiedadDAO {
     private ConexionBaseDeDatos administradorBaseDeDatos;
     private Connection conexion;
 
@@ -84,7 +84,6 @@ public class    PropiedadDAO implements IPropiedadDAO {
         if (resultadoExistencia.next()) {
             int totalPropiedades = resultadoExistencia.getInt("total");
             if (totalPropiedades > 0) {
-                System.out.println("Ya existe una propiedad con la misma clave catastral.");
                 return -1;
             }
         }
@@ -135,14 +134,14 @@ public class    PropiedadDAO implements IPropiedadDAO {
         return propiedades;
     }
 
-    @Override
-    public ObservableList<Propiedad> consultarPropiedadesObs() throws SQLException {
-        String consultaSQL = "SELECT * FROM propiedad";
+    public ObservableList<Propiedad> consultarPropiedadesObs(String nombreUsuario) throws SQLException {
+        String consultaSQL = "SELECT p.* FROM propiedad p inner join cliente c on p.Cliente_IDCliente = c.IDCliente inner join usuario u on c.Usuario_IDUsuario = u.IDUsuario  where u.NombreUsuario <> ?";
         PreparedStatement consultarPropiedades = conexion.prepareStatement(consultaSQL);
+        consultarPropiedades.setString(1, nombreUsuario);
         ResultSet resultado = consultarPropiedades.executeQuery();
         ObservableList<Propiedad> propiedades = FXCollections.observableArrayList();
 
-        if(resultado.next()) {
+        while (resultado.next()) {
             String clave = resultado.getString("claveCatastral");
             String direccion = resultado.getString("direccion");
             String ciudad = resultado.getString("ciudad");
@@ -187,7 +186,8 @@ public class    PropiedadDAO implements IPropiedadDAO {
             propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
 
             Cliente cliente = new Cliente();
-            cliente.setIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
+            ClienteDAO clienteDAO = new ClienteDAO();
+            cliente = clienteDAO.consultarClientePorIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
             propiedad.setCliente(cliente);
 
             return propiedad;
@@ -445,7 +445,8 @@ public class    PropiedadDAO implements IPropiedadDAO {
         propiedad.setGarage(resultadoConsulta.getInt("garage"));
         propiedad.setNumeroAutos(resultadoConsulta.getInt("numeroAutos"));
         Cliente cliente = new Cliente();
-        cliente.setIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
+        ClienteDAO clienteDAO = new ClienteDAO();
+        cliente = clienteDAO.consultarClientePorIdCliente(resultadoConsulta.getInt("Cliente_idCliente"));
         propiedad.setCliente(cliente);
         propiedad.setClaveCatastral(resultadoConsulta.getString("claveCatastral"));
         return propiedad;

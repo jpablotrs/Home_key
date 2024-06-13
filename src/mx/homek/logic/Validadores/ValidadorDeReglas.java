@@ -8,8 +8,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidadorDeReglas {
+    private final String FORMATOVALIDOCORREO = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private final Pattern VERIFICADORCORREO = Pattern.compile(FORMATOVALIDOCORREO);
+    private final String FORMATOCONTRASEÑA = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+    private final Pattern VERIFICADORCONTRASEÑA = Pattern.compile(FORMATOCONTRASEÑA);
     public String hashearContraseña(String contraseña){
         try {
             MessageDigest algoritmo = MessageDigest.getInstance("SHA-256");
@@ -160,6 +166,14 @@ public class ValidadorDeReglas {
 
     public boolean validadorCampoVacio(String cadena) {
         return cadena.isEmpty();
+    }
+    public boolean verificadorDeCorreo(String correo){
+        Matcher checador = VERIFICADORCORREO.matcher(correo);
+        return checador.matches();
+    }
+    public boolean verificadorDeContraseña(String contraseña){
+        Matcher checadorDeContraseña = VERIFICADORCONTRASEÑA.matcher(contraseña);
+        return checadorDeContraseña.matches();
     }
 }
 

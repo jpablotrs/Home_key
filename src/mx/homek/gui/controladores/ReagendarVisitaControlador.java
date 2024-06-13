@@ -1,12 +1,16 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import jfxtras.scene.control.LocalTimePicker;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
@@ -60,9 +64,9 @@ public class ReagendarVisitaControlador implements Initializable {
     @FXML
     private DatePicker DatePickerFecha;
     @FXML
-    private TextField TextFieldHoraEntrada;
+    private LocalTimePicker TextFieldHoraEntrada;
     @FXML
-    private TextField TextFieldHoraSalida;
+    private LocalTimePicker TextFieldHoraSalida;
     @FXML
     private Button ButtonCancelar;
     @FXML
@@ -75,7 +79,7 @@ public class ReagendarVisitaControlador implements Initializable {
     public void setCampos() {
         try{
             PropiedadDAO propiedadDAO = new PropiedadDAO();
-            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs();
+            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs(nombreUsuario);
             ComboBoxPropiedad.setItems(listaPropiedades);
             ComboBoxPropiedad.setDisable(true);
 
@@ -105,19 +109,28 @@ public class ReagendarVisitaControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         validadorDeReglas = new ValidadorDeReglas();
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 15);
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 15);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.CALENDAR_PLUS_ALT);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
 
     Visita visita = null;
 
     public void visitaOnAction() {
         visita = (Visita) ComboBoxVisita.getValue();
+
         ObservableList<Propiedad> listaPropiedades = ComboBoxPropiedad.getItems();
         Propiedad propiedad = listaPropiedades.filtered(p -> p.getIdPropiedad() == visita.getPropiedad().getIdPropiedad()).get(0);
         ComboBoxPropiedad.setValue(propiedad);
-        TextFieldHoraEntrada.setText(visita.getHoraEntrada());
-        TextFieldHoraSalida.setText(visita.getHoraSalida());
+        TextFieldHoraEntrada.setLocalTime(LocalTime.parse(visita.getHoraEntrada()));
+        TextFieldHoraSalida.setLocalTime(LocalTime.parse(visita.getHoraSalida()));
 
         java.util.Date fecha = new java.util.Date(visita.getFecha().getTime());
         DatePickerFecha.setValue(fecha.toInstant()
@@ -129,10 +142,8 @@ public class ReagendarVisitaControlador implements Initializable {
         ArrayList<String> camposTextField = new ArrayList<>();
         ArrayList<String> camposComboBox = new ArrayList<>();
         ArrayList <LocalDate> camposFecha = new ArrayList<>();
-        String horaEntrada = TextFieldHoraEntrada.getText();
-        String horaSalida = TextFieldHoraSalida.getText();
-        camposTextField.add(horaEntrada);
-        camposTextField.add(horaSalida);
+
+
         Propiedad propiedad = (Propiedad) ComboBoxPropiedad.getValue();
         //String cliente = (String) ComboBoxCliente.getValue();
         //camposComboBox.add(cliente);
@@ -141,11 +152,13 @@ public class ReagendarVisitaControlador implements Initializable {
         boolean horaEntradaValida = true;
         boolean horaSalidaValida = true;
         try {
-            var horaE = LocalTime.parse(horaEntrada);
+            var horaE = TextFieldHoraEntrada.getLocalTime();
+            var horaS = TextFieldHoraSalida.getLocalTime();
+
             if (horaE.getHour() < 8 || horaE.getHour() > 20)
                 horaEntradaValida = false;
             try {
-                var horaS = LocalTime.parse(horaSalida);
+
                 if (horaS.getHour() < 8 || horaS.getHour() > 20)
                     horaSalidaValida = false;
                 if (horaE.isAfter(horaS))
@@ -161,13 +174,13 @@ public class ReagendarVisitaControlador implements Initializable {
         if (validadorDeReglas.validadorDeCamposVacios(camposTextField) || validadorDeReglas.validadorSelectorDeFechasVacios(camposFecha) || validadorDeReglas.validadorComboBoxVacios(camposComboBox)){
             Alert alertaCamposVacios = new Alert(Alert.AlertType.ERROR);
             alertaCamposVacios.setTitle("Error de campos vacíos");
-            alertaCamposVacios.setContentText("Error, no seleccionaste alguno de los valores.");
+            alertaCamposVacios.setContentText("Error, la propiedad o la fecha no pueden estar vacías");
             alertaCamposVacios.setHeaderText("Error de campos vacíos");
             alertaCamposVacios.showAndWait();
         }
         else if (validadorDeReglas.validadorDeCaracteresEspeciales(camposTextField)){
             Alert alertaNombreUsuarioInvalido = new Alert(Alert.AlertType.ERROR);
-            alertaNombreUsuarioInvalido.setTitle("Error de de caracteres en alguna de las horas");
+            alertaNombreUsuarioInvalido.setTitle("Error de de caracteres en la fecha");
             alertaNombreUsuarioInvalido.setContentText("Error, algunas de las hora tiene caracteres invalidos");
             alertaNombreUsuarioInvalido.setHeaderText("Error en las fechas");
             alertaNombreUsuarioInvalido.showAndWait();
@@ -206,8 +219,8 @@ public class ReagendarVisitaControlador implements Initializable {
                 visita.setCliente(cliente);
                 visita.setFecha(Date.valueOf(fecha));
                 visita.setPropiedad(propiedad);
-                visita.setHoraEntrada(horaEntrada);
-                visita.setHoraSalida(horaSalida);
+                visita.setHoraEntrada(TextFieldHoraEntrada.getLocalTime().toString());
+                visita.setHoraSalida(TextFieldHoraSalida.getLocalTime().toString());
                 visita.setEstado(1);
                 visitaDAO.reagendarVisita(visita);
 

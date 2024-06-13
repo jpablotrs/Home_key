@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import mx.homek.gui.aplicaciones.ConsultarPropiedadAplicacion;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.CompraPropiedadDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
@@ -97,11 +98,11 @@ public class OfertarPropiedadControlador implements Initializable {
         LabelMetrosCuadrados.setText(Integer.toString(propiedad.getMetrosCuadrados()));
         LabelNumeroDePersonas.setText(Integer.toString(propiedad.getNumeroPersonas()));
 
-        if(propiedad.getElectricidad() == 1) {
-            LabelElectricidad.setText("Si cuenta con servicio electrico incluido");
+        if(propiedad.getGarage() == 1) {
+            LabelElectricidad.setText("Si cuenta con garage la casa");
         }
         else {
-            LabelElectricidad.setText("No cuenta con servicio electrico incluido");
+            LabelElectricidad.setText("No cuenta con garage la casa");
         }
 
         if(propiedad.getAmueblado() == 1) {
@@ -126,23 +127,23 @@ public class OfertarPropiedadControlador implements Initializable {
     }
 
     public void onCancelarClick(ActionEvent actionEvent) {
-//        Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
-//        confirmacionDeSalida.setHeaderText("Salir del menú");
-//        confirmacionDeSalida.setContentText("¿Desea Salir del menú Subir Constancia?");
-//        Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
-//        if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
-//            try {
-//                Scene escena = LabelCiudad.getScene();
-//                Stage stageSubirConstancia = (Stage) escena.getWindow();
-//                stageSubirConstancia.close();
-//                ConsultarPropiedadesAplicacion consultarPropiedadesAplicacion = new ConsultarPropiedadesAplicacion(nombreUsuario,tipoUsuario);
-//            } catch (IOException ioException) {
-//                Alert escenaNoEncontrada = new Alert(Alert.AlertType.ERROR);
-//                escenaNoEncontrada.setTitle("Error de cambio de pantalla");
-//                escenaNoEncontrada.setContentText("Error al regresar al menu principal");
-//                escenaNoEncontrada.setHeaderText("Error de cambio de pantalla");
-//                escenaNoEncontrada.showAndWait();
-//            }
-//        }
+        Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacionDeSalida.setHeaderText("Salir del menú");
+        confirmacionDeSalida.setContentText("¿Desea Salir del menú Subir Constancia?");
+        Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
+        if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
+            try {
+                Scene escena = LabelCiudad.getScene();
+                Stage stageSubirConstancia = (Stage) escena.getWindow();
+                stageSubirConstancia.close();
+                ConsultarPropiedadAplicacion consultarPropiedadAplicacion = new ConsultarPropiedadAplicacion(nombreUsuario,tipoUsuario);
+           } catch (IOException ioException) {
+                Alert escenaNoEncontrada = new Alert(Alert.AlertType.ERROR);
+                escenaNoEncontrada.setTitle("Error de cambio de pantalla");
+                escenaNoEncontrada.setContentText("Error al regresar al menu principal");
+                escenaNoEncontrada.setHeaderText("Error de cambio de pantalla");
+                escenaNoEncontrada.showAndWait();
+            }
+        }
     }
 }

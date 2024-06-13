@@ -12,7 +12,7 @@ public class CrearCuentaApplication extends Stage {
     public CrearCuentaApplication () {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/CrearCuenta.fxml"));
-            Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 600, 400);
+            Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 600, 800);
             this.setTitle("Comprar propiedad");
             this.setScene(escenaComprarPropiedad);
             this.show();

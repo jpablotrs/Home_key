@@ -1,9 +1,12 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -51,7 +54,7 @@ public class CrearCuentaController implements Initializable {
     @FXML
     private ComboBox ComboBoxUniversidad;
     @FXML
-    private TextField textFieldEstadoCivil;
+    private ComboBox comboBoxEstadoCivil;
     @FXML
     private DatePicker datePickerFecha;
 
@@ -70,18 +73,33 @@ public class CrearCuentaController implements Initializable {
         validadorDeReglas.agregarLimiteATextField(TextFieldTelefono,10);
         validadorDeReglas.agregarLimiteATextField(TextFieldPrimerApellido,30);
         validadorDeReglas.agregarLimiteATextField(TextFieldSegundoApellido,30);
-        validadorDeReglas.agregarLimiteATextField(textFieldEstadoCivil,12);
         validadorDeReglas.agregarLimiteAPasswordField(PasswordFieldContraseña,30);
         validadorDeReglas.limitarCampoTexto(TextFieldNombre);
         validadorDeReglas.limitarCampoTexto(TextFieldPrimerApellido);
         validadorDeReglas.limitarCampoTexto(TextFieldSegundoApellido);
         validadorDeReglas.limitarCampoNumerico(TextFieldTelefono);
-        validadorDeReglas.limitarCampoTexto(textFieldEstadoCivil);
+        ObservableList <String> estados = FXCollections.observableArrayList();
+        estados.add("Soltero");
+        estados.add("Casado");
+        estados.add("Divorciado");
+        estados.add("Unión libre");
+        estados.add("Viudo");
+        comboBoxEstadoCivil.setItems(estados);
         ObservableList<String> listaUniversidadesDisponibles = FXCollections.observableArrayList();
         listaUniversidadesDisponibles.add("Masculino");
         listaUniversidadesDisponibles.add("Femenino");
         ComboBoxUniversidad.setItems(listaUniversidadesDisponibles);
         validadorDeReglas.proponerNombreUsuario(TextFieldNombre,TextFieldPrimerApellido,TextFieldSegundoApellido,TextFieldNombreUsuario);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.CHECK);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
     public void onAgregarClick(){
         ArrayList <String> campos = new ArrayList<>();
@@ -90,7 +108,7 @@ public class CrearCuentaController implements Initializable {
         String apellidoPaterno = TextFieldPrimerApellido.getText();
         String apellidoMaterno = TextFieldSegundoApellido.getText();
         String universidad = (String) ComboBoxUniversidad.getValue();
-        String estadoVicil = textFieldEstadoCivil.getText();
+        String estadoVicil = (String) comboBoxEstadoCivil.getValue();
         String telefono = TextFieldTelefono.getText();
         String correo = TextFieldCorreo.getText();
         LocalDate fecha1 = datePickerFecha.getValue();
@@ -102,8 +120,8 @@ public class CrearCuentaController implements Initializable {
         campos.add(apellidoMaterno);
         campos.add(apellidoPaterno);
         camposCombo.add(universidad);
+        camposCombo.add(estadoVicil);
         campos.add(correo);
-        campos.add(estadoVicil);
         campos.add(telefono);
         campos.add(nombreUsuario);
         campos.add(contraseña);
@@ -142,22 +160,22 @@ public class CrearCuentaController implements Initializable {
                 if(usuarioDAO.existeNombreUsuario(usuario.getNombreUsuario())){
                     Alert alertaNoHayConexionConLaBaseDeDatos = new Alert(Alert.AlertType.WARNING);
                     alertaNoHayConexionConLaBaseDeDatos.setTitle("Usuario ya ocupado");
-                    alertaNoHayConexionConLaBaseDeDatos.setContentText("El nombre de usuario y/o la contraseña ya están ocupadas");
+                    alertaNoHayConexionConLaBaseDeDatos.setContentText("El nombre de usuario ya está ocupado");
                     alertaNoHayConexionConLaBaseDeDatos.setHeaderText("Pruebe con otro nombre de usuario");
                     alertaNoHayConexionConLaBaseDeDatos.showAndWait();
                 }
-                else if(cliente.getCorreo().indexOf("@")<0){
+                else if(!validadorDeReglas.verificadorDeCorreo(cliente.getCorreo())){
                     Alert alertaNoHayConexionConLaBaseDeDatos = new Alert(Alert.AlertType.WARNING);
                     alertaNoHayConexionConLaBaseDeDatos.setTitle("Correo con formato incorrecto");
                     alertaNoHayConexionConLaBaseDeDatos.setContentText("El correo no tiene el formato esperado");
                     alertaNoHayConexionConLaBaseDeDatos.setHeaderText("Correo con formato inadecuado");
                     alertaNoHayConexionConLaBaseDeDatos.showAndWait();
                 }
-                else if(contraseña.length() < 8){
+                else if(!validadorDeReglas.verificadorDeContraseña(usuario.getContrasena())){
                     Alert alertaContraseñaInsegura = new Alert(Alert.AlertType.WARNING);
-                    alertaContraseñaInsegura.setTitle("Contraseña muy corta");
-                    alertaContraseñaInsegura.setContentText("Contraseña insegura");
-                    alertaContraseñaInsegura.setHeaderText("debe contener por lo menos 8 caracteres");
+                    alertaContraseñaInsegura.setTitle("Contraseña insegura");
+                    alertaContraseñaInsegura.setContentText("La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, u  caracter especial y 8 caracteres en total");
+                    alertaContraseñaInsegura.setHeaderText("La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, u  caracter especial y 8 caracteres en total");
                     alertaContraseñaInsegura.showAndWait();
                 }
                 else {
@@ -198,7 +216,7 @@ public class CrearCuentaController implements Initializable {
     public void onCancelarClick() {
         Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacionDeSalida.setHeaderText("Salir del menú");
-        confirmacionDeSalida.setContentText("¿Desea Salir del menú Agregar Profesor Externo?");
+        confirmacionDeSalida.setContentText("¿Desea Salir del menú Crear cuenta?");
         Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
         if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
 

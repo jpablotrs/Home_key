@@ -13,7 +13,7 @@ public class ModificarCuentaApplication extends Stage {
     public ModificarCuentaApplication(String nombreUsuario,String tipoUsuario){
         try{
         FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/ModificarCuenta.fxml"));
-        Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 600, 400);
+        Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(), 600, 800);
         ModicarCuentaController controladorComprarPropiedad = fxmlLoader.<ModicarCuentaController>getController();
         controladorComprarPropiedad.setTipoUsuario(tipoUsuario);
         controladorComprarPropiedad.setNombreUsuaeio(nombreUsuario);

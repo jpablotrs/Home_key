@@ -10,4 +10,5 @@ public interface ICompraPropiedadDAO {
     public abstract int insertarCompraPropiedad(CompraPropiedad compraPropiedad) throws SQLException;
     public abstract int ofertarPropiedad(int idPropiedad) throws SQLException;
     public abstract int cambiarDueño(Cliente cliente, Propiedad propiedad) throws SQLException;
+    public abstract boolean existeVentaAPropiedad(Propiedad propiedad) throws SQLException;
 }

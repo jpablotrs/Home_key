@@ -73,32 +73,6 @@
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Estado Civil">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <TextField promptText="Estado civil aquí" fx:id="textFieldEstadoCivil">
-               <VBox.margin>
-                  <Insets left="40.0" right="280.0" top="5.0" />
-               </VBox.margin>
-            </TextField>
-            <Label text="Fecha de nacimiento">
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <DatePicker fx:id="datePickerFecha">
-               <VBox.margin>
-                  <Insets left="40.0" top="5.0" />
-               </VBox.margin>
-            </DatePicker>
             <Label text="Segundo apellido">
                <font>
                   <Font size="16.0" />
@@ -112,6 +86,32 @@
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>
             </TextField>
+            <Label text="Estado Civil">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox prefWidth="150.0" fx:id="comboBoxEstadoCivil">
+               <VBox.margin>
+                  <Insets left="40.0" top="5.0" />
+               </VBox.margin>
+            </ComboBox>
+            <Label text="Fecha de nacimiento">
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="datePickerFecha">
+               <VBox.margin>
+                  <Insets left="40.0" top="5.0" />
+               </VBox.margin>
+            </DatePicker>
             <Label text="Nombre de usuario">
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />

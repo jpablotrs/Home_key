@@ -1,9 +1,12 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -70,7 +73,7 @@ public class ModicarCuentaController implements Initializable {
     @FXML
     private ComboBox ComboBoxUniversidad;
     @FXML
-    private TextField textFieldEstadoCivil;
+    private ComboBox comboBoxEstadoCivil;
     @FXML
     private DatePicker datePickerFecha;
     @Override
@@ -87,12 +90,28 @@ public class ModicarCuentaController implements Initializable {
         validadorDeReglas.agregarLimiteATextField(TextFieldTelefono,10);
         validadorDeReglas.agregarLimiteATextField(TextFieldPrimerApellido,30);
         validadorDeReglas.agregarLimiteATextField(TextFieldSegundoApellido,30);
-        validadorDeReglas.agregarLimiteATextField(textFieldEstadoCivil,12);
         validadorDeReglas.agregarLimiteAPasswordField(PasswordFieldContraseña,30);
+        ObservableList <String> estados = FXCollections.observableArrayList();
+        estados.add("Soltero");
+        estados.add("Casado");
+        estados.add("Divorciado");
+        estados.add("Unión libre");
+        estados.add("Viudo");
+        comboBoxEstadoCivil.setItems(estados);
         ObservableList<String> listaUniversidadesDisponibles = FXCollections.observableArrayList();
         listaUniversidadesDisponibles.add("Masculino");
         listaUniversidadesDisponibles.add("Femenino");
         ComboBoxUniversidad.setItems(listaUniversidadesDisponibles);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.CHECK);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
     public void setCampos(){
         UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -111,11 +130,15 @@ public class ModicarCuentaController implements Initializable {
         TextFieldNombre.setText(cliente.getNombre());
         TextFieldCorreo.setText(cliente.getCorreo());
         TextFieldCorreo.setDisable(true);
-        textFieldEstadoCivil.setText(cliente.getEstadoCivil());
+        comboBoxEstadoCivil.setValue(cliente.getEstadoCivil());
         PasswordFieldContraseña.setText(cliente.getUsuario().getContrasena());
         TextFieldTelefono.setText(cliente.getTelefono());
         TextFieldPrimerApellido.setText(cliente.getApellidoPaterno());
         TextFieldSegundoApellido.setText(cliente.getApellidoMaterno());
+        java.util.Date fechaUtil = new java.util.Date(cliente.getFechaNacimiento().getTime());
+        Instant instant = fechaUtil.toInstant();
+        LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        datePickerFecha.setValue(localDate);
     }
     public void onAgregarClick(){
         ArrayList<String> campos = new ArrayList<>();
@@ -124,7 +147,7 @@ public class ModicarCuentaController implements Initializable {
         String apellidoPaterno = TextFieldPrimerApellido.getText();
         String apellidoMaterno = TextFieldSegundoApellido.getText();
         String universidad = (String) ComboBoxUniversidad.getValue();
-        String estadoVicil = textFieldEstadoCivil.getText();
+        String estadoVicil = (String) comboBoxEstadoCivil.getValue();
         String telefono = TextFieldTelefono.getText();
         String correo = TextFieldCorreo.getText();
         LocalDate fecha1 = datePickerFecha.getValue();
@@ -137,7 +160,7 @@ public class ModicarCuentaController implements Initializable {
         campos.add(apellidoPaterno);
         camposCombo.add(universidad);
         campos.add(correo);
-        campos.add(estadoVicil);
+        camposCombo.add(estadoVicil);
         campos.add(telefono);
         campos.add(nombreUsuario);
         campos.add(contraseña);
@@ -173,34 +196,20 @@ public class ModicarCuentaController implements Initializable {
                 cliente.setUsuario(usuario);
                 cliente.setEstadoCivil(estadoVicil);
                 ClienteDAO clienteDAO = new ClienteDAO();
-                if(usuarioDAO.existeNombreUsuario(usuario.getNombreUsuario())){
-                    Alert alertaNoHayConexionConLaBaseDeDatos = new Alert(Alert.AlertType.WARNING);
-                    alertaNoHayConexionConLaBaseDeDatos.setTitle("Usuario ya ocupado");
-                    alertaNoHayConexionConLaBaseDeDatos.setContentText("El nombre de usuario y/o la contraseña ya están ocupadas");
-                    alertaNoHayConexionConLaBaseDeDatos.setHeaderText("Pruebe con otro nombre de usuario");
-                    alertaNoHayConexionConLaBaseDeDatos.showAndWait();
-                }
-                else if(cliente.getCorreo().indexOf("@")<0){
-                    Alert alertaNoHayConexionConLaBaseDeDatos = new Alert(Alert.AlertType.WARNING);
-                    alertaNoHayConexionConLaBaseDeDatos.setTitle("Correo con formato incorrecto");
-                    alertaNoHayConexionConLaBaseDeDatos.setContentText("El correo no tiene el formato esperado");
-                    alertaNoHayConexionConLaBaseDeDatos.setHeaderText("Correo con formato inadecuado");
-                    alertaNoHayConexionConLaBaseDeDatos.showAndWait();
-                }
-                else if(contraseña.length() < 8){
+                if(validadorDeReglas.verificadorDeContraseña(usuario.getContrasena())){
                     Alert alertaContraseñaInsegura = new Alert(Alert.AlertType.WARNING);
-                    alertaContraseñaInsegura.setTitle("Contraseña muy corta");
-                    alertaContraseñaInsegura.setContentText("Contraseña insegura");
-                    alertaContraseñaInsegura.setHeaderText("debe contener por lo menos 8 caracteres");
+                    alertaContraseñaInsegura.setTitle("Contraseña insegura");
+                    alertaContraseñaInsegura.setContentText("La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, u  caracter especial y 8 caracteres en total");
+                    alertaContraseñaInsegura.setHeaderText("La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, u  caracter especial y 8 caracteres en total");
                     alertaContraseñaInsegura.showAndWait();
                 }
                 else {
                     if (usuarioDAO.modificarUsuario(usuario) > 0 && clienteDAO.modificarCliente(cliente) > 0) {
 
                         Alert alertaRegistroExitoso = new Alert(Alert.AlertType.INFORMATION);
-                        alertaRegistroExitoso.setTitle("Registro exitoso");
-                        alertaRegistroExitoso.setContentText("El CLiente ha sido registrado con éxito");
-                        alertaRegistroExitoso.setHeaderText("Registro de Cliente exitoso");
+                        alertaRegistroExitoso.setTitle("Modificación exitosa");
+                        alertaRegistroExitoso.setContentText("El Cliente se ha modificado con éxito");
+                        alertaRegistroExitoso.setHeaderText("Modificación exitosa");
                         alertaRegistroExitoso.showAndWait();
                         Scene escena = TextFieldNombre.getScene();
                         Stage stageAgregarProfesorUV = (Stage) escena.getWindow();

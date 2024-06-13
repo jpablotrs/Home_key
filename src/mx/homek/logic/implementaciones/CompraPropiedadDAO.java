@@ -8,6 +8,7 @@ import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CompraPropiedadDAO implements ICompraPropiedadDAO {
@@ -62,5 +63,17 @@ public class CompraPropiedadDAO implements ICompraPropiedadDAO {
         sentencia.setInt(2, idPropiedad);
 
         return sentencia.executeUpdate();
+    }
+
+    @Override
+    public boolean existeVentaAPropiedad(Propiedad propiedad) throws SQLException {
+        String consulta = "Select * from compraPropiedad where Propiedad_idPropiedad = ?";
+        PreparedStatement consultasql =  conexion.prepareStatement(consulta);
+        consultasql.setInt(1,propiedad.getIdPropiedad());
+        ResultSet resultado = consultasql.executeQuery();
+        if(resultado.next()){
+            return true;
+        }
+        return false;
     }
 }

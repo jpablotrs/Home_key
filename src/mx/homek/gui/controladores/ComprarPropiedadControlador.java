@@ -1,7 +1,10 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -81,7 +84,16 @@ public class ComprarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_CART);
+        icono.setGlyphSize(30);
+        ButtonComprar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonComprar.setOnMouseEntered(event -> ButtonComprar.setCursor(Cursor.HAND));
+        ButtonComprar.setOnMouseExited(event -> ButtonComprar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
 
     public void cargarDatosPropiedad() {

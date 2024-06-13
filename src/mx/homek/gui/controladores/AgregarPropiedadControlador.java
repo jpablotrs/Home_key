@@ -1,16 +1,17 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
-import mx.homek.logic.implementaciones.ClienteDAO;
-import mx.homek.logic.implementaciones.PropiedadDAO;
-import mx.homek.logic.implementaciones.UsuarioDAO;
+import mx.homek.logic.implementaciones.*;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 import mx.homek.logic.objetoDeTransferencia.Cliente;
 
@@ -55,11 +56,6 @@ public class AgregarPropiedadControlador implements Initializable {
     @FXML
     private TextField TextFieldDireccion;
     ValidadorDeReglas validadorDeReglas = new ValidadorDeReglas();
-    @FXML
-    private TextField TextFieldCiudad;
-
-    @FXML
-    private TextField TextFieldEstado;
 
     @FXML
     private TextField TextFieldCP;
@@ -87,6 +83,10 @@ public class AgregarPropiedadControlador implements Initializable {
 
     @FXML
     private TextField Compra;
+    @FXML
+    private ComboBox comboBoxEstado;
+    @FXML
+    private ComboBox comboBoxMunicipio;
 
     @FXML
     private TextField Electricidad;
@@ -108,8 +108,10 @@ public class AgregarPropiedadControlador implements Initializable {
         if(checkBoxGarageSi.isSelected()){
             checkBoxGarageNo.setSelected(false); // Desactiva el otro checkbox
             checkBoxGarageNo.setDisable(true);
+            NoAutos.setDisable(false);
         } else {
             checkBoxGarageNo.setDisable(false);
+            NoAutos.setDisable(true);
         }
     }
 
@@ -118,6 +120,8 @@ public class AgregarPropiedadControlador implements Initializable {
         if(checkBoxGarageNo.isSelected()){
             checkBoxGarageSi.setSelected(false); // Desactiva el otro checkbox
             checkBoxGarageSi.setDisable(true);
+            NoAutos.setDisable(true);
+            NoAutos.setText("");
         } else {
             checkBoxGarageSi.setDisable(false);
         }
@@ -152,7 +156,6 @@ public class AgregarPropiedadControlador implements Initializable {
         } else {
             checkBoxAlquilerNo.setDisable(false);
             Alquiler.setVisible(false); // Muestra el TextField Alquiler
-
         }
     }
 
@@ -164,6 +167,7 @@ public class AgregarPropiedadControlador implements Initializable {
             Alquiler.setVisible(false); // Oculta el TextField Alquiler
         } else {
             checkBoxAlquilerSi.setDisable(false);
+            NoAutos.setDisable(true);
         }
     }
 
@@ -172,54 +176,79 @@ public class AgregarPropiedadControlador implements Initializable {
         try {
 
             PropiedadDAO propiedadDAO = new PropiedadDAO();
-
-            Propiedad propiedad = new Propiedad();
-            propiedad.setDireccion(TextFieldDireccion.getText());
-            propiedad.setCiudad(TextFieldCiudad.getText());
-            propiedad.setEstado(TextFieldEstado.getText());
-            propiedad.setCodigoPostal(TextFieldCP.getText());
-            propiedad.setNumeroHabitaciones(Integer.parseInt(NumeroHabitaciones.getText()));
-            propiedad.setNumeroBanos(Integer.parseInt(NoBanos.getText()));
-            propiedad.setNumeroPisos(Integer.parseInt(NoPisos.getText()));
-            propiedad.setNumeroCocina(Integer.parseInt(NoCocina.getText()));
-            propiedad.setMetrosCuadrados(Integer.parseInt(MetrosCuadrados.getText()));
-            propiedad.setNumeroPersonas(Integer.parseInt(NoPersonas.getText()));
-            if(checkBoxAlquilerSi.isSelected()){
-            propiedad.setAlquiler(Integer.parseInt(Alquiler.getText()));
+            if (comboBoxMunicipio.getValue() == null || TextFieldDireccion.getText().equals("") || TextFieldCP.getText().equals("") || NumeroHabitaciones.getText().equals("")
+                    || NoBanos.getText().equals("") || NoCocina.getText().equals("") || NoCocina.getText().equals("") || NoPersonas.getText().equals("") || comboBoxEstado.getValue() == null) {
+                creadorAlertas.crearAlertaDeError("Campos vacíos", "Error, hay uno o más campos vacíos", "Error campos vacíos");
             }
-            propiedad.setCompra(Integer.parseInt(Compra.getText()));
-            if(checkBoxAmuebladoSi.isSelected()){
-            propiedad.setAmueblado(1);
-            }else if(checkBoxAmuebladoNo.isSelected()){
-                propiedad.setAmueblado(0);
+            else if(Integer.parseInt(NoPisos.getText())==0){
+                creadorAlertas.crearAlertaDeAdvertencia("No puede agregarse una propiedad con 0 pisos","No se puede agregar una propiedad con 0 pisos","Ninguna propiedad puede tener 0 pisos");
             }
-            if(checkBoxGarageSi.isSelected()){
-                propiedad.setGarage(1);
-            }else if(checkBoxGarageNo.isSelected()){
-                propiedad.setGarage(0);
+            else if(Integer.parseInt(MetrosCuadrados.getText())<120){
+                 creadorAlertas.crearAlertaDeAdvertencia("Norma de desarrollo urbano","Propiedad sin el mínimo de metros necesarios","Una propiedad según la norma mexicana de desarrollo urbano no puede tener menos de 120 metros cuadrados, para poder considerarse como propiedad");
             }
-            propiedad.setNumeroAutos(Integer.parseInt(NoAutos.getText()));
+            else if(Integer.parseInt(Compra.getText())<100000){
+                creadorAlertas.crearAlertaDeAdvertencia("Propiedad de muy bajo costo","Su propiedad debe costar por lo menos 100,000 pesos","En México las propiedades no bajan de entre los 100,000 a 200,000 pesos mexicanos");
+            }else {
+                Propiedad propiedad = new Propiedad();
+                propiedad.setDireccion(TextFieldDireccion.getText());
+                propiedad.setCiudad((String) comboBoxEstado.getValue());
+                propiedad.setEstado((String) comboBoxMunicipio.getValue());
+                propiedad.setCodigoPostal(TextFieldCP.getText());
+                propiedad.setNumeroHabitaciones(Integer.parseInt(NumeroHabitaciones.getText()));
+                propiedad.setNumeroBanos(Integer.parseInt(NoBanos.getText()));
+                propiedad.setNumeroPisos(Integer.parseInt(NoPisos.getText()));
+                propiedad.setNumeroCocina(Integer.parseInt(NoCocina.getText()));
+                propiedad.setMetrosCuadrados(Integer.parseInt(MetrosCuadrados.getText()));
+                propiedad.setNumeroPersonas(Integer.parseInt(NoPersonas.getText()));
+                if (checkBoxAlquilerSi.isSelected()) {
+                    if(Alquiler.getText().equals("")){
+                        creadorAlertas.crearAlertaDeError("Campos vacíos", "Error, hay uno o más campos vacíos", "Error campos vacíos");
+                    }
+                    else {
+                        if(Integer.parseInt(Alquiler.getText()) == 0){
+                            creadorAlertas.crearAlertaDeAdvertencia("El alquiler no puede ser cero","El alquiler debe ser mayor a 0","No se puede guardar un alquiler 0");
+                        }
+                        else {
+                            propiedad.setAlquiler(Integer.parseInt(Alquiler.getText()));
+                        }
+                    }
+                }
+                propiedad.setCompra(Integer.parseInt(Compra.getText()));
+                if (checkBoxAmuebladoSi.isSelected()) {
+                    propiedad.setAmueblado(1);
+                } else if (checkBoxAmuebladoNo.isSelected()) {
+                    propiedad.setAmueblado(0);
+                }
+                if (checkBoxGarageSi.isSelected()) {
+                    propiedad.setGarage(1);
+                    propiedad.setNumeroAutos(Integer.parseInt(NoAutos.getText()));
+                } else if (checkBoxGarageNo.isSelected()) {
+                    propiedad.setGarage(0);
+                    propiedad.setNumeroAutos(0);
+                }
 
-            propiedad.setClaveCatastral(TextFieldClaveCatastral.getText());
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            ClienteDAO clienteDAO = new ClienteDAO();
-            int idUsuario = usuarioDAO.obtenerIDUsuarioPorNombre(nombreUsuario);
-            Cliente cliente1 = clienteDAO.consultarClientePorIdUsuario(idUsuario);
-            int idCLiente = clienteDAO.consultarIDClientePorCorreo(cliente1.getCorreo());
-            int idGenerado = propiedadDAO.agregarPropiedad(propiedad,idCLiente);
-            if (idGenerado != -1) {
-                creadorAlertas.crearAlertaDeInformacion("Registro de propiedad exitoso","Registro exitoso","Exito");
-                Stage stage = (Stage) ButtonCancelar.getScene().getWindow();
-                stage.close();
-                MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario,tipoUsuario);
 
-            } else {
-                System.out.println("Error al agregar la propiedad.");
+                propiedad.setClaveCatastral(TextFieldClaveCatastral.getText());
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                ClienteDAO clienteDAO = new ClienteDAO();
+                int idUsuario = usuarioDAO.obtenerIDUsuarioPorNombre(nombreUsuario);
+                Cliente cliente1 = clienteDAO.consultarClientePorIdUsuario(idUsuario);
+                int idCLiente = clienteDAO.consultarIDClientePorCorreo(cliente1.getCorreo());
+                int idGenerado = propiedadDAO.agregarPropiedad(propiedad, idCLiente);
+                if (idGenerado != -1) {
+                    creadorAlertas.crearAlertaDeInformacion("Registro de propiedad exitoso", "Registro exitoso", "Exito");
+                    Stage stage = (Stage) ButtonCancelar.getScene().getWindow();
+                    stage.close();
+                    MenuPrincipalApplication menuPrincipalApplication = new MenuPrincipalApplication(nombreUsuario, tipoUsuario);
+
+                } else {
+                    creadorAlertas.crearAlertaDeError("Ya hay una propiedad con la misma clave catastral","Ya hay una propiedad con la misma clave catastral","Ya hay una propiedad con la misma clave catastral");
+                }
             }
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+            } catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
     }
 
     @FXML
@@ -231,10 +260,8 @@ public class AgregarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        validadorDeReglas.agregarLimiteATextField(TextFieldCiudad,20);
         validadorDeReglas.agregarLimiteATextField(TextFieldCP,8);
-        validadorDeReglas.agregarLimiteATextField(TextFieldEstado,20);
-        validadorDeReglas.agregarLimiteATextField(TextFieldDireccion,30);
+        validadorDeReglas.agregarLimiteATextField(TextFieldDireccion,60);
         validadorDeReglas.agregarLimiteATextField(TextFieldClaveCatastral,20);
         validadorDeReglas.agregarLimiteATextField(NoBanos,2);
         validadorDeReglas.agregarLimiteATextField(NoCocina,1);
@@ -252,11 +279,29 @@ public class AgregarPropiedadControlador implements Initializable {
         validadorDeReglas.limitarCampoNumerico(NumeroHabitaciones);
         validadorDeReglas.limitarCampoNumerico(Alquiler);
         validadorDeReglas.limitarCampoNumerico(Compra);
-        validadorDeReglas.limitarCampoTexto(TextFieldCiudad);
-        validadorDeReglas.limitarCampoTexto(TextFieldEstado);
         validadorDeReglas.agregarLimiteATextField(NoPisos,2);
         validadorDeReglas.limitarCampoNumerico(NoPisos);
         validadorDeReglas.limitarCampoNumerico(NoAutos);
+        validadorDeReglas.agregarLimiteATextField(Alquiler,8);
+        validadorDeReglas.limitarCampoNumerico(Alquiler);
         Alquiler.setVisible(false);
+        NoAutos.setDisable(true);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.HOME);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
+        EstadoDAO estadoDAO = new EstadoDAO();
+        MunicipioDAO municipioDAO = new MunicipioDAO();
+        comboBoxEstado.setItems(estadoDAO.consultarEstados());
+        comboBoxEstado.setOnAction(e->{
+            String nombre = (String) comboBoxEstado.getValue();
+            comboBoxMunicipio.setItems(municipioDAO.obtenerMunicipioPorEstado(estadoDAO.obtenerIdEstado(nombre)));
+        });
     }
 }

@@ -1,7 +1,10 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -29,6 +32,8 @@ public class LoginController implements Initializable {
     private PasswordField PasswordFieldContraseña;
     @FXML
     private Button ButtonIngresar;
+    @FXML
+    private Button ButtonCrearCuenta;
     private ValidadorDeReglas validadorDeReglas;
     @FXML
     public void onIngresarClick(){
@@ -91,6 +96,16 @@ public class LoginController implements Initializable {
         PasswordFieldContraseña.setPromptText("contraseña");
         validadorDeReglas.agregarLimiteATextField(TextFieldUsuario, 30);
         validadorDeReglas.agregarLimiteAPasswordField(PasswordFieldContraseña, 30);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.SIGN_IN);
+        icono.setGlyphSize(30);
+        ButtonIngresar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.USER);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCrearCuenta.setGraphic(iconoCrearCuenta);
+        ButtonIngresar.setOnMouseEntered(event -> ButtonIngresar.setCursor(Cursor.HAND));
+        ButtonIngresar.setOnMouseExited(event -> ButtonIngresar.setCursor(Cursor.DEFAULT));
+        ButtonCrearCuenta.setOnMouseEntered(event -> ButtonCrearCuenta.setCursor(Cursor.HAND));
+        ButtonCrearCuenta.setOnMouseExited(event -> ButtonCrearCuenta.setCursor(Cursor.DEFAULT));
     }
     public void onCrearCuentaClick(){
         Scene escena = TextFieldUsuario.getScene();

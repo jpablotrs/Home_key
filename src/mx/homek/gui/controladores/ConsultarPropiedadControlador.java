@@ -1,11 +1,14 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,7 +21,11 @@ import mx.homek.gui.aplicaciones.AlquilarPropiedaAplicacion;
 import mx.homek.gui.aplicaciones.ComprarPropiedadAplicacion;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.CreadorAlertas;
+import mx.homek.logic.implementaciones.ClienteDAO;
+import mx.homek.logic.implementaciones.CompraPropiedadDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
+import mx.homek.logic.implementaciones.UsuarioDAO;
+import mx.homek.logic.objetoDeTransferencia.Cliente;
 import mx.homek.logic.objetoDeTransferencia.Propiedad;
 
 import java.io.IOException;
@@ -76,6 +83,8 @@ public class ConsultarPropiedadControlador implements Initializable {
     @FXML
     private Label labelAmueblado;
     @FXML
+    private Button ButtonCancelar;
+    @FXML
     private CheckBox checkBoxAmueblado;
     @FXML
     private CheckBox checkBoxSinAmueblar;
@@ -97,34 +106,91 @@ public class ConsultarPropiedadControlador implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_CART);
+        icono.setGlyphSize(30);
+        botonComprar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_BASKET);
+        iconoCrearCuenta.setGlyphSize(30);
+        botonAlquilar.setGraphic(iconoCrearCuenta);
+        botonComprar.setOnMouseEntered(event -> botonComprar.setCursor(Cursor.HAND));
+        botonComprar.setOnMouseExited(event -> botonComprar.setCursor(Cursor.DEFAULT));
+        botonAlquilar.setOnMouseEntered(event -> botonAlquilar.setCursor(Cursor.HAND));
+        botonAlquilar.setOnMouseExited(event -> botonAlquilar.setCursor(Cursor.DEFAULT));
+        ButtonBuscar.setOnMouseEntered(event -> ButtonBuscar.setCursor(Cursor.HAND));
+        ButtonBuscar.setOnMouseExited(event -> ButtonBuscar.setCursor(Cursor.DEFAULT));
+        FontAwesomeIconView iconoBuscar = new FontAwesomeIconView(FontAwesomeIcon.SEARCH);
+        iconoBuscar.setGlyphSize(20);
+        ButtonBuscar.setGraphic(iconoBuscar);
+        FontAwesomeIconView iconoCerrar = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCerrar.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCerrar);
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
         try {
             propiedadDAO = new PropiedadDAO();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        column_ClaveCatastral.setCellValueFactory(new PropertyValueFactory<>("claveCatastral"));
+        column_ClaveCatastral.setCellValueFactory(new PropertyValueFactory<>("estado"));
         column_Direccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        asignarBotonesDeModificarPropiedad();
+
         botonAlquilar.setDisable(true);
         botonComprar.setDisable(true);
-        tablePropiedades.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            propiedadSeleccionada = newValue;
-            botonAlquilar.setDisable(false);
-            botonComprar.setDisable(false);
-        });
+
     }
 
     @FXML
     private void onBuscarClick(ActionEvent event) throws SQLException {
         String ciudad = TextFieldCiudad.getText();
         List<Propiedad> propiedades = buscarPropiedades(ciudad);
-        mostrarPropiedadesEnTabla(propiedades);
+        List <Propiedad> propiedadesNombre= new ArrayList<>();
+        CompraPropiedadDAO compraPropiedadDAO = new CompraPropiedadDAO();
+        for(Propiedad propiedad : propiedades){
+            if(propiedad.getCiudad().indexOf(ciudad)>=0 && !compraPropiedadDAO.existeVentaAPropiedad(propiedad)){
+                propiedadesNombre.add(propiedad);
+            }
+        }
+        mostrarPropiedadesEnTabla(propiedadesNombre);
+    }
+    public void cargarPropiedades(){
+        tablePropiedades.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            propiedadSeleccionada = newValue;
+            try {
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                ClienteDAO clienteDAO = new ClienteDAO();
+                int idCliente = clienteDAO.consultarIDClientePorCorreo(propiedadSeleccionada.getIdCliente().getCorreo());
+                Cliente cliente = clienteDAO.consultarClientePorIdCliente(idCliente);
+                if (cliente.getUsuario().getNombreUsuario().equals(nombreUsuario)) {
+                    botonAlquilar.setDisable(true);
+                    botonComprar.setDisable(true);
+                } else if (propiedadSeleccionada.getAlquiler() == 0) {
+                    botonAlquilar.setDisable(true);
+                    botonComprar.setDisable(false);
+                } else {
+                    botonAlquilar.setDisable(false);
+                    botonComprar.setDisable(false);
+                }
+
+            }
+            catch (SQLException sqlException){
+
+            }
+            catch (Exception exception){
+
+            }
+        });
     }
 
     public void actualizarTabla()  {
         try {
             String ciudad = TextFieldCiudad.getText();
-            List<Propiedad> propiedades = buscarPropiedades(ciudad);
+            CompraPropiedadDAO compraPropiedadDAO = new CompraPropiedadDAO();
+            List<Propiedad> propiedades = new ArrayList<>();
+                    for(Propiedad propiedad:buscarPropiedades(ciudad)){
+                        if(!compraPropiedadDAO.existeVentaAPropiedad(propiedad)){
+                            propiedades.add(propiedad);
+                        }
+                    }
             mostrarPropiedadesEnTabla(propiedades);
             tablePropiedades.refresh();
         }
@@ -160,9 +226,9 @@ public class ConsultarPropiedadControlador implements Initializable {
 
                 {
                     btn_Modificar.setText("Modificar");
+
                     btn_Modificar.setOnAction((ActionEvent event) -> {
                         try {
-
                             Propiedad propiedadSeleccionada = getTableView().getItems().get(getIndex());
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/homek/gui/fxml/ModificarPropiedad.fxml"));
                             Scene scene = new Scene(loader.load());
@@ -184,7 +250,14 @@ public class ConsultarPropiedadControlador implements Initializable {
                     if (empty) {
                         setGraphic(null);
                     } else {
-                        setGraphic(btn_Modificar);
+                        Propiedad propiedadSeleccionada = getTableView().getItems().get(getIndex());
+                        try{
+                        if (propiedadSeleccionada.getIdCliente().getUsuario().getNombreUsuario().equals(nombreUsuario))
+                            setGraphic(btn_Modificar);
+                    }
+                        catch (NullPointerException nullPointerException){
+
+                        }
                     }
                 }
             };
@@ -220,5 +293,8 @@ public class ConsultarPropiedadControlador implements Initializable {
         catch (IOException ioException){
 
         }
+    }
+    public void onBuscarClick(){
+
     }
 }

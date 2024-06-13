@@ -1,12 +1,17 @@
 package mx.homek.gui.controladores;
 
-import javafx.collections.ObservableList;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import
+        javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import jfxtras.scene.control.LocalTimePicker;
 import mx.homek.gui.aplicaciones.LoginApplication;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
@@ -24,6 +29,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -32,21 +38,16 @@ import java.util.ResourceBundle;
 public class AgregarVisitaControlador implements Initializable {
     private String nombreUsuario;
     private String tipoUsuario;
-
     private ValidadorDeReglas validadorDeReglas;
-
     public String getNombreUsuario() {
         return nombreUsuario;
     }
-
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
-
     public String getTipoUsuario() {
         return tipoUsuario;
     }
-
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
@@ -58,9 +59,9 @@ public class AgregarVisitaControlador implements Initializable {
     @FXML
     private DatePicker DatePickerFecha;
     @FXML
-    private TextField TextFieldHoraEntrada;
+    private LocalTimePicker TextFieldHoraEntrada;
     @FXML
-    private TextField TextFieldHoraSalida;
+    private LocalTimePicker TextFieldHoraSalida;
     @FXML
     private Button ButtonCancelar;
     @FXML
@@ -73,7 +74,7 @@ public class AgregarVisitaControlador implements Initializable {
     public void setCampos() {
         try{
             PropiedadDAO propiedadDAO = new PropiedadDAO();
-            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs();
+            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs(getNombreUsuario());
             ComboBoxPropiedad.setItems(listaPropiedades);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -93,31 +94,36 @@ public class AgregarVisitaControlador implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         validadorDeReglas = new ValidadorDeReglas();
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 8);
-        validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 8);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.CALENDAR_CHECK_ALT);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
 
     public void onAgregarClick() {
         ArrayList<String> camposTextField = new ArrayList<>();
         ArrayList<String> camposComboBox = new ArrayList<>();
         ArrayList <LocalDate> camposFecha = new ArrayList<>();
-        String horaEntrada = TextFieldHoraEntrada.getText();
-        String horaSalida = TextFieldHoraSalida.getText();
-        camposTextField.add(horaEntrada);
-        camposTextField.add(horaSalida);
+        LocalTime horaE = TextFieldHoraEntrada.getLocalTime();
+        LocalTime horaS = TextFieldHoraSalida.getLocalTime();
+
         Propiedad propiedad = (Propiedad) ComboBoxPropiedad.getValue();
-        //String cliente = (String) ComboBoxCliente.getValue();
-        //camposComboBox.add(cliente);
+
         camposComboBox.add(propiedad!=null?propiedad.toString():null);
         LocalDate fecha = DatePickerFecha.getValue();
         boolean horaEntradaValida = true;
         boolean horaSalidaValida = true;
         try {
-            var horaE = LocalTime.parse(horaEntrada);
+
             if (horaE.getHour() < 8 || horaE.getHour() > 20)
                 horaEntradaValida = false;
             try {
-                var horaS = LocalTime.parse(horaSalida);
                 if (horaS.getHour() < 8 || horaS.getHour() > 20)
                     horaSalidaValida = false;
                 if (horaE.isAfter(horaS))
@@ -133,13 +139,13 @@ public class AgregarVisitaControlador implements Initializable {
         if (validadorDeReglas.validadorDeCamposVacios(camposTextField) || validadorDeReglas.validadorSelectorDeFechasVacios(camposFecha) || validadorDeReglas.validadorComboBoxVacios(camposComboBox)){
             Alert alertaCamposVacios = new Alert(Alert.AlertType.ERROR);
             alertaCamposVacios.setTitle("Error de campos vacíos");
-            alertaCamposVacios.setContentText("Error, no seleccionaste alguno de los valores.");
+            alertaCamposVacios.setContentText("Error, la propiedad o la fecha no pueden estar vacías");
             alertaCamposVacios.setHeaderText("Error de campos vacíos");
             alertaCamposVacios.showAndWait();
         }
         else if (validadorDeReglas.validadorDeCaracteresEspeciales(camposTextField)){
             Alert alertaNombreUsuarioInvalido = new Alert(Alert.AlertType.ERROR);
-            alertaNombreUsuarioInvalido.setTitle("Error de de caracteres en alguna de las horas");
+            alertaNombreUsuarioInvalido.setTitle("Error de de caracteres en la fecha");
             alertaNombreUsuarioInvalido.setContentText("Error, algunas de las hora tiene caracteres invalidos");
             alertaNombreUsuarioInvalido.setHeaderText("Error en las fechas");
             alertaNombreUsuarioInvalido.showAndWait();
@@ -167,6 +173,14 @@ public class AgregarVisitaControlador implements Initializable {
             alertahoraInvalida.showAndWait();
 
         }
+        else if (!horaSalidaValida) {
+            Alert alertahoraInvalida = new Alert(Alert.AlertType.ERROR);
+            alertahoraInvalida.setTitle("Error de hora");
+            alertahoraInvalida.setContentText("Error, la hora de salida no es válida");
+            alertahoraInvalida.setHeaderText("Error en la hora de salida");
+            alertahoraInvalida.showAndWait();
+
+        }
         else {
             try {
                 ClienteDAO clienteDAO = new ClienteDAO();
@@ -179,8 +193,8 @@ public class AgregarVisitaControlador implements Initializable {
                 visita.setCliente(cliente);
                 visita.setFecha(Date.valueOf(fecha));
                 visita.setPropiedad(propiedad);
-                visita.setHoraEntrada(horaEntrada);
-                visita.setHoraSalida(horaSalida);
+                visita.setHoraEntrada(horaE.toString());
+                visita.setHoraSalida(horaS.toString());
                 visita.setEstado(1);
                 visitaDAO.insertarVisita(visita);
 

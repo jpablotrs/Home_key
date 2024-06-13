@@ -44,7 +44,7 @@ public class VisitaDAO implements IVisitaDAO {
 
         ResultSet resultadoConsulta = consultarId.executeQuery();
         List<Visita> listaVisitas = new ArrayList<>();
-        if(resultadoConsulta.next()){
+        while(resultadoConsulta.next()){
             Visita visita = new Visita();
             visita.setIdVisita(resultadoConsulta.getInt("idVisita"));
             visita.setEstado(resultadoConsulta.getInt("estado"));

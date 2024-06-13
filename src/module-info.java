@@ -6,6 +6,8 @@ module mx.homek {
     requires mysql.connector.j;
     requires java.sql.rowset;
     requires java.desktop;
+    requires de.jensd.fx.glyphs.fontawesome;
+    requires jfxtras.controls;
 
     opens mx.homek.gui.controladores to javafx.fxml;
     opens mx.homek.gui.aplicaciones to javafx.fxml;

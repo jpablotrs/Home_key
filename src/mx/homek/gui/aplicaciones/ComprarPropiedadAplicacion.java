@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ComprarPropiedadAplicacion extends Stage {
     public ComprarPropiedadAplicacion(String nombreUsuario, String tipoUsuario, Propiedad propiedad) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HomekeyAplicacion.class.getResource("fxml/ComprarPropiedad.fxml"));
-        Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(),600,400);
+        Scene escenaComprarPropiedad = new Scene(fxmlLoader.load(),600,800);
         ComprarPropiedadControlador controladorComprarPropiedad = fxmlLoader.<ComprarPropiedadControlador> getController();
         controladorComprarPropiedad.setTipoUsuario(tipoUsuario);
         controladorComprarPropiedad.setNombreUsuario(nombreUsuario);

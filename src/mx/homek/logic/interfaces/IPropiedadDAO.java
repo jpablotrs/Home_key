@@ -11,6 +11,9 @@ public interface IPropiedadDAO {
     public abstract Propiedad obtenerPropiedadPorClaveCatastral(String claveCatastral) throws SQLException;
 
     public abstract int agregarPropiedad(Propiedad propiedad,int id) throws SQLException;
+
+    ObservableList<Propiedad> consultarPropiedadesObs(String nombreUsuario) throws SQLException;
+
     public abstract Propiedad consultarPropiedad(String claveCatastral) throws SQLException;
     public abstract Propiedad consultarPropiedad(int idPropiedad) throws SQLException;
     public abstract int eliminarPropiedad(Propiedad propiedad) throws SQLException;
@@ -25,6 +28,6 @@ public interface IPropiedadDAO {
     public abstract List<Propiedad> buscarPorPrecioAlquiler(int precioAlquiler) throws SQLException;
     public abstract List<Propiedad> buscarPorPrecioCompra(int precioCompra) throws SQLException;
     public abstract ObservableList<String> consultarPropiedades() throws SQLException;
-    public abstract ObservableList<Propiedad> consultarPropiedadesObs() throws SQLException;
+
 
 }

@@ -16,6 +16,8 @@ public class ConsultarPropiedadAplicacion extends Stage {
         controladorComprarPropiedad.setTipoUsuario(tipoUsuario);
         controladorComprarPropiedad.setNombreUsuario(nombreUsuario);
         controladorComprarPropiedad.actualizarTabla();
+        controladorComprarPropiedad.cargarPropiedades();
+        controladorComprarPropiedad.asignarBotonesDeModificarPropiedad();
         this.setTitle("Consultar Propiedad");
         this.setScene(scene);
         this.show();

@@ -1,7 +1,10 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -90,6 +93,16 @@ public class AlquilarPropiedadControlador implements Initializable {
         validadorDeReglas = new ValidadorDeReglas();
         validadorDeReglas.agregarLimiteATextField(TextFieldNumeroMeses, 2);
         validadorDeReglas.limitarCampoNumerico(TextFieldNumeroMeses);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.SHOPPING_BAG);
+        icono.setGlyphSize(30);
+        ButtonAlquilar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAlquilar.setOnMouseEntered(event -> ButtonAlquilar.setCursor(Cursor.HAND));
+        ButtonAlquilar.setOnMouseExited(event -> ButtonAlquilar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
 
     public void cargarDatosPropiedad() {

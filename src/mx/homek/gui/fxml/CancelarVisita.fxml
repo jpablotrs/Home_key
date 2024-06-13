@@ -121,7 +121,7 @@
                         <Insets left="180.0" top="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="ButtonAgregar" defaultButton="true" mnemonicParsing="false" onAction="#onAgregarClick" style="-fx-background-color: #30373e;" text="Cancelar" textFill="WHITE">
+                  <Button fx:id="ButtonAgregar" defaultButton="true" mnemonicParsing="false" onAction="#onAgregarClick" style="-fx-background-color: #176E09;" text="Cancelar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="100.0" top="20.0" />
                      </HBox.margin>

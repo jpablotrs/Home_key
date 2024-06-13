@@ -53,18 +53,7 @@ public class ClienteDAO implements IClienteDAO {
 
     @Override
     public int modificarCliente(Cliente cliente) throws SQLException {
-        String consulta = "UPDATE cliente" +
-                "SET" +
-                "    nombre = ?," +
-                "    apellidoPaterno = ?," +
-                "    apellidoMaterno = ?," +
-                "    estadoCivil = ?," +
-                "    fechaNacimiento = ?," +
-                "    sexo = ?," +
-                "    correo = ?," +
-                "    telefono = ?," +
-                "WHERE" +
-                "    idCliente = ?";
+        String consulta = "UPDATE cliente SET nombre = ?,apellidoPaterno = ?,apellidoMaterno = ?,estadoCivil = ?,fechaNacimiento = ?,sexo = ?,correo = ?,telefono = ? WHERE idCliente = ?";
         PreparedStatement modificar = conexion.prepareStatement(consulta);
         modificar.setString(1,cliente.getNombre());
         modificar.setString(2,cliente.getApellidoPaterno());

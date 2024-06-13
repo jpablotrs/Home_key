@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="jfxtras.controls" type="repository">
+    <properties maven-id="org.jfxtras:jfxtras-controls:17-r1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jfxtras/jfxtras-controls/17-r1/jfxtras-controls-17-r1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jfxtras/jfxtras-common/17-r1/jfxtras-common-17-r1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jfxtras/jfxtras-fxml/17-r1/jfxtras-fxml-17-r1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

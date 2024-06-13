@@ -1,9 +1,12 @@
 package mx.homek.gui.controladores;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -25,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -74,7 +78,13 @@ public class CancelarVisitaControlador implements Initializable {
     public void setCampos() {
         try{
             PropiedadDAO propiedadDAO = new PropiedadDAO();
-            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs();
+            List<Propiedad> propiedades =propiedadDAO.buscarPorCiudad("a");
+            ObservableList<Propiedad> listaPropiedades = propiedadDAO.consultarPropiedadesObs(nombreUsuario);
+            for(Propiedad propiedad:propiedades){
+                if(propiedad.getIdCliente().getUsuario().getNombreUsuario().equals(nombreUsuario)){
+                    listaPropiedades.add(propiedad);
+                }
+            }
             ComboBoxPropiedad.setItems(listaPropiedades);
             ComboBoxPropiedad.setDisable(true);
 
@@ -111,6 +121,16 @@ public class CancelarVisitaControlador implements Initializable {
         validadorDeReglas = new ValidadorDeReglas();
         validadorDeReglas.agregarLimiteATextField(TextFieldHoraEntrada, 15);
         validadorDeReglas.agregarLimiteATextField(TextFieldHoraSalida, 15);
+        FontAwesomeIconView icono = new FontAwesomeIconView(FontAwesomeIcon.CALENDAR_MINUS_ALT);
+        icono.setGlyphSize(30);
+        ButtonAgregar.setGraphic(icono);
+        FontAwesomeIconView iconoCrearCuenta = new FontAwesomeIconView(FontAwesomeIcon.TIMES);
+        iconoCrearCuenta.setGlyphSize(30);
+        ButtonCancelar.setGraphic(iconoCrearCuenta);
+        ButtonAgregar.setOnMouseEntered(event -> ButtonAgregar.setCursor(Cursor.HAND));
+        ButtonAgregar.setOnMouseExited(event -> ButtonAgregar.setCursor(Cursor.DEFAULT));
+        ButtonCancelar.setOnMouseEntered(event -> ButtonCancelar.setCursor(Cursor.HAND));
+        ButtonCancelar.setOnMouseExited(event -> ButtonCancelar.setCursor(Cursor.DEFAULT));
     }
 
     Visita visita = null;
@@ -216,9 +236,9 @@ public class CancelarVisitaControlador implements Initializable {
                 visitaDAO.cancelarVisita(visita);
 
                 Alert alertaGuardadoCorrecto = new Alert(Alert.AlertType.INFORMATION);
-                alertaGuardadoCorrecto.setTitle("Éxito");
-                alertaGuardadoCorrecto.setContentText("Información guardada");
-                alertaGuardadoCorrecto.setHeaderText("La información de la visita se ha almacenado con éxito");
+                alertaGuardadoCorrecto.setTitle("Visita cancelada");
+                alertaGuardadoCorrecto.setContentText("La visita ha sido cancelada exitosamente");
+                alertaGuardadoCorrecto.setHeaderText("Visita cancelada exitosamente");
                 alertaGuardadoCorrecto.showAndWait();
 
                 cerrarVentana();
@@ -242,7 +262,7 @@ public class CancelarVisitaControlador implements Initializable {
     public void onCancelarClick() {
         Alert confirmacionDeSalida = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacionDeSalida.setHeaderText("Salir del menú");
-        confirmacionDeSalida.setContentText("¿Desea Salir del menú Agregar Visita?");
+        confirmacionDeSalida.setContentText("¿Desea Salir del menú Cancelar Visita?");
         Optional<ButtonType> botonSeleccionado = confirmacionDeSalida.showAndWait();
         if (botonSeleccionado.isPresent() && botonSeleccionado.get() == ButtonType.OK) {
             cerrarVentana();

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -49,20 +50,20 @@
                   <Insets left="40.0" right="280.0" top="5.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Ciudad">
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="TextFieldCiudad" promptText="Ciudad de la propiedad aqui">
-               <VBox.margin>
-                  <Insets left="40.0" right="280.0" top="5.0" />
-               </VBox.margin>
-            </TextField>
             <Label text="Estado">
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ComboBox prefWidth="150.0" fx:id="comboBoxEstado">
+               <VBox.margin>
+                  <Insets left="40.0" top="5.0" />
+               </VBox.margin>
+            </ComboBox>
+            <Label text="Ciudad">
                <font>
                   <Font size="16.0" />
                </font>
@@ -70,11 +71,11 @@
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="TextFieldEstado" promptText="Estado de la propiedad aqui ">
+            <ComboBox prefWidth="150.0" fx:id="comboBoxMunicipio">
                <VBox.margin>
-                  <Insets left="40.0" right="280.0" top="5.0" />
+                  <Insets left="40.0" top="5.0" />
                </VBox.margin>
-            </TextField>
+            </ComboBox>
             <Label text="Codigo Postal">
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
@@ -97,7 +98,7 @@
                   <Label layoutX="291.0" layoutY="21.0" text="Metros cuadrados" />
                   <Label layoutX="294.0" layoutY="52.0" text="No.Personas" />
                   <Label layoutX="294.0" layoutY="79.0" text="Alquiler" />
-                  <Label layoutX="292.0" layoutY="108.0" text="Compra " />
+                  <Label layoutX="292.0" layoutY="108.0" text="Precio de venta" />
                   <Label fx:id="LabelGarage" layoutX="43.0" layoutY="130.0" text="Garage" />
                   <Label layoutX="42.0" layoutY="159.0" text="Amueblado" />
                   <Label layoutX="294.0" layoutY="136.0" text="No.Autos" />
@@ -107,7 +108,7 @@
                   <TextField fx:id="NoCocina" layoutX="137.0" layoutY="97.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="MetrosCuadrados" layoutX="393.0" layoutY="17.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoPersonas" layoutX="393.0" layoutY="46.0" prefHeight="25.0" prefWidth="74.0" />
-                  <TextField fx:id="Alquiler" layoutX="485.0" layoutY="75.0" prefHeight="25.0" prefWidth="74.0" />
+                  <TextField fx:id="Alquiler" layoutX="485.0" layoutY="75.0" prefHeight="25.0" prefWidth="120.0" promptText="Precio de alquiler" />
                   <TextField fx:id="Compra" layoutX="393.0" layoutY="104.0" prefHeight="25.0" prefWidth="74.0" />
                   <TextField fx:id="NoAutos" layoutX="393.0" layoutY="132.0" prefHeight="25.0" prefWidth="74.0" />
                   <Label fx:id="LabelClaveCatastral" layoutX="294.0" layoutY="165.0" text="Clave Catastral" />
@@ -130,7 +131,7 @@
                         <Insets left="180.0" top="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="ButtonModificar" defaultButton="true" mnemonicParsing="false" onAction="#onGuardarClick" style="-fx-background-color: #30373e;" text="Guardar" textFill="WHITE">
+                  <Button fx:id="ButtonModificar" defaultButton="true" mnemonicParsing="false" onAction="#onGuardarClick" style="-fx-background-color: #176E09;" text="Guardar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="100.0" top="20.0" />
                      </HBox.margin>

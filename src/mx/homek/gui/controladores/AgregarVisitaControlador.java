@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import jfxtras.scene.control.LocalTimePicker;
 import mx.homek.gui.aplicaciones.LoginApplication;
 import mx.homek.gui.aplicaciones.MenuPrincipalApplication;
+import mx.homek.logic.Validadores.CreadorAlertas;
 import mx.homek.logic.Validadores.ValidadorDeReglas;
 import mx.homek.logic.implementaciones.ClienteDAO;
 import mx.homek.logic.implementaciones.PropiedadDAO;
@@ -31,7 +32,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -196,8 +200,29 @@ public class AgregarVisitaControlador implements Initializable {
                 visita.setHoraEntrada(horaE.toString());
                 visita.setHoraSalida(horaS.toString());
                 visita.setEstado(1);
+                List<Visita> listaVisitas = visitaDAO.consultarVisitas(cliente.getIdCliente());
+                boolean traslape = false;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss.nnn");
+                for(Visita visita1 : listaVisitas){
+                    LocalTime horaEntradVisita = LocalTime.parse(visita1.getHoraEntrada(),formatter);
+                    LocalTime horaSalidaVisita = LocalTime.parse(visita1.getHoraSalida(),formatter);
+                    LocalTime horaEntrada = LocalTime.parse(visita.getHoraEntrada(),formatter);
+                    LocalTime horaSalida= LocalTime.parse(visita.getHoraSalida(),formatter);
+                    java.util.Date fechaUtil = new java.util.Date(visita1.getFecha().getTime());
+                    java.util.Date fechaUtil2 = new java.util.Date(visita.getFecha().getTime());
+                    if(fechaUtil.toInstant().compareTo(fechaUtil2.toInstant()) == 0) {
+                        if (horaEntradVisita.isBefore(horaEntrada) && horaSalidaVisita.isAfter(horaSalida) ||
+                                horaEntradVisita.isAfter(horaEntrada) && horaSalidaVisita.isBefore(horaSalida) ||
+                                horaEntradVisita.isBefore(horaEntrada) && horaSalidaVisita.isAfter(horaEntrada)
+                        || horaEntrada.isAfter(horaEntradVisita)&& horaSalida.isBefore(horaSalidaVisita) ||
+                        horaEntrada.isBefore(horaEntradVisita) && horaSalida.isBefore(horaSalidaVisita) && horaSalida.isAfter(horaEntradVisita)) {
+                            CreadorAlertas creadorAlertas = new CreadorAlertas();
+                            creadorAlertas.crearAlertaDeError("Ya hay una visita agendada en un horario similar", "Ya hay una visita agendada en un horario similar", "Ya hay una visita agendada en un horario similar");
+                            return;
+                        }
+                    }
+                }
                 visitaDAO.insertarVisita(visita);
-
                 Alert alertaGuardadoCorrecto = new Alert(Alert.AlertType.INFORMATION);
                 alertaGuardadoCorrecto.setTitle("Éxito");
                 alertaGuardadoCorrecto.setContentText("Información guardada");

@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.homek.gui.controladores.AlquilarPropiedadControlador">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="6700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.homek.gui.controladores.AlquilarPropiedadControlador">
    <content>
-      <VBox fillWidth="false" minWidth="-Infinity" prefHeight="980.0" prefWidth="980.0">
+      <VBox fillWidth="false" minWidth="-Infinity" prefHeight="800.0" prefWidth="980.0">
          <children>
             <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -32,14 +32,6 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <Label text="Dirección">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
-            </Label>
             <Label fx:id="LabelDireccion" layoutX="50.0" layoutY="110.0" text="Dirección obtenida">
                <font>
                   <Font size="16.0" />
@@ -47,14 +39,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label text="Ciudad">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Dirección:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelCiudad" layoutX="50.0" layoutY="180.0" text="Ciudad obtenida">
                <font>
@@ -63,14 +57,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="215.0" text="Estado">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Ciudad:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelEstado" layoutX="50.0" layoutY="250.0" text="Estado obtenido">
                <font>
@@ -79,14 +75,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="250.0" text="CP">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Estado:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelCP" layoutX="50.0" layoutY="320.0" text="CP obtenido">
                <font>
@@ -95,14 +93,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="355.0" text="Numero de habitaciones">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="CP:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelHabitaciones" layoutX="50.0" layoutY="390.0" text="Numero de habitaciones obtenido">
                <font>
@@ -111,14 +111,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="390.0" text="Numero de baños">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de habitaciones:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelBaños" layoutX="50.0" layoutY="460.0" text="Numero de baños obtenido">
                <font>
@@ -127,14 +129,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="460.0" text="Numero de pisos">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de baños:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelPisos" layoutX="50.0" layoutY="530.0" text="Numero de pisos obtenidos">
                <font>
@@ -143,14 +147,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="530.0" text="Numero de cocinas">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de pisos:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelCocinas" layoutX="50.0" layoutY="600.0" text="Numero de cocinas obtenidas">
                <font>
@@ -159,14 +165,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="600.0" text="Numero de metros cuadrados">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de cocinas:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelMetrosCuadrados" layoutX="50.0" layoutY="670.0" text="Numero de metros cuadrados obtenidos">
                <font>
@@ -175,14 +183,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="670.0" text="Numero de personas">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de metros cuadrados:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelNumeroDePersonas" layoutX="50.0" layoutY="740.0" text="Numero de personas obtenido">
                <font>
@@ -191,14 +201,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="800.0" text="Electricidad">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Numero de personas:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelElectricidad" layoutX="50.0" layoutY="800.0" text="Electricidad obtenida">
                <font>
@@ -207,14 +219,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="800.0" text="Amueblado">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Electricidad:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelAmueblado" layoutX="50.0" layoutY="870.0" text="Amueblado obtenido">
                <font>
@@ -223,14 +237,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
-            </Label>
-            <Label layoutX="50.0" layoutY="740.0" text="Precio del alquiler">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </VBox.margin>
+               <graphic>
+                  <Label text="Amueblado:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label fx:id="LabelPrecioAlquiler" layoutX="50.0" layoutY="810.0" text="Precio del alquiler obtenido">
                <font>
@@ -239,6 +255,16 @@
                <VBox.margin>
                   <Insets left="40.0" top="10.0" />
                </VBox.margin>
+               <graphic>
+                  <Label text="Precio del alquiler:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
+               </graphic>
             </Label>
             <Label layoutX="50.0" layoutY="810.0" text="Fecha inicial del alquiler">
                <font>
